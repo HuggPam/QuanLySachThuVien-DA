@@ -1,31 +1,29 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace QuanLyThuVien.Data
 {
-    public class ThanhVien
+    public class NhanVien
     {
         public int ID { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string TenThanhVien { get; set; }
+        public string HoTen { get; set; }
 
-        public DateTime NgaySinh { get; set; }
-        public string DiaChi { get; set; }
+        [StringLength(15)]
         public string SoDienThoai { get; set; }
 
-        public DateTime NgayDangKy { get; set; }
-        public DateTime NgayHetHan { get; set; }
+        [Required]
+        public string MatKhau { get; set; }
 
-        public int GoiThanhVienID { get; set; }
-        public virtual GoiThanhVien GoiThanhVien { get; set; } = null!;
+        public bool Quyen { get; set; }
 
         public virtual ObservableCollectionListSource<PhieuMuon> PhieuMuon { get; set; } = new();
         public virtual ObservableCollectionListSource<PhieuThu> PhieuThu { get; set; } = new();

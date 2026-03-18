@@ -1,3 +1,5 @@
+using System;
+using QuanLyThuVien.Forms;
 namespace QuanLyThuVien
 {
     internal static class Program
@@ -11,6 +13,7 @@ namespace QuanLyThuVien
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            Application.Run(new frmTheLoai());
         }
     }
 }

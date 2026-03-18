@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThuVien.Data;
 
@@ -11,9 +12,11 @@ using QuanLyThuVien.Data;
 namespace QuanLyThuVien.Migrations
 {
     [DbContext(typeof(QLTVContext))]
-    partial class QLTVContextModelSnapshot : ModelSnapshot
+    [Migration("20260315072852_Sua")]
+    partial class Sua
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,9 +144,6 @@ namespace QuanLyThuVien.Migrations
 
                     b.Property<decimal>("DonGia")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("HinhAnh")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaTheLoai")
                         .IsRequired()

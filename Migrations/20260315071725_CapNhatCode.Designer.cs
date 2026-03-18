@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThuVien.Data;
 
@@ -11,9 +12,11 @@ using QuanLyThuVien.Data;
 namespace QuanLyThuVien.Migrations
 {
     [DbContext(typeof(QLTVContext))]
-    partial class QLTVContextModelSnapshot : ModelSnapshot
+    [Migration("20260315071725_CapNhatCode")]
+    partial class CapNhatCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasIndex("PhieuMuonID");
 
-                    b.ToTable("ChiTietPhieuMuon");
+                    b.ToTable("ChiTietPhieuMuons");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.GoiThanhVien", b =>
@@ -76,7 +79,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasKey("MaGoi");
 
-                    b.ToTable("GoiThanhVien");
+                    b.ToTable("GoiThanhViens");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.PhieuMuon", b =>
@@ -99,7 +102,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasIndex("MaThanhVien");
 
-                    b.ToTable("PhieuMuon");
+                    b.ToTable("PhieuMuons");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.PhieuThu", b =>
@@ -130,7 +133,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasIndex("MaThanhVien");
 
-                    b.ToTable("PhieuThu");
+                    b.ToTable("PhieuThus");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.Sach", b =>
@@ -141,9 +144,6 @@ namespace QuanLyThuVien.Migrations
 
                     b.Property<decimal>("DonGia")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("HinhAnh")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaTheLoai")
                         .IsRequired()
@@ -169,7 +169,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasIndex("MaTheLoai");
 
-                    b.ToTable("Sach");
+                    b.ToTable("Sachs");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.ThanhVien", b =>
@@ -209,7 +209,7 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasIndex("MaGoi");
 
-                    b.ToTable("ThanhVien");
+                    b.ToTable("ThanhViens");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.TheLoai", b =>
@@ -225,19 +225,19 @@ namespace QuanLyThuVien.Migrations
 
                     b.HasKey("MaTheLoai");
 
-                    b.ToTable("TheLoai");
+                    b.ToTable("TheLoais");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.ChiTietPhieuMuon", b =>
                 {
                     b.HasOne("QuanLyThuVien.Data.Sach", "Sach")
-                        .WithMany("ChiTietPhieuMuon")
+                        .WithMany("ChiTietPhieuMuons")
                         .HasForeignKey("MaSach")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QuanLyThuVien.Data.PhieuMuon", "PhieuMuon")
-                        .WithMany("ChiTietPhieuMuon")
+                        .WithMany("ChiTietPhieuMuons")
                         .HasForeignKey("PhieuMuonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -250,7 +250,7 @@ namespace QuanLyThuVien.Migrations
             modelBuilder.Entity("QuanLyThuVien.Data.PhieuMuon", b =>
                 {
                     b.HasOne("QuanLyThuVien.Data.ThanhVien", "ThanhVen")
-                        .WithMany("PhieuMuon")
+                        .WithMany("PhieuMuons")
                         .HasForeignKey("MaThanhVien")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -261,7 +261,7 @@ namespace QuanLyThuVien.Migrations
             modelBuilder.Entity("QuanLyThuVien.Data.PhieuThu", b =>
                 {
                     b.HasOne("QuanLyThuVien.Data.ThanhVien", "ThanhVien")
-                        .WithMany("PhieuThu")
+                        .WithMany("PhieuThus")
                         .HasForeignKey("MaThanhVien")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -272,7 +272,7 @@ namespace QuanLyThuVien.Migrations
             modelBuilder.Entity("QuanLyThuVien.Data.Sach", b =>
                 {
                     b.HasOne("QuanLyThuVien.Data.TheLoai", "TheLoai")
-                        .WithMany("Sach")
+                        .WithMany("Sachs")
                         .HasForeignKey("MaTheLoai")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -283,7 +283,7 @@ namespace QuanLyThuVien.Migrations
             modelBuilder.Entity("QuanLyThuVien.Data.ThanhVien", b =>
                 {
                     b.HasOne("QuanLyThuVien.Data.GoiThanhVien", "GoiThanhVien")
-                        .WithMany("ThanhVien")
+                        .WithMany("ThanhViens")
                         .HasForeignKey("MaGoi")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -293,29 +293,29 @@ namespace QuanLyThuVien.Migrations
 
             modelBuilder.Entity("QuanLyThuVien.Data.GoiThanhVien", b =>
                 {
-                    b.Navigation("ThanhVien");
+                    b.Navigation("ThanhViens");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.PhieuMuon", b =>
                 {
-                    b.Navigation("ChiTietPhieuMuon");
+                    b.Navigation("ChiTietPhieuMuons");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.Sach", b =>
                 {
-                    b.Navigation("ChiTietPhieuMuon");
+                    b.Navigation("ChiTietPhieuMuons");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.ThanhVien", b =>
                 {
-                    b.Navigation("PhieuMuon");
+                    b.Navigation("PhieuMuons");
 
-                    b.Navigation("PhieuThu");
+                    b.Navigation("PhieuThus");
                 });
 
             modelBuilder.Entity("QuanLyThuVien.Data.TheLoai", b =>
                 {
-                    b.Navigation("Sach");
+                    b.Navigation("Sachs");
                 });
 #pragma warning restore 612, 618
         }

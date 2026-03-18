@@ -14,16 +14,10 @@ namespace QuanLyThuVien.Data
         public int ID { get; set; }
 
         public int PhieuMuonID { get; set; }
+        public virtual PhieuMuon PhieuMuon { get; set; } = null!;
 
-        [ForeignKey("PhieuMuonID")]
-        public virtual PhieuMuon PhieuMuon { get; set; }
-
-        // --- KHÓA NGOẠI  ---
-        [StringLength(20)]
-        public string MaSach { get; set; }
-
-        [ForeignKey("MaSach")]
-        public virtual Sach Sach { get; set; }
+        public int SachID { get; set; }
+        public virtual Sach Sach { get; set; } = null!;
 
         public DateTime? NgayTra { get; set; }
         public string GhiChu { get; set; }
