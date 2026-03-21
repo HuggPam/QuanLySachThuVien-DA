@@ -124,6 +124,8 @@ namespace QuanLyThuVien.Forms
                         nv.MatKhau = BC.HashPassword(txtMatKhau.Text);
                         nv.QuyenHan = cboQuyenHan.SelectedIndex == 0 ? true : false;
                         context.NhanVien.Add(nv);
+                        context.SaveChanges();
+                        MessageBox.Show("Đã thêm dữ liệu thành công!", "Thông báo");
                     }
                 }
                 else
@@ -142,20 +144,18 @@ namespace QuanLyThuVien.Forms
                         else
                             nv.MatKhau = BC.HashPassword(txtMatKhau.Text);
                         context.SaveChanges();
+                        MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                     }
                 }
-                context.SaveChanges();
-                MessageBox.Show("Đã lưu thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 frmNhanVien_Load(sender, e);
             }
-
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
             xuLyThem = false;
             BatTatChucNang(true);
-            id = Convert.ToInt32(dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dgvNhanVien.CurrentRow.Cells["colID"].Value.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)

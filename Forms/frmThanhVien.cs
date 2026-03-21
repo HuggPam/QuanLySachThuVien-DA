@@ -25,17 +25,30 @@ namespace QuanLyThuVien.Forms
         private void frmThanhVien_Load(object sender, EventArgs e)
         {
             BatTatChucNang(false);
+            LayGoiThanhVienVaoComboBox();
+
             dgvThanhVien.AutoGenerateColumns = false;
-            List<ThanhVien> danhSachThanhVien = new List<ThanhVien>();
-            danhSachThanhVien = context.ThanhVien.ToList();
+            var danhSachThanhVien = context.ThanhVien.Select(t => new DanhSachThanhVien
+            {
+                ID = t.ID,
+                TenThanhVien = t.TenThanhVien,  
+                NgaySinh = t.NgaySinh,
+                DiaChi = t.DiaChi,
+                DienThoai = t.DienThoai,
+                NgayDangKy = t.NgayDangKy,
+                NgayHetHan = t.NgayHetHan,
+                GoiThanhVienID = t.GoiThanhVienID,
+                TenGoi = t.GoiThanhVien.TenGoi  
+            }).ToList();    
+
             BindingSource bindingSource = new BindingSource();
-            bindingSource.DataSource = danhSachThanhVien;
+            bindingSource.DataSource = danhSachThanhVien;   
             txtTenThanhVien.DataBindings.Clear();
             txtTenThanhVien.DataBindings.Add("Text", bindingSource, "TenThanhVien", false, DataSourceUpdateMode.Never);
             txtDiaChi.DataBindings.Clear();
             txtDiaChi.DataBindings.Add("Text", bindingSource, "DiaChi", false, DataSourceUpdateMode.Never);
-            txtDienThoai.DataBindings.Clear();
-            txtDienThoai.DataBindings.Add("Text", bindingSource, "DiaChi", false, DataSourceUpdateMode.Never);
+            txtDienThoai.DataBindings.Clear();  
+            txtDienThoai.DataBindings.Add("Text", bindingSource, "DienThoai", false, DataSourceUpdateMode.Never);
             dtpNgaySinh.DataBindings.Clear();
             dtpNgaySinh.DataBindings.Add("Value", bindingSource, "NgaySinh", false, DataSourceUpdateMode.Never);
             cboGoiThanhVien.DataBindings.Clear();
@@ -45,6 +58,8 @@ namespace QuanLyThuVien.Forms
             dgvThanhVien.DataSource = bindingSource;
             dtpNgayHetHan.DataBindings.Clear();
             dtpNgayHetHan.DataBindings.Add("Value", bindingSource, "NgayHetHan", false, DataSourceUpdateMode.Never);
+
+            dgvThanhVien.DataSource = bindingSource;
         }
         private void BatTatChucNang(bool giaTri)
         {
@@ -64,6 +79,13 @@ namespace QuanLyThuVien.Forms
             btnXuat.Enabled = !giaTri;
         }
 
+        public void LayGoiThanhVienVaoComboBox()        
+        {
+            cboGoiThanhVien.DataSource = context.GoiThanhVien.ToList();
+            cboGoiThanhVien.DisplayMember = "TenGoi"; 
+            cboGoiThanhVien.ValueMember = "ID";     
+        }
+
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;
@@ -81,7 +103,7 @@ namespace QuanLyThuVien.Forms
         {
             xuLyThem = false;
             BatTatChucNang(true);
-            id = Convert.ToInt32(dgvThanhVien.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dgvThanhVien.CurrentRow.Cells["colID"].Value.ToString());
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -122,6 +144,8 @@ namespace QuanLyThuVien.Forms
                     tv.GoiThanhVienID = Convert.ToInt32(cboGoiThanhVien.SelectedValue);
 
                     context.ThanhVien.Add(tv);
+                    context.SaveChanges();
+                    MessageBox.Show("Đã thêm dữ liệu thành công!", "Thông báo");
                 }
                 else
                 {
@@ -138,11 +162,10 @@ namespace QuanLyThuVien.Forms
                         tv.GoiThanhVienID = Convert.ToInt32(cboGoiThanhVien.SelectedValue);
 
                         context.ThanhVien.Update(tv);
-
+                        context.SaveChanges();
+                        MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                     }
                 }
-                context.SaveChanges();
-                MessageBox.Show("Lưu dữ liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 frmThanhVien_Load(sender, e);
             }
 

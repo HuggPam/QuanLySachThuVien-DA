@@ -72,7 +72,7 @@ namespace QuanLyThuVien.Forms
         {
             xuLyThem = false;
             BatTatChucNang(true);
-            id = Convert.ToInt32(dgvTacGia.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dgvTacGia.CurrentRow.Cells["colID"].Value.ToString());
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -110,6 +110,8 @@ namespace QuanLyThuVien.Forms
                 tg.TenTacGia = txtTenTacGia.Text.Trim();
                 tg.GhiChu = txtGhiChu.Text.Trim();
                 context.TacGia.Add(tg);
+                context.SaveChanges();
+                MessageBox.Show("Đã thêm dữ liệu thành công!", "Thông báo");
             }
             else //Sửa
             {
@@ -119,10 +121,10 @@ namespace QuanLyThuVien.Forms
                     tg.TenTacGia = txtTenTacGia.Text.Trim();
                     tg.GhiChu = txtGhiChu.Text.Trim();
                     context.TacGia.Update(tg);
+                    context.SaveChanges();
+                    MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                 }
             }
-            context.SaveChanges();
-            MessageBox.Show("Đã lưu dữ liệu thành công!", "Thông báo");
             frmTacGia_Load(sender, e);
         }
 

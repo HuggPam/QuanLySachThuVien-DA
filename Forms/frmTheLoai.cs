@@ -63,7 +63,7 @@ namespace QuanLyThuVien.Forms
         {
             xuLyThem = false;
             BatTatChucNang(true);
-            id = Convert.ToInt32(dgvTheLoai.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dgvTheLoai.CurrentRow.Cells["colID"].Value.ToString());
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -100,6 +100,8 @@ namespace QuanLyThuVien.Forms
                 TheLoai tl = new TheLoai();
                 tl.TenTheLoai = txtTenTheLoai.Text.Trim();
                 context.TheLoai.Add(tl);
+                context.SaveChanges();
+                MessageBox.Show("Đã thêm dữ liệu thành công!", "Thông báo");
             }
             else //Sửa
             {
@@ -108,10 +110,10 @@ namespace QuanLyThuVien.Forms
                 {
                     tl.TenTheLoai = txtTenTheLoai.Text.Trim();
                     context.TheLoai.Update(tl);
+                    context.SaveChanges();
+                    MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                 }
             }
-            context.SaveChanges();
-            MessageBox.Show("Đã lưu dữ liệu thành công!", "Thông báo");
             frmTheLoai_Load(sender, e);
         }
 

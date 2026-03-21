@@ -184,6 +184,7 @@
             dgvTacGia.Name = "dgvTacGia";
             dgvTacGia.RowHeadersVisible = false;
             dgvTacGia.RowHeadersWidth = 51;
+            dgvTacGia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTacGia.Size = new Size(776, 218);
             dgvTacGia.TabIndex = 11;
             // 

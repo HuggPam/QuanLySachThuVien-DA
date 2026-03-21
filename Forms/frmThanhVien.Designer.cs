@@ -39,6 +39,7 @@
             groupBox2 = new GroupBox();
             dgvThanhVien = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
+            colTenThanhVien = new DataGridViewTextBoxColumn();
             colNgaySinh = new DataGridViewTextBoxColumn();
             colDienThoai = new DataGridViewTextBoxColumn();
             colDiaChi = new DataGridViewTextBoxColumn();
@@ -149,11 +150,12 @@
             dgvThanhVien.AllowUserToDeleteRows = false;
             dgvThanhVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvThanhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvThanhVien.Columns.AddRange(new DataGridViewColumn[] { colID, colNgaySinh, colDienThoai, colDiaChi, colGoiThanhVien, colNgayDangKy, colNgayHetHan });
+            dgvThanhVien.Columns.AddRange(new DataGridViewColumn[] { colID, colTenThanhVien, colNgaySinh, colDienThoai, colDiaChi, colGoiThanhVien, colNgayDangKy, colNgayHetHan });
             dgvThanhVien.Location = new Point(3, 26);
             dgvThanhVien.Name = "dgvThanhVien";
             dgvThanhVien.RowHeadersVisible = false;
             dgvThanhVien.RowHeadersWidth = 51;
+            dgvThanhVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvThanhVien.Size = new Size(1054, 228);
             dgvThanhVien.TabIndex = 0;
             // 
@@ -163,6 +165,13 @@
             colID.HeaderText = "ID";
             colID.MinimumWidth = 6;
             colID.Name = "colID";
+            // 
+            // colTenThanhVien
+            // 
+            colTenThanhVien.DataPropertyName = "TenThanhVien";
+            colTenThanhVien.HeaderText = "Họ và tên";
+            colTenThanhVien.MinimumWidth = 6;
+            colTenThanhVien.Name = "colTenThanhVien";
             // 
             // colNgaySinh
             // 
@@ -187,7 +196,7 @@
             // 
             // colGoiThanhVien
             // 
-            colGoiThanhVien.DataPropertyName = "GoiThanhVien";
+            colGoiThanhVien.DataPropertyName = "TenGoi";
             colGoiThanhVien.HeaderText = "Gói thành viên";
             colGoiThanhVien.MinimumWidth = 6;
             colGoiThanhVien.Name = "colGoiThanhVien";
@@ -434,6 +443,7 @@
         private Label label8;
         private DataGridView dgvThanhVien;
         private DataGridViewTextBoxColumn colID;
+        private DataGridViewTextBoxColumn colTenThanhVien;
         private DataGridViewTextBoxColumn colNgaySinh;
         private DataGridViewTextBoxColumn colDienThoai;
         private DataGridViewTextBoxColumn colDiaChi;

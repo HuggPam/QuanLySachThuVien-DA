@@ -11,11 +11,8 @@ namespace QuanLyThuVien.Data
 {
     public class PhieuMuon
     {
-        [Key]
         public int ID { get; set; }
-
         public DateTime NgayMuon { get; set; }
-
         public int ThanhVienID { get; set; }
         public virtual ThanhVien ThanhVen { get; set; } = null!;
         public int NhanVienID { get; set; }

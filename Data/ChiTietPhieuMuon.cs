@@ -10,7 +10,6 @@ namespace QuanLyThuVien.Data
 {
     public class ChiTietPhieuMuon
     {
-        [Key]
         public int ID { get; set; }
 
         public int PhieuMuonID { get; set; }

@@ -310,6 +310,7 @@
             dgvNhanVien.Name = "dgvNhanVien";
             dgvNhanVien.RowHeadersVisible = false;
             dgvNhanVien.RowHeadersWidth = 51;
+            dgvNhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNhanVien.Size = new Size(1064, 278);
             dgvNhanVien.TabIndex = 0;
             dgvNhanVien.CellContentClick += dgvNhanVien_CellContentClick;
@@ -364,7 +365,7 @@
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
             Name = "frmNhanVien";
-            Text = "frmNhanVien";
+            Text = "Nhân viên";
             Load += frmNhanVien_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

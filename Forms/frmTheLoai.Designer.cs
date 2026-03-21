@@ -160,6 +160,7 @@
             dgvTheLoai.Name = "dgvTheLoai";
             dgvTheLoai.RowHeadersVisible = false;
             dgvTheLoai.RowHeadersWidth = 51;
+            dgvTheLoai.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTheLoai.Size = new Size(801, 309);
             dgvTheLoai.TabIndex = 0;
             dgvTheLoai.CellContentClick += dataGridView1_CellContentClick;

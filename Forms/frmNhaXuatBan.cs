@@ -83,7 +83,7 @@ namespace QuanLyThuVien.Forms
         {
             xuLyThem = false;
             BatTatChucNang(true);
-            id = Convert.ToInt32(dgvNhaXuatBan.CurrentRow.Cells["ID"].Value.ToString());
+            id = Convert.ToInt32(dgvNhaXuatBan.CurrentRow.Cells["colID"].Value.ToString());
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
@@ -102,6 +102,8 @@ namespace QuanLyThuVien.Forms
                     nxb.DienThoai = txtDienThoai.Text;
                     nxb.DiaChi = txtDiaChi.Text;
                     context.NhaXuatBan.Add(nxb);
+                    context.SaveChanges();
+                    MessageBox.Show("Đã thêm dữ liệu thành công!", "Thông báo");
                 }
                 else
                 {
@@ -112,10 +114,10 @@ namespace QuanLyThuVien.Forms
                         nxb.DienThoai = txtDienThoai.Text;
                         nxb.DiaChi = txtDiaChi.Text;
                         context.NhaXuatBan.Update(nxb);
+                        context.SaveChanges();
+                        MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                     }
                 }
-                context.SaveChanges();
-                MessageBox.Show("Đã lưu dữ liệu thành công!", "Thông báo");
                 frmNhaXuatBan_Load(sender, e);
             }
         }
