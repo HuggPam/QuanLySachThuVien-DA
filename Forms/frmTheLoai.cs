@@ -56,6 +56,7 @@ namespace QuanLyThuVien.Forms
             xuLyThem = true;
             BatTatChucNang(true);
             txtTenTheLoai.Clear();
+            txtTenTheLoai.Focus();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa thể loại này", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa thể loại này?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 id = Convert.ToInt32(dgvTheLoai.CurrentRow.Cells["ID"].Value.ToString());
                 TheLoai tl = context.TheLoai.Find(id);
@@ -90,7 +91,8 @@ namespace QuanLyThuVien.Forms
         {
             if (string.IsNullOrWhiteSpace(txtTenTheLoai.Text))
             {
-                MessageBox.Show("Vui lòng nhập Tên thể loại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên thể loại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenTheLoai.Focus();
                 return;
             }
             if (xuLyThem) //Thêm
@@ -110,7 +112,6 @@ namespace QuanLyThuVien.Forms
             }
             context.SaveChanges();
             MessageBox.Show("Đã lưu dữ liệu thành công!", "Thông báo");
-            BatTatChucNang(false);
             frmTheLoai_Load(sender, e);
         }
 

@@ -18,8 +18,8 @@ namespace QuanLyThuVien.Data
         public string TenThanhVien { get; set; }
 
         public DateTime NgaySinh { get; set; }
-        public string DiaChi { get; set; }
-        public string SoDienThoai { get; set; }
+        public string? DiaChi { get; set; }
+        public string? DienThoai { get; set; }
 
         public DateTime NgayDangKy { get; set; }
         public DateTime NgayHetHan { get; set; }

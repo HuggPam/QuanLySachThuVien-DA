@@ -86,6 +86,7 @@
             txtGhiChu.ScrollBars = ScrollBars.Vertical;
             txtGhiChu.Size = new Size(616, 83);
             txtGhiChu.TabIndex = 12;
+            txtGhiChu.TextChanged += txtGhiChu_TextChanged;
             // 
             // label2
             // 

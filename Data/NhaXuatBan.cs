@@ -15,8 +15,8 @@ namespace QuanLyThuVien.Data
         [Required]
         [StringLength(255)]
         public string TenNhaXuatBan { get; set; } = null!;
-        public string DiaChi { get; set; }
-        public string SoDienThoai { get; set; }
+        public string? DiaChi { get; set; }
+        public string? DienThoai { get; set; }
         public virtual ObservableCollectionListSource<Sach> Sach { get; set; } = new();
     }
 }

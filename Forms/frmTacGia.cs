@@ -48,6 +48,7 @@ namespace QuanLyThuVien.Forms
             BatTatChucNang(true);
             txtTenTacGia.Clear();
             txtGhiChu.Clear();
+            txtTenTacGia.Focus();
         }
 
         private void frmTacGia_Load(object sender, EventArgs e)
@@ -76,7 +77,7 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa tác giả này", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa tác giả này?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 id = Convert.ToInt32(dgvTacGia.CurrentRow.Cells["ID"].Value.ToString());
                 TheLoai tg = context.TheLoai.Find(id);
@@ -99,7 +100,8 @@ namespace QuanLyThuVien.Forms
         {
             if (string.IsNullOrWhiteSpace(txtTenTacGia.Text))
             {
-                MessageBox.Show("Vui lòng nhập Tên tác giả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên tác giả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenTacGia.Focus();
                 return;
             }
             if (xuLyThem) //Thêm
@@ -116,7 +118,17 @@ namespace QuanLyThuVien.Forms
                 {
                     tg.TenTacGia = txtTenTacGia.Text.Trim();
                     tg.GhiChu = txtGhiChu.Text.Trim();
+                    context.TacGia.Update(tg);
                 }
             }
+            context.SaveChanges();
+            MessageBox.Show("Đã lưu dữ liệu thành công!", "Thông báo");
+            frmTacGia_Load(sender, e);
+        }
+
+        private void txtGhiChu_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
