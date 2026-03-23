@@ -160,9 +160,9 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa nhân viên này? " + txtTenNhanVien.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa " + txtTenNhanVien.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                id = Convert.ToInt32(dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString());
+                id = Convert.ToInt32(dgvNhanVien.CurrentRow.Cells["colID"].Value.ToString());
                 NhanVien nv = context.NhanVien.Find(id);
                 if (nv != null)
                 {

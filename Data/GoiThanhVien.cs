@@ -18,6 +18,8 @@ namespace QuanLyThuVien.Data
         public string TenGoi { get; set; } = null!;
 
         public int SoThangHieuLuc { get; set; }
+        public int SoLanGiaHanToiDa { get; set; }   
+        public int SoNgayMuonToiDa { get; set; }
         public int SoSachDuocMuon { get; set; }
         public decimal GiaTien { get; set; }
 

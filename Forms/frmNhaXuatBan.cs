@@ -124,9 +124,9 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa nhà xuất bản này?" + txtTenNhaXuatBan.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa " + txtTenNhaXuatBan.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                id = Convert.ToInt32(dgvNhaXuatBan.CurrentRow.Cells["ID"].Value.ToString());
+                id = Convert.ToInt32(dgvNhaXuatBan.CurrentRow.Cells["colID"].Value.ToString());
                 NhaXuatBan nxb = context.NhaXuatBan.Find(id);
                 if (nxb != null)
                 {

@@ -51,7 +51,7 @@
             Cursor = Cursors.Hand;
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmXemAnh";
-            Opacity = 0.92D;
+            Opacity = 0.9D;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Xem ảnh bìa";
             WindowState = FormWindowState.Maximized;

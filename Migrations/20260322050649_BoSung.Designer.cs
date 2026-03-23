@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThuVien.Data;
 
@@ -11,9 +12,11 @@ using QuanLyThuVien.Data;
 namespace QuanLyThuVien.Migrations
 {
     [DbContext(typeof(QLTVContext))]
-    partial class QLTVContextModelSnapshot : ModelSnapshot
+    [Migration("20260322050649_BoSung")]
+    partial class BoSung
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace QuanLyThuVien.Migrations
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("HanTra")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("NgayTra")
                         .HasColumnType("datetime2");
 
@@ -43,9 +43,6 @@ namespace QuanLyThuVien.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SachID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SoLanGiaHan")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -170,9 +167,6 @@ namespace QuanLyThuVien.Migrations
                     b.Property<int>("ThanhVienID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("NhanVienID");
@@ -189,9 +183,6 @@ namespace QuanLyThuVien.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("LoaiThu")
-                        .HasColumnType("int");
 
                     b.Property<string>("LyDoThu")
                         .IsRequired()
@@ -303,6 +294,9 @@ namespace QuanLyThuVien.Migrations
                     b.Property<int>("GoiThanhVienID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("KhoaThe")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("NgayDangKy")
                         .HasColumnType("datetime2");
 
@@ -319,9 +313,6 @@ namespace QuanLyThuVien.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 

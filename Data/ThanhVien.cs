@@ -24,6 +24,9 @@ namespace QuanLyThuVien.Data
             public DateTime NgayDangKy { get; set; }
             public DateTime NgayHetHan { get; set; }
 
+            public int SoLanViPham { get; set; } = 0;
+            public int TrangThai { get; set; } = 0;
+
             public int GoiThanhVienID { get; set; }
             public virtual GoiThanhVien GoiThanhVien { get; set; } = null!;
 
@@ -41,6 +44,9 @@ namespace QuanLyThuVien.Data
             public string DienThoai { get; set; }
             public DateTime NgayDangKy { get; set; }
             public DateTime NgayHetHan { get; set; }
+            public DateTime? NgayViPham { get; set; }
+            public int SoLanViPham { get; set; }
+            public int TrangThai { get; set; }
 
             public int GoiThanhVienID { get; set; }
 

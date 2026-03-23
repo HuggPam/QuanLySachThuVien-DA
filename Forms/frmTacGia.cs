@@ -55,7 +55,8 @@ namespace QuanLyThuVien.Forms
         {
             BatTatChucNang(false);
 
-            List<TacGia> danhSachTacGia = context.TacGia.ToList();
+            List<TacGia> danhSachTacGia = new List<TacGia>();
+            danhSachTacGia = context.TacGia.ToList();
 
             BindingSource bindingSource = new BindingSource();
             bindingSource.DataSource = danhSachTacGia;
@@ -77,16 +78,15 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa tác giả này?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa " + txtTenTacGia.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                id = Convert.ToInt32(dgvTacGia.CurrentRow.Cells["ID"].Value.ToString());
-                TheLoai tg = context.TheLoai.Find(id);
+                id = Convert.ToInt32(dgvTacGia.CurrentRow.Cells["colID"].Value.ToString());
+                TacGia tg = context.TacGia.Find(id);
                 if (tg != null)
                 {
-                    context.TheLoai.Remove(tg);
+                    context.TacGia.Remove(tg);
                 }
                 context.SaveChanges();
-
                 frmTacGia_Load(sender, e);
             }
         }

@@ -40,7 +40,8 @@ namespace QuanLyThuVien.Forms
         {
             BatTatChucNang(false);
 
-            List<TheLoai> danhSachTheLoai = context.TheLoai.ToList();
+            List<TheLoai> danhSachTheLoai = new List<TheLoai>();
+            danhSachTheLoai = context.TheLoai.ToList();
 
             BindingSource bindingSource = new BindingSource();
             bindingSource.DataSource = danhSachTheLoai;
@@ -73,16 +74,15 @@ namespace QuanLyThuVien.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Xác nhận xóa thể loại này?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Xác nhận xóa " + txtTenTheLoai.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                id = Convert.ToInt32(dgvTheLoai.CurrentRow.Cells["ID"].Value.ToString());
+                id = Convert.ToInt32(dgvTheLoai.CurrentRow.Cells["colID"].Value.ToString());
                 TheLoai tl = context.TheLoai.Find(id);
                 if (tl != null)
                 {
                     context.TheLoai.Remove(tl);
                 }
                 context.SaveChanges();
-
                 frmTheLoai_Load(sender, e);
             }
         }

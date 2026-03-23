@@ -85,7 +85,7 @@
             // 
             cboQuyenHan.DropDownStyle = ComboBoxStyle.DropDownList;
             cboQuyenHan.FormattingEnabled = true;
-            cboQuyenHan.Items.AddRange(new object[] { "Quản lý", "Nhân viên" });
+            cboQuyenHan.Items.AddRange(new object[] { "Quản lý", "Thủ thư" });
             cboQuyenHan.Location = new Point(472, 96);
             cboQuyenHan.Name = "cboQuyenHan";
             cboQuyenHan.Size = new Size(208, 28);

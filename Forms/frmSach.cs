@@ -33,7 +33,9 @@ namespace QuanLyThuVien.Forms
             LayTacGiaVaoComboBox();
             LayNhaXuatBanVaoComboBox();
             dgvSach.AutoGenerateColumns = false;
-            var danhSachSach = context.Sach.Select(s => new DanhSachSach
+            List<DanhSachSach> danhSachSach = new List<DanhSachSach>();
+            danhSachSach = context.Sach.Select(s => new DanhSachSach
+
             {
                 ID = s.ID,
                 TenSach = s.TenSach,
@@ -157,7 +159,7 @@ namespace QuanLyThuVien.Forms
         {
             if (MessageBox.Show("Xác nhận xóa " + txtTenSach.Text + "?", "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                id = Convert.ToInt32(dgvSach.CurrentRow.Cells["ID"].Value.ToString());
+                id = Convert.ToInt32(dgvSach.CurrentRow.Cells["colID"].Value.ToString());
                 Sach s = context.Sach.Find(id);
                 if (s != null)
                 {
