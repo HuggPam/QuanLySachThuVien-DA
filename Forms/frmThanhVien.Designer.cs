@@ -183,6 +183,7 @@
             label22.Size = new Size(128, 20);
             label22.TabIndex = 26;
             label22.Text = "Ngừng hoạt động";
+            label22.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label21
             // 
@@ -191,6 +192,7 @@
             label21.Name = "label21";
             label21.Size = new Size(15, 15);
             label21.TabIndex = 25;
+            label21.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label20
             // 
@@ -200,6 +202,7 @@
             label20.Size = new Size(61, 20);
             label20.TabIndex = 24;
             label20.Text = "Hết hạn";
+            label20.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label19
             // 
@@ -208,6 +211,7 @@
             label19.Name = "label19";
             label19.Size = new Size(15, 15);
             label19.TabIndex = 23;
+            label19.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label17
             // 
@@ -217,13 +221,15 @@
             label17.Size = new Size(68, 20);
             label17.TabIndex = 22;
             label17.Text = "Khóa thẻ";
+            label17.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // dgvThanhVien
             // 
             dgvThanhVien.AllowUserToAddRows = false;
             dgvThanhVien.AllowUserToDeleteRows = false;
             dgvThanhVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvThanhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvThanhVien.ColumnHeadersHeight = 50;
+            dgvThanhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvThanhVien.Columns.AddRange(new DataGridViewColumn[] { colID, colTenThanhVien, colNgaySinh, colDienThoai, colDiaChi, colGoiThanhVien, colNgayDangKy, colNgayHetHan, colSoLanViPham, colTrangThai });
             dgvThanhVien.Location = new Point(3, 26);
             dgvThanhVien.Name = "dgvThanhVien";
@@ -315,6 +321,7 @@
             label16.Size = new Size(74, 20);
             label16.TabIndex = 21;
             label16.Text = "Báo động";
+            label16.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label13
             // 
@@ -323,6 +330,7 @@
             label13.Name = "label13";
             label13.Size = new Size(15, 15);
             label13.TabIndex = 18;
+            label13.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label15
             // 
@@ -332,6 +340,7 @@
             label15.Size = new Size(70, 20);
             label15.TabIndex = 20;
             label15.Text = "Cảnh cáo";
+            label15.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label9
             // 
@@ -340,6 +349,7 @@
             label9.Name = "label9";
             label9.Size = new Size(15, 15);
             label9.TabIndex = 15;
+            label9.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label14
             // 
@@ -349,6 +359,7 @@
             label14.Size = new Size(72, 20);
             label14.TabIndex = 19;
             label14.Text = "Nhắc nhở";
+            label14.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label11
             // 
@@ -357,6 +368,7 @@
             label11.Name = "label11";
             label11.Size = new Size(15, 15);
             label11.TabIndex = 16;
+            label11.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label12
             // 
@@ -365,6 +377,7 @@
             label12.Name = "label12";
             label12.Size = new Size(15, 15);
             label12.TabIndex = 17;
+            label12.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnHuy
             // 
@@ -482,6 +495,7 @@
             numViPham.ReadOnly = true;
             numViPham.Size = new Size(208, 27);
             numViPham.TabIndex = 30;
+            numViPham.ValueChanged += numViPham_ValueChanged;
             // 
             // label10
             // 

@@ -95,10 +95,10 @@ namespace QuanLyThuVien.Forms
             numSoLuong.Enabled = giaTri;
             numDonGia.Enabled = giaTri;
             numNamXuatBan.Enabled = giaTri;
+            btnDoiAnh.Enabled = giaTri;
             //picHinhAnh.Enabled = giaTri;
 
             btnThem.Enabled = !giaTri;
-            btnDoiAnh.Enabled = !giaTri;
             btnSua.Enabled = !giaTri;
             btnXoa.Enabled = !giaTri;
             btnTimKiem.Enabled = !giaTri;
@@ -173,17 +173,41 @@ namespace QuanLyThuVien.Forms
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cboTheLoai.Text))
-                MessageBox.Show("Vui lòng chọn thể loại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Vui lòng chọn thể loại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboTheLoai.Focus();
+                return;
+            }
             else if (string.IsNullOrWhiteSpace(cboTacGia.Text))
-                MessageBox.Show("Vui lòng chọn tác giả.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Vui lòng chọn tác giả.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboTacGia.Focus();
+                return;
+            }
             else if (string.IsNullOrWhiteSpace(cboNhaXuatBan.Text))
-                MessageBox.Show("Vui lòng chọn nhà xuất bản.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Vui lòng chọn nhà xuất bản.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboNhaXuatBan.Focus();
+                return;
+            }
             else if (string.IsNullOrWhiteSpace(txtTenSach.Text))
-                MessageBox.Show("Vui lòng nhập tên sách.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Vui lòng nhập tên sách.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSach.Focus();
+                return;
+            }
             else if (numSoLuong.Value <= 0)
-                MessageBox.Show("Số lượng phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                numSoLuong.Focus();
+                return;
+            }
             else if (numDonGia.Value <= 0)
-                MessageBox.Show("Đơn giá sách phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                MessageBox.Show("Đơn giá sách phải lớn hơn 0.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                numDonGia.Focus();
+                return;
+            }
             else
             {
                 string tenHinh = null;

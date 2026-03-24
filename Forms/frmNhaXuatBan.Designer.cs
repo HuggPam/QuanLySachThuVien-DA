@@ -244,6 +244,7 @@
             dgvNhaXuatBan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNhaXuatBan.Size = new Size(904, 282);
             dgvNhaXuatBan.TabIndex = 0;
+            dgvNhaXuatBan.CellFormatting += dgvNhaXuatBan_CellFormatting;
             // 
             // colID
             // 

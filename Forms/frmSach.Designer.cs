@@ -42,8 +42,8 @@
             btnSua = new Button();
             label1 = new Label();
             groupBox1 = new GroupBox();
-            btnDoiAnh = new Button();
             picHinhAnh = new PictureBox();
+            btnDoiAnh = new Button();
             numDonGia = new NumericUpDown();
             numSoLuong = new NumericUpDown();
             numNamXuatBan = new NumericUpDown();
@@ -217,22 +217,12 @@
             groupBox1.Controls.Add(btnSua);
             groupBox1.Controls.Add(btnThem);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(11, 2);
+            groupBox1.Location = new Point(12, 26);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(979, 223);
             groupBox1.TabIndex = 15;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin sách";
-            // 
-            // btnDoiAnh
-            // 
-            btnDoiAnh.Location = new Point(875, 136);
-            btnDoiAnh.Name = "btnDoiAnh";
-            btnDoiAnh.Size = new Size(94, 29);
-            btnDoiAnh.TabIndex = 33;
-            btnDoiAnh.Text = "Đổi ảnh bìa";
-            btnDoiAnh.UseVisualStyleBackColor = true;
-            btnDoiAnh.Click += btnDoiAnh_Click;
             // 
             // picHinhAnh
             // 
@@ -243,6 +233,16 @@
             picHinhAnh.TabIndex = 32;
             picHinhAnh.TabStop = false;
             picHinhAnh.Click += picHinhAnh_Click;
+            // 
+            // btnDoiAnh
+            // 
+            btnDoiAnh.Location = new Point(875, 136);
+            btnDoiAnh.Name = "btnDoiAnh";
+            btnDoiAnh.Size = new Size(94, 29);
+            btnDoiAnh.TabIndex = 33;
+            btnDoiAnh.Text = "Đổi ảnh bìa";
+            btnDoiAnh.UseVisualStyleBackColor = true;
+            btnDoiAnh.Click += btnDoiAnh_Click;
             // 
             // numDonGia
             // 
@@ -349,7 +349,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(dgvSach);
-            groupBox2.Location = new Point(0, 231);
+            groupBox2.Location = new Point(1, 255);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(1005, 260);
             groupBox2.TabIndex = 16;
@@ -451,7 +451,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1000, 490);
+            ClientSize = new Size(1006, 511);
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
             Name = "frmSach";

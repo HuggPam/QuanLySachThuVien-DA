@@ -92,6 +92,7 @@ namespace QuanLyThuVien.Forms
             {
                 MessageBox.Show("Vui lòng nhập tên nhà xuất bản!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenNhaXuatBan.Focus();
+                return;
             }
             else
             {
@@ -160,6 +161,11 @@ namespace QuanLyThuVien.Forms
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvNhaXuatBan_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            
         }
     }
 }

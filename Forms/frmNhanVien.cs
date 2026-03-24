@@ -56,13 +56,13 @@ namespace QuanLyThuVien.Forms
             BindingSource bindingSource = new BindingSource();
             bindingSource.DataSource = danhSachNhanVien;
             txtTenNhanVien.DataBindings.Clear();
-            txtTenNhanVien.DataBindings.Add("Text", bindingSource, "TenThanhVien", false, DataSourceUpdateMode.Never);
+            txtTenNhanVien.DataBindings.Add("Text", bindingSource, "TenNhanVien", false, DataSourceUpdateMode.Never);
             txtDienThoai.DataBindings.Clear();
             txtDienThoai.DataBindings.Add("Text", bindingSource, "DienThoai", false, DataSourceUpdateMode.Never);
             txtDiaChi.DataBindings.Clear();
             txtDiaChi.DataBindings.Add("Text", bindingSource, "DiaChi", false, DataSourceUpdateMode.Never);
             txtTenDangNhap.DataBindings.Clear();
-            txtTenNhanVien.DataBindings.Add("Text", bindingSource, "TenDangNhap", false, DataSourceUpdateMode.Never);
+            txtTenDangNhap.DataBindings.Add("Text", bindingSource, "TenDangNhap", false, DataSourceUpdateMode.Never);
             cboQuyenHan.DataBindings.Clear();
             cboQuyenHan.DataBindings.Add("SelectedIndex", bindingSource, "QuyenHan", false, DataSourceUpdateMode.Never);
             dgvNhanVien.DataSource = bindingSource;
@@ -87,17 +87,15 @@ namespace QuanLyThuVien.Forms
             {
                 MessageBox.Show("Vui lòng nhập họ và tên nhân viên?", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenNhanVien.Focus();
+                return;
             }
             else if (string.IsNullOrWhiteSpace(txtTenDangNhap.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên đăng nhập?", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenDangNhap.Focus();
-            }
-            else if (string.IsNullOrWhiteSpace(cboQuyenHan.Text))
-            {
-                MessageBox.Show("Vui lòng chọn quyền hạn cho nhân viên?", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            
             string tenDN = txtTenDangNhap.Text.Trim();
             bool trungTen = xuLyThem
                 ? context.NhanVien.Any(nv => nv.TenDangNhap == tenDN)

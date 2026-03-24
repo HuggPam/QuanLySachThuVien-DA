@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThuVien.Data;
 
@@ -11,9 +12,11 @@ using QuanLyThuVien.Data;
 namespace QuanLyThuVien.Migrations
 {
     [DbContext(typeof(QLTVContext))]
-    partial class QLTVContextModelSnapshot : ModelSnapshot
+    [Migration("20260324070758_dccc")]
+    partial class dccc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,9 +319,6 @@ namespace QuanLyThuVien.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgaySinh")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("NgayViPham")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SoLanViPham")

@@ -23,6 +23,7 @@ namespace QuanLyThuVien.Forms
 
         private void frmPhieuMuon_Load(object sender, EventArgs e)
         {
+            context = new QLTVContext();
             dgvPhieuMuon.AutoGenerateColumns = false;
             List<DanhSachPhieuMuon> danhSachPhieuMuon = new List<DanhSachPhieuMuon>();
             danhSachPhieuMuon = context.PhieuMuon.Select(p => new DanhSachPhieuMuon
@@ -57,6 +58,7 @@ namespace QuanLyThuVien.Forms
             using (frmPhieuMuon_ChiTiet chiTiet = new frmPhieuMuon_ChiTiet(id))
             {
                 chiTiet.ShowDialog();
+                frmPhieuMuon_Load(null, null);
             }
         }
 
@@ -128,8 +130,9 @@ namespace QuanLyThuVien.Forms
                 int id = Convert.ToInt32(dgvPhieuMuon.Rows[e.RowIndex].Cells["colID"].Value);
                 using (frmPhieuMuon_ChiTiet chiTiet = new frmPhieuMuon_ChiTiet(id))
                 {
-                    chiTiet.chiXem = true;
+                    chiTiet.chiXem = true;  
                     chiTiet.ShowDialog();
+                    frmPhieuMuon_Load(null, null);
                 }
             }
         }

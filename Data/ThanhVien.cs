@@ -23,7 +23,7 @@ namespace QuanLyThuVien.Data
 
             public DateTime NgayDangKy { get; set; }
             public DateTime NgayHetHan { get; set; }
-
+            public DateTime? NgayViPham { get; set; }
             public int SoLanViPham { get; set; } = 0;
             public int TrangThai { get; set; } = 0;
 
