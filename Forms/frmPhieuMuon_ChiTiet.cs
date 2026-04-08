@@ -32,9 +32,11 @@ namespace QuanLyThuVien.Forms
         }
         public void LayNhanVienVaoComboBox()
         {
+            var nhanVienHienTai = context.NhanVien.Where(nv => nv.ID == Program.MaNhanVienDangNhap).ToList();
             cboNhanVien.DataSource = context.NhanVien.ToList();
             cboNhanVien.DisplayMember = "TenNhanVien";
             cboNhanVien.ValueMember = "ID";
+            cboNhanVien.Enabled = false;
         }
         public void LayThanhVienVaoComboBox()
         {
@@ -87,6 +89,7 @@ namespace QuanLyThuVien.Forms
                 txtGhiChu.ReadOnly = true;
             }
             dgvPhieuMuonChiTiet.AutoGenerateColumns = false;
+            cboNhanVien.SelectedValue = (int)Program.MaNhanVienDangNhap;
             if (id != 0)
             {
                 var phieuMuon = context.PhieuMuon.Where(p => p.ID == id).SingleOrDefault();
@@ -95,7 +98,6 @@ namespace QuanLyThuVien.Forms
                     cboNhanVien.SelectedValue = phieuMuon.NhanVienID;
                     cboThanhVien.SelectedValue = phieuMuon.ThanhVienID;
                 }
-
                 var pm = context.ChiTietPhieuMuon.Where(p => p.PhieuMuonID == id).Select(p => new DanhSachChiTietPhieuMuon
                 {
                     ID = p.ID,
@@ -129,7 +131,7 @@ namespace QuanLyThuVien.Forms
             var tv = context.ThanhVien
                 .Include(t => t.GoiThanhVien)
                 .Include(t => t.PhieuMuon)
-                    .ThenInclude(pm => pm.ChiTietPhieuMuon)
+                .ThenInclude(pm => pm.ChiTietPhieuMuon)
                 .FirstOrDefault(t => t.ID == maThanhVien);
 
             if (tv != null)
@@ -207,7 +209,7 @@ namespace QuanLyThuVien.Forms
             }
             else
             {
-                if (id != 0) // TRƯỜNG HỢP SỬA PHIẾU CŨ
+                if (id != 0) // Sửa phiếu mượn
                 {
                     PhieuMuon pm = context.PhieuMuon.Find(id);
                     if (pm != null)
@@ -217,10 +219,9 @@ namespace QuanLyThuVien.Forms
 
                         var old = context.ChiTietPhieuMuon.Where(r => r.PhieuMuonID == id).ToList();
 
-                        // 🌟 MỚI: HOÀN TRẢ SÁCH CŨ VÀO KHO TRƯỚC KHI XÓA
                         foreach (var oldItem in old)
                         {
-                            if (oldItem.TrangThaiTra == 0) // Nếu sách cũ đang mượn thì trả lại kho (+1)
+                            if (oldItem.TrangThaiTra == 0) // Nếu sách cũ đang mượn thì trả lại kho
                             {
                                 var sachCu = context.Sach.Find(oldItem.SachID);
                                 if (sachCu != null) sachCu.SoLuong += 1;
@@ -247,8 +248,7 @@ namespace QuanLyThuVien.Forms
                             if (item.TrangThaiTra == 0)
                             {
                                 conSachChuaTra = true;
-
-                                // 🌟 MỚI: TRỪ SÁCH MỚI TRONG KHO (-1)
+                                // -1 số lượng sách trong kho khi thêm mới
                                 var sachMoi = context.Sach.Find(item.SachID);
                                 if (sachMoi != null) sachMoi.SoLuong -= 1;
                             }
@@ -267,7 +267,7 @@ namespace QuanLyThuVien.Forms
                         context.SaveChanges();
                     }
                 }
-                else // TRƯỜNG HỢP TẠO PHIẾU MỚI TINH
+                else
                 {
                     PhieuMuon pm = new PhieuMuon();
                     pm.NhanVienID = Convert.ToInt32(cboNhanVien.SelectedValue);
@@ -276,7 +276,7 @@ namespace QuanLyThuVien.Forms
                     pm.TrangThai = 0; // Thêm mới thì mặc định là 0 (Đang mượn)
 
                     context.PhieuMuon.Add(pm);
-                    context.SaveChanges(); // Lấy ID Phiếu cha
+                    context.SaveChanges();
 
                     foreach (var item in phieuMuonChiTiet.ToList())
                     {
@@ -291,8 +291,7 @@ namespace QuanLyThuVien.Forms
                         ct.TienPhat = item.TienPhat;
 
                         context.ChiTietPhieuMuon.Add(ct);
-
-                        // 🌟 MỚI: TRỪ SÁCH TRONG KHO KHI TẠO PHIẾU MỚI (-1)
+                        // -1 số lượng sách trong kho khi thêm mới phiếu mượn
                         var sachDb = context.Sach.Find(item.SachID);
                         if (sachDb != null && sachDb.SoLuong > 0)
                         {
@@ -346,7 +345,7 @@ namespace QuanLyThuVien.Forms
 
                     if (dangMuon >= hanMuc)
                     {
-                        lblThongBao.Text = $"⚠️ Đã mượn {dangMuon}/{hanMuc} cuốn";
+                        lblThongBao.Text = $"Đã mượn {dangMuon}/{hanMuc} cuốn";
                         lblThongBao.ForeColor = Color.Red;
 
                         cboSach.Enabled = false;
@@ -354,11 +353,11 @@ namespace QuanLyThuVien.Forms
                     }
                     else
                     {
-                        lblThongBao.Text = $"✅ Đã mượn {dangMuon}/{hanMuc} cuốn";
+                        lblThongBao.Text = $"Đã mượn {dangMuon}/{hanMuc} cuốn";
                         lblThongBao.ForeColor = Color.Green;
 
-                        cboSach.Enabled = true;
-                        btnXacNhan.Enabled = true;
+                        cboSach.Enabled = !chiXem;
+                        btnXacNhan.Enabled = !chiXem;
                     }
                 }
             }
@@ -384,7 +383,6 @@ namespace QuanLyThuVien.Forms
                 return;
             }
 
-            // Mở Form phụ lên
             using (TinhTrangTraSach frm = new TinhTrangTraSach())
             {
                 frm.TenSachHienTai = chiTiet.TenSach;
@@ -412,19 +410,14 @@ namespace QuanLyThuVien.Forms
 
                     try
                     {
-                        // 🛑 SỬA TẠI ĐÂY: Dùng "context" toàn cục, KHÔNG dùng "using (var db...)" nữa
                         var chiTietDb = context.ChiTietPhieuMuon.FirstOrDefault(x => x.ID == chiTiet.ID);
 
                         if (chiTietDb != null)
                         {
-                            // Gán dữ liệu mới
                             chiTietDb.NgayTra = chiTiet.NgayTra;
                             chiTietDb.TrangThaiTra = chiTiet.TrangThaiTra;
                             chiTietDb.TienPhat = chiTiet.TienPhat;
 
-                            // ======================================================
-                            // 🌟 TỰ ĐỘNG CỘNG SỐ LƯỢNG SÁCH VÀO KHO 🌟
-                            // ======================================================
                             var sachDb = context.Sach.FirstOrDefault(s => s.ID == chiTiet.SachID);
                             if (sachDb != null)
                             {
@@ -435,7 +428,6 @@ namespace QuanLyThuVien.Forms
                                     sachDb.SoLuong += 1;
                                 }
                             }
-                            // ======================================================
 
                             var phieuMuonCha = context.PhieuMuon.FirstOrDefault(p => p.ID == chiTiet.PhieuMuonID);
                             int soLoiCongThem = 0;
@@ -473,7 +465,6 @@ namespace QuanLyThuVien.Forms
                                 phieuMuonCha.TrangThai = 1;
                             }
 
-                            // 🛑 LƯU TOÀN BỘ BẰNG CONTEXT CHÍNH
                             context.SaveChanges();
                             MessageBox.Show("Trả sách thành công!");
                         }
@@ -483,20 +474,17 @@ namespace QuanLyThuVien.Forms
                         MessageBox.Show("Lỗi lưu dữ liệu: " + ex.Message);
                     }
                     phieuMuonChiTiet.ResetBindings();
-                    BatTatChucNang(); // F5 lại các nút bấm
+                    BatTatChucNang();
                 }
             }
         }
 
         private void KiemTraNutTraSach()
         {
-            // 1. Lấy dòng đang được chọn
             var chiTiet = dgvPhieuMuonChiTiet.CurrentRow?.DataBoundItem as DanhSachChiTietPhieuMuon;
 
             if (chiTiet != null && !chiXem)
             {
-                // 2. Nếu TrangThaiTra == 0 (Đang mượn) thì hiện nút, ngược lại thì khóa
-                // (Luke kiểm tra xem tên nút của mình là btnTraSach hay gì nhé)
                 btnTraSach.Enabled = (chiTiet.TrangThaiTra == 0);
             }
             else
@@ -510,13 +498,11 @@ namespace QuanLyThuVien.Forms
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             DataGridView dgv = sender as DataGridView;
 
-            // --- CHỖ NÀY: Thay "colTrangThai" bằng đúng cái (Name) của cột Trạng Thái ---
             string tenCotTrangThai = "colTrangThaiTra";
 
-            // 1. Đổi số thành chữ
+            // Đổi số thành chữ
             if (dgv.Columns[e.ColumnIndex].Name == tenCotTrangThai && e.Value != null)
             {
-                // Dùng ToString() cho an toàn tuyệt đối
                 string strValue = e.Value.ToString();
 
                 switch (strValue)

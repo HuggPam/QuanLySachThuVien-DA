@@ -28,12 +28,11 @@ namespace QuanLyThuVien.Forms
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
-            // Gán giá trị dựa theo RadioButton được chọn
+            // Gán giá trị dựa theo lựa chọn
             if (radBinhThuong.Checked) TinhTrangDuocChon = 1;
             else if (radMatSach.Checked) TinhTrangDuocChon = 2;
             else if (radHuHong.Checked) TinhTrangDuocChon = 3;
 
-            // Đóng form và báo về Form chính là đã chọn OK
             this.DialogResult = DialogResult.OK;
             this.Close();   
         }

@@ -1,4 +1,5 @@
-﻿using QuanLyThuVien.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyThuVien.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace QuanLyThuVien.Forms
 {
     public partial class frmDangNhap : Form
     {
-        public NhanVien NhanVienDangNhap { get; set; } = null;
+        QLTVContext context = new QLTVContext();
         public frmDangNhap()
         {
             InitializeComponent();
@@ -21,7 +22,20 @@ namespace QuanLyThuVien.Forms
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            string taiKhoan = txtTenDangNhap.Text;
+            string matKhau = txtMatKhau.Text;
+
+            var nv = context.NhanVien.FirstOrDefault(x => x.TenDangNhap == taiKhoan && x.MatKhau == matKhau);
+
+            if (nv != null)
+            {
+                Program.MaNhanVienDangNhap = nv.ID;
+                Program.TenNhanVienDangNhap = nv.TenNhanVien;
+
+                MessageBox.Show("Đăng nhập thành công! Chào " + nv.TenNhanVien);
+
+                this.DialogResult = DialogResult.OK;
+            }
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

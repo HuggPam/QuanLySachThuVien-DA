@@ -325,6 +325,7 @@
             txtNhanVien.Name = "txtNhanVien";
             txtNhanVien.Size = new Size(202, 27);
             txtNhanVien.TabIndex = 1;
+            txtNhanVien.TextChanged += txtNhanVien_TextChanged;
             // 
             // cboThanhVien
             // 

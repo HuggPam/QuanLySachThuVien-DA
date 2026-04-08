@@ -159,11 +159,10 @@ namespace QuanLyThuVien.Forms
             }
             else
             {
-                // Lấy thông tin Gói Thành Viên đang được chọn trên ComboBox
                 int maGoiChon = Convert.ToInt32(cboGoiThanhVien.SelectedValue);
                 var goiChon = context.GoiThanhVien.Find(maGoiChon);
 
-                if (xuLyThem) // 🌟 CHỨC NĂNG 1: ĐĂNG KÝ THẺ MỚI 🌟
+                if (xuLyThem) //Thẻ mới
                 {
                     ThanhVien tv = new ThanhVien();
                     tv.TenThanhVien = txtTenThanhVien.Text.Trim();
@@ -174,33 +173,33 @@ namespace QuanLyThuVien.Forms
 
                     tv.GoiThanhVienID = maGoiChon;
 
-                    // Tự động tính ngày hết hạn dựa vào Gói (An toàn hơn cho thủ thư tự chọn)
+                    // Tính ngày hết hạn dựa vào Gói
                     if (goiChon != null)
                     {
                         tv.NgayHetHan = tv.NgayDangKy.AddMonths(goiChon.SoThangHieuLuc);
                     }
 
                     context.ThanhVien.Add(tv);
-                    context.SaveChanges(); // LƯU LẦN 1: Để SQL cấp phát ID cho Thành viên mới này
+                    context.SaveChanges();
 
-                    // TỰ ĐỘNG LẬP PHIẾU THU ĐĂNG KÝ
+                    // Tự động lập Phiếu thu khi đăng ký thẻ mới
                     if (goiChon != null && goiChon.GiaTien > 0)
                     {
                         PhieuThu pt = new PhieuThu();
-                        pt.ThanhVienID = tv.ID; // Lấy đúng ID vừa được SQL tạo ra
-                        pt.NhanVienID = 1; // Có thể đổi thành ID thủ thư đang đăng nhập
+                        pt.ThanhVienID = tv.ID;
+                        pt.NhanVienID = Program.MaNhanVienDangNhap;
                         pt.SoTienThu = goiChon.GiaTien;
                         pt.NgayThu = DateTime.Now;
-                        pt.LoaiThu = 1; // 1: Lệ phí thẻ
+                        pt.LoaiThu = 1;
                         pt.LyDoThu = $"Thu phí đăng ký gói: {goiChon.TenGoi}";
 
                         context.PhieuThu.Add(pt);
-                        context.SaveChanges(); // LƯU LẦN 2: Lưu biên lai vào Database
+                        context.SaveChanges();
                     }
 
                     MessageBox.Show("Đã thêm Thành viên và tự động xuất Phiếu thu thành công!", "Thông báo");
                 }
-                else // 🌟 CHỨC NĂNG 2: CẬP NHẬT HOẶC NÂNG CẤP GÓI 🌟
+                else //Sửa thông tin hoặc nâng cấp gói
                 {
                     ThanhVien tv = context.ThanhVien.Find(id);
                     if (tv != null)
@@ -215,22 +214,21 @@ namespace QuanLyThuVien.Forms
                         tv.SoLanViPham = (int)numViPham.Value;
                         tv.TrangThai = cboTrangThai.SelectedIndex;
 
-                        // KIỂM TRA LOGIC NÂNG CẤP
                         if (maGoiCu != maGoiChon && goiChon != null)
                         {
                             // Có thay đổi Gói -> Cập nhật Gói và tính lại Ngày Hết Hạn từ hôm nay
                             tv.GoiThanhVienID = maGoiChon;
                             tv.NgayHetHan = DateTime.Now.Date.AddMonths(goiChon.SoThangHieuLuc);
 
-                            // TỰ ĐỘNG LẬP PHIẾU THU NÂNG CẤP GÓI
+                            // Tự động lập Phiếu thu
                             if (goiChon.GiaTien > 0)
                             {
                                 PhieuThu pt = new PhieuThu();
                                 pt.ThanhVienID = tv.ID;
-                                pt.NhanVienID = 1;
+                                pt.NhanVienID = Program.MaNhanVienDangNhap;
                                 pt.SoTienThu = goiChon.GiaTien;
                                 pt.NgayThu = DateTime.Now;
-                                pt.LoaiThu = 1; // 1: Lệ phí thẻ
+                                pt.LoaiThu = 1;
                                 pt.LyDoThu = $"Thu phí Nâng cấp lên gói: {goiChon.TenGoi}";
 
                                 context.PhieuThu.Add(pt);
@@ -238,13 +236,13 @@ namespace QuanLyThuVien.Forms
                         }
                         else
                         {
-                            // Không đổi gói, chỉ sửa tên tuổi -> Lấy ngày hết hạn trên Form như cũ
+                            // Không đổi gói, chỉ sửa tên tuổi -> Lấy ngày hết hạn như cũ
                             tv.GoiThanhVienID = maGoiChon;
                             tv.NgayHetHan = dtpNgayHetHan.Value.Date;
                         }
 
                         context.ThanhVien.Update(tv);
-                        context.SaveChanges(); // Lưu tất cả xuống SQL
+                        context.SaveChanges();
                         MessageBox.Show("Đã cập nhật dữ liệu thành công!", "Thông báo");
                     }
                 }
@@ -383,20 +381,9 @@ namespace QuanLyThuVien.Forms
             if (!numViPham.Focused) return;
             if (numViPham.Value > 3)
             {
-                // Kiểm tra xem có đang mở khóa cbo không để tránh chạy đệ quy vòng lặp nếu set = 1
                 if (cboTrangThai.SelectedIndex != 1)
                 {
                     cboTrangThai.SelectedIndex = 1; // 1 là ID của "Bị khóa"
-                }
-            }
-            // Nếu muốn tự động mở lại khi số lỗi giảm xuống dưới 4
-            else if (numViPham.Value <= 3 && cboTrangThai.SelectedIndex == 1)
-            {
-                DialogResult dialogResult = MessageBox.Show("Số lần vi phạm đã giảm xuống dưới mức phạt. Có muốn mở khóa thẻ không?",
-                                                            "Mở khóa thẻ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    cboTrangThai.SelectedIndex = 0; // 0 là ID của "Hoạt động"
                 }
             }
         }
@@ -404,8 +391,6 @@ namespace QuanLyThuVien.Forms
         {
             using (var db = new QLTVContext())
             {
-                // CHỈ quét những ông có lỗi (1, 2, 3) NHƯNG trạng thái phải là Hoạt động (0)
-                // Những ông bị Khóa (1) thì nằm im chờ đóng tiền, không được giảm lỗi tự động.
                 var dsThanhVien = db.ThanhVien.Where(t => t.SoLanViPham > 0 && t.TrangThai == 0).ToList();
 
                 foreach (var tv in dsThanhVien)
@@ -413,10 +398,9 @@ namespace QuanLyThuVien.Forms
                     if (tv.NgayViPham != null)
                     {
                         int soNgayTuanThu = (DateTime.Now - tv.NgayViPham.Value).Days;
-                        if (soNgayTuanThu >= 90) // 3 tháng ngoan hiền
+                        if (soNgayTuanThu >= 90) // 3 tháng tuân thủ
                         {
                             tv.SoLanViPham -= 1;
-                            // Cập nhật ngày vi phạm mới để bắt đầu chu kỳ 3 tháng tiếp theo nếu vẫn còn lỗi
                             tv.NgayViPham = (tv.SoLanViPham > 0) ? DateTime.Now : null;
                         }
                     }

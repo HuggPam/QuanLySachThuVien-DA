@@ -274,7 +274,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { mnuHeThong, mnuQuanLy, mnuBaoCaoThongKe, mnuTroGiup });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1182, 27);
+            menuStrip1.Size = new Size(1182, 28);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -285,7 +285,7 @@
             mnuHeThong.ForeColor = Color.FromArgb(162, 163, 183);
             mnuHeThong.Name = "mnuHeThong";
             mnuHeThong.ShortcutKeys = Keys.Alt | Keys.F4;
-            mnuHeThong.Size = new Size(85, 23);
+            mnuHeThong.Size = new Size(85, 24);
             mnuHeThong.Text = "&Hệ thống";
             // 
             // mnuDangNhap
@@ -330,7 +330,7 @@
             mnuQuanLy.Font = new Font("Times New Roman", 10F);
             mnuQuanLy.ForeColor = Color.FromArgb(162, 163, 183);
             mnuQuanLy.Name = "mnuQuanLy";
-            mnuQuanLy.Size = new Size(75, 23);
+            mnuQuanLy.Size = new Size(75, 24);
             mnuQuanLy.Text = "&Quản lý";
             // 
             // mnuTheLoai
@@ -421,7 +421,7 @@
             mnuBaoCaoThongKe.Font = new Font("Times New Roman", 10F);
             mnuBaoCaoThongKe.ForeColor = Color.FromArgb(162, 163, 183);
             mnuBaoCaoThongKe.Name = "mnuBaoCaoThongKe";
-            mnuBaoCaoThongKe.Size = new Size(157, 23);
+            mnuBaoCaoThongKe.Size = new Size(157, 24);
             mnuBaoCaoThongKe.Text = "&Báo cáo – Thống kê";
             // 
             // mnuThongKeHoatDong
@@ -430,6 +430,7 @@
             mnuThongKeHoatDong.Name = "mnuThongKeHoatDong";
             mnuThongKeHoatDong.Size = new Size(237, 26);
             mnuThongKeHoatDong.Text = "Thống kê &hoạt động...";
+            mnuThongKeHoatDong.Click += mnuThongKeHoatDong_Click;
             // 
             // mnuThongKeDoanhThu
             // 
@@ -437,6 +438,7 @@
             mnuThongKeDoanhThu.Name = "mnuThongKeDoanhThu";
             mnuThongKeDoanhThu.Size = new Size(237, 26);
             mnuThongKeDoanhThu.Text = "Thống kê &doanh thu...";
+            mnuThongKeDoanhThu.Click += mnuThongKeDoanhThu_Click;
             // 
             // mnuTroGiup
             // 
@@ -444,7 +446,7 @@
             mnuTroGiup.Font = new Font("Times New Roman", 10F);
             mnuTroGiup.ForeColor = Color.FromArgb(162, 163, 183);
             mnuTroGiup.Name = "mnuTroGiup";
-            mnuTroGiup.Size = new Size(79, 23);
+            mnuTroGiup.Size = new Size(79, 24);
             mnuTroGiup.Text = "&Trợ giúp";
             // 
             // mnuHuongDanSuDung
@@ -491,7 +493,7 @@
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1126, 20);
+            toolStripStatusLabel1.Size = new Size(1165, 20);
             toolStripStatusLabel1.Spring = true;
             // 
             // lblLienKet

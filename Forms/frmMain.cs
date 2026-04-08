@@ -1,4 +1,5 @@
 ﻿using QuanLyThuVien.Data;
+using QuanLyThuVien.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +31,6 @@ namespace QuanLyThuVien.Forms
         private Form formHienTai = null;
         private void MoFormCon(Form formCon)
         {
-            // 1. Xóa sạch những gì đang hiện ở vùng nội dung
             if (formHienTai != null)
             {
                 formHienTai.Close();
@@ -38,12 +38,10 @@ namespace QuanLyThuVien.Forms
 
             formHienTai = formCon;
 
-            // 2. Thiết lập để Form con "biến thành" một Control bình thường
             formCon.TopLevel = false;
-            formCon.FormBorderStyle = FormBorderStyle.None; // Bỏ khung viền (X, _, [])
-            formCon.Dock = DockStyle.Fill; // Tràn đầy vùng pnlContent
+            formCon.FormBorderStyle = FormBorderStyle.None;
+            formCon.Dock = DockStyle.Fill;
 
-            // 3. Thêm vào Panel và hiển thị
             pnlContent.Controls.Add(formCon);
             pnlContent.Tag = formCon;
             formCon.BringToFront();
@@ -313,6 +311,16 @@ namespace QuanLyThuVien.Forms
                 child.Close();
             }
             ChuaDangNhap();
+        }
+
+        private void mnuThongKeHoatDong_Click(object sender, EventArgs e)
+        {
+            MoFormCon(new frmThongKeHoatDong());
+        }
+
+        private void mnuThongKeDoanhThu_Click(object sender, EventArgs e)
+        {
+            MoFormCon(new frmThongKeDoanhThu());
         }
     }
 }

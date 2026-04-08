@@ -29,24 +29,22 @@ namespace QuanLyThuVien.Forms
             LayLoaiThuVaoComboBox();
 
             dtpNgayThu.Value = DateTime.Now;
-            txtNhanVien.Text = "Thủ Thư Lan"; // Tạm thời fix cứng
+            txtNhanVien.Text = Program.TenNhanVienDangNhap;
             txtNhanVien.ReadOnly = true;
 
             dgvPhieuThu.AutoGenerateColumns = false;
 
-            // SỬA TẠI ĐÂY: Lấy từ bảng PhieuThu và dùng đúng class DanhSachPhieuThu
             var ds = context.PhieuThu.Select(p => new DanhSachPhieuThu
             {
                 ID = p.ID,
                 TenNhanVien = p.NhanVien.TenNhanVien,
-                TenThanhVien = p.ThanhVien.TenThanhVien, // Kiểm tra lại tên cột bên bảng ThanhVien nhé
+                TenThanhVien = p.ThanhVien.TenThanhVien,
                 NgayThu = p.NgayThu,
                 LoaiThu = p.LoaiThu,
                 SoTienThu = p.SoTienThu,
                 LyDoThu = p.LyDoThu,
             }).OrderByDescending(x => x.NgayThu).ToList();
 
-            // Gán dữ liệu vào Grid
             dgvPhieuThu.DataSource = ds;
         }
 
@@ -70,17 +68,11 @@ namespace QuanLyThuVien.Forms
         {
             using (var db = new QLTVContext())
             {
-                // Lấy danh sách thành viên từ Database
-                var ds = db.ThanhVien
-                           .Select(t => new { t.ID, t.TenThanhVien })
-                           .ToList();
+                var ds = db.ThanhVien.Select(t => new { t.ID, t.TenThanhVien }).ToList();
 
-                // Đổ vào ComboBox
                 cboThanhVien.DataSource = ds;
-                cboThanhVien.DisplayMember = "TenThanhVien"; // Hiển thị tên cho thủ thư nhìn
-                cboThanhVien.ValueMember = "ID";      // Lưu ID ngầm bên dưới
-
-                // Reset lựa chọn về trống để thủ thư tự gõ
+                cboThanhVien.DisplayMember = "TenThanhVien";
+                cboThanhVien.ValueMember = "ID";
                 cboThanhVien.SelectedIndex = -1;
             }
 
@@ -155,7 +147,6 @@ namespace QuanLyThuVien.Forms
                 cboThanhVien.Focus();
                 return;
             }
-            // Có thể kiểm tra thêm số tiền
             else if (numSoTienThu.Value <= 0)
             {
                 MessageBox.Show("Số tiền thu không được bằng 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -164,25 +155,20 @@ namespace QuanLyThuVien.Forms
             }
             else
             {
-                if (xuLyThem) // TRƯỜNG HỢP THÊM MỚI PHIẾU THU
+                if (xuLyThem) // Thêm phiếu thu mới
                 {
                     int maTV = (int)cboThanhVien.SelectedValue;
                     int loaiDuocChon = cboLoaiThu.SelectedIndex;
 
-                    // 1. TẠO PHIẾU THU LƯU VÀO DB
                     PhieuThu pt = new PhieuThu();
                     pt.ThanhVienID = maTV;
-                    pt.NhanVienID = 1; // Tạm thời fix cứng hoặc lấy từ Session
+                    pt.NhanVienID = Program.MaNhanVienDangNhap;
                     pt.SoTienThu = numSoTienThu.Value;
                     pt.NgayThu = dtpNgayThu.Value;
                     pt.LoaiThu = loaiDuocChon;
                     pt.LyDoThu = txtLyDo.Text;
-
                     context.PhieuThu.Add(pt);
 
-                    // =======================================================
-                    // 2. LOGIC TỰ ĐỘNG XÓA NỢ VÀ GIA HẠN THẺ 
-                    // =======================================================
                     if (loaiDuocChon == 0) // Đóng phạt trễ hạn -> Xóa nợ trễ hạn
                     {
                         var dsNo = context.ChiTietPhieuMuon.Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == 1 && ct.TienPhat > 0).ToList();
@@ -210,11 +196,11 @@ namespace QuanLyThuVien.Forms
 
                         foreach (var ct in dsViPham) ct.TienPhat = 0;
                     }
-     
+
                     context.SaveChanges();
                     MessageBox.Show("Đã lưu phiếu thu và tự động cập nhật hệ thống thành công!", "Thông báo");
                 }
-                else // TRƯỜNG HỢP CẬP NHẬT (SỬA PHIẾU THU)
+                else // Sửa phiếu thu
                 {
                     PhieuThu pt = context.PhieuThu.Find(id);
                     if (pt != null)
@@ -231,7 +217,6 @@ namespace QuanLyThuVien.Forms
                     }
                 }
 
-                // Gọi lại hàm Load để F5 danh sách
                 frmPhieuThu_Load(sender, e);
                 BatTatChucNang(false);
                 xuLyThem = false;
@@ -242,7 +227,6 @@ namespace QuanLyThuVien.Forms
         {
             if (cboThanhVien.SelectedValue == null) return;
 
-            // Ép kiểu ID thành viên an toàn
             int maTV;
             if (!int.TryParse(cboThanhVien.SelectedValue.ToString(), out maTV)) return;
 
@@ -250,19 +234,14 @@ namespace QuanLyThuVien.Forms
 
             using (var db = new QLTVContext())
             {
-                // Reset lại ô số tiền và lý do để không bị dính dữ liệu cũ khi đổi qua lại giữa các loại
                 numSoTienThu.Value = 0;
                 txtLyDo.Clear();
 
-                // -------------------------------------------------------------
-                // TRƯỜNG HỢP 0: THU TIỀN PHẠT TRỄ HẠN
-                // -------------------------------------------------------------
+                // 0 là thu tiền phạt trễ hạn, 1 là gia hạn thẻ, 2 là bồi thường hỏng sách, 3 là bồi thường mất sách
                 if (loaiDuocChon == 0)
                 {
                     // Chỉ lấy những cuốn sách "Trả bình thường" (TrangThaiTra = 1) nhưng bị trễ (TienPhat > 0)
-                    var tongTienPhat = db.ChiTietPhieuMuon
-                        .Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == 1 && ct.TienPhat > 0)
-                        .Sum(ct => (decimal?)ct.TienPhat) ?? 0;
+                    var tongTienPhat = db.ChiTietPhieuMuon.Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == 1 && ct.TienPhat > 0).Sum(ct => (decimal?)ct.TienPhat) ?? 0;
 
                     numSoTienThu.Value = tongTienPhat;
 
@@ -271,20 +250,11 @@ namespace QuanLyThuVien.Forms
                     else
                         txtLyDo.Text = "Thành viên này không nợ tiền phạt trễ hạn.";
                 }
-
-                // -------------------------------------------------------------
-                // TRƯỜNG HỢP 1: LỆ PHÍ GIA HẠN THẺ
-                // -------------------------------------------------------------
                 else if (loaiDuocChon == 1)
                 {
-                    // Tìm thành viên đang chọn và kéo luôn thông tin Gói của họ ra
-                    var thanhVien = db.ThanhVien
-                                      .Include(tv => tv.GoiThanhVien)
-                                      .FirstOrDefault(tv => tv.ID == maTV);
-
+                    var thanhVien = db.ThanhVien.Include(tv => tv.GoiThanhVien).FirstOrDefault(tv => tv.ID == maTV);
                     if (thanhVien != null && thanhVien.GoiThanhVien != null)
                     {
-                        // Hút giá tiền của gói lên ô số tiền
                         numSoTienThu.Value = thanhVien.GoiThanhVien.GiaTien;
                         txtLyDo.Text = $"Thu phí gia hạn: {thanhVien.GoiThanhVien.TenGoi}";
                     }
@@ -296,14 +266,9 @@ namespace QuanLyThuVien.Forms
 
                 else if (loaiDuocChon == 2 || loaiDuocChon == 3)
                 {
-                    // Mapping: Nếu chọn Hỏng (2) -> Lấy sách Hư hỏng (Trạng thái 3)
-                    //          Nếu chọn Mất (3) -> Lấy sách Mất (Trạng thái 2)
                     int status = (loaiDuocChon == 2) ? 3 : 2;
 
-                    var dsSachViPham = db.ChiTietPhieuMuon
-                        .Include(ct => ct.Sach)
-                        .Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == status && ct.TienPhat > 0)
-                        .ToList();
+                    var dsSachViPham = db.ChiTietPhieuMuon.Include(ct => ct.Sach).Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == status && ct.TienPhat > 0).ToList();
 
                     if (dsSachViPham.Count > 0)
                     {
@@ -334,14 +299,14 @@ namespace QuanLyThuVien.Forms
 
             DataGridView dgv = sender as DataGridView;
 
-  
+
             string tenCotLoaiThu = "colLoaiThu";
 
             if (dgv.Columns[e.ColumnIndex].Name == tenCotLoaiThu && e.Value != null)
             {
                 string strValue = e.Value.ToString();
 
-                // Dịch số thành chữ y như cái ComboBox
+                // Doi so thanh chu
                 switch (strValue)
                 {
                     case "0": e.Value = "Thu tiền phạt"; break;
@@ -349,10 +314,13 @@ namespace QuanLyThuVien.Forms
                     case "2": e.Value = "Bồi thường hỏng sách"; break;
                     case "3": e.Value = "Bồi thường mất sách"; break;
                 }
-
-                // Báo cho lưới biết là "Tôi đã format xong rồi, hiển thị chữ lên đi"
                 e.FormattingApplied = true;
             }
+        }
+
+        private void txtNhanVien_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
