@@ -88,11 +88,11 @@ namespace QuanLyThuVien.Forms
         private void LayLoaiThuVaoComboBox()
         {
             var loaiThu = new[] {
-            new { ID = 0, Ten = "Thu tiền phạt" },        // Index 0
-            new { ID = 1, Ten = "Lệ phí gia hạn thẻ" },  // Index 1
-            new { ID = 2, Ten = "Bồi thường hỏng sách" }, // Index 2
-            new { ID = 3, Ten = "Bồi thường mất sách" },  // Index 3 (Sửa lại ID 3 ở đây)
-            }.ToList();
+                new { ID = 0, Ten = "Thu tiền phạt" },
+                new { ID = 1, Ten = "Lệ phí gia hạn thẻ" },
+                new { ID = 2, Ten = "Bồi thường hỏng sách" },
+                new { ID = 3, Ten = "Bồi thường mất sách" }
+        }.ToList();
 
             cboLoaiThu.DataSource = loaiThu;
             cboLoaiThu.DisplayMember = "Ten";
@@ -201,15 +201,16 @@ namespace QuanLyThuVien.Forms
                             context.ThanhVien.Update(tv);
                         }
                     }
-                    else if (loaiDuocChon == 2 || loaiDuocChon == 3) // Đóng bồi thường -> Xóa nợ sách hỏng/mất
+                    else if (loaiDuocChon == 2 || loaiDuocChon == 3)
                     {
                         int status = (loaiDuocChon == 2) ? 3 : 2;
-                        var dsViPham = context.ChiTietPhieuMuon.Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == status && ct.TienPhat > 0).ToList();
+                        var dsViPham = context.ChiTietPhieuMuon
+                            .Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == status && ct.TienPhat > 0)
+                            .ToList();
+
                         foreach (var ct in dsViPham) ct.TienPhat = 0;
                     }
-                    // =======================================================
-
-                    // 3. LƯU XUỐNG SQL
+     
                     context.SaveChanges();
                     MessageBox.Show("Đã lưu phiếu thu và tự động cập nhật hệ thống thành công!", "Thông báo");
                 }
@@ -293,15 +294,12 @@ namespace QuanLyThuVien.Forms
                     }
                 }
 
-                // -------------------------------------------------------------
-                // TRƯỜNG HỢP 2 & 3: BỒI THƯỜNG HỎNG SÁCH & MẤT SÁCH
-                // -------------------------------------------------------------
                 else if (loaiDuocChon == 2 || loaiDuocChon == 3)
                 {
-                    // Mapping ID ComboBox của Luke: Index 2 (Hỏng) -> Status 3. Index 3 (Mất) -> Status 2.
+                    // Mapping: Nếu chọn Hỏng (2) -> Lấy sách Hư hỏng (Trạng thái 3)
+                    //          Nếu chọn Mất (3) -> Lấy sách Mất (Trạng thái 2)
                     int status = (loaiDuocChon == 2) ? 3 : 2;
 
-                    // Dùng .Include(ct => ct.Sach) để không bị lỗi Null khi lấy Tên sách
                     var dsSachViPham = db.ChiTietPhieuMuon
                         .Include(ct => ct.Sach)
                         .Where(ct => ct.PhieuMuon.ThanhVienID == maTV && ct.TrangThaiTra == status && ct.TienPhat > 0)
@@ -309,16 +307,14 @@ namespace QuanLyThuVien.Forms
 
                     if (dsSachViPham.Count > 0)
                     {
-                        // Cộng tổng tiền bồi thường
                         numSoTienThu.Value = dsSachViPham.Sum(ct => ct.TienPhat);
 
-                        // Lấy danh sách tên sách nối lại với nhau bằng dấu phẩy
                         string tenSach = string.Join(", ", dsSachViPham.Select(s => s.Sach.TenSach));
-                        txtLyDo.Text = (loaiDuocChon == 3 ? "Bồi thường mất sách: " : "Bồi thường hư hỏng sách: ") + tenSach;
+                        txtLyDo.Text = (loaiDuocChon == 3 ? "Bồi thường mất sách: " : "Bồi thường hỏng sách: ") + tenSach;
                     }
                     else
                     {
-                        txtLyDo.Text = (loaiDuocChon == 3 ? "Thành viên không nợ tiền mất sách." : "Thành viên không nợ tiền hư hỏng sách.");
+                        txtLyDo.Text = (loaiDuocChon == 3 ? "Thành viên không nợ tiền mất sách." : "Thành viên không nợ tiền hỏng sách.");
                     }
                 }
             }
@@ -338,7 +334,7 @@ namespace QuanLyThuVien.Forms
 
             DataGridView dgv = sender as DataGridView;
 
-            // LƯU Ý: Luke thay chữ "colLoaiThu" bằng đúng cái Tên (Name) của cột Loại thu trên lưới của bạn nhé!
+  
             string tenCotLoaiThu = "colLoaiThu";
 
             if (dgv.Columns[e.ColumnIndex].Name == tenCotLoaiThu && e.Value != null)
@@ -349,7 +345,7 @@ namespace QuanLyThuVien.Forms
                 switch (strValue)
                 {
                     case "0": e.Value = "Thu tiền phạt"; break;
-                    case "1": e.Value = "Lệ phí thẻ"; break; // Dùng chung cho Đăng ký/Gia hạn/Nâng cấp
+                    case "1": e.Value = "Lệ phí thẻ"; break;
                     case "2": e.Value = "Bồi thường hỏng sách"; break;
                     case "3": e.Value = "Bồi thường mất sách"; break;
                 }

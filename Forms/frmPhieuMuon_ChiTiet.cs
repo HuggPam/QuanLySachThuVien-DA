@@ -207,7 +207,7 @@ namespace QuanLyThuVien.Forms
             }
             else
             {
-                if (id != 0)
+                if (id != 0) // TRƯỜNG HỢP SỬA PHIẾU CŨ
                 {
                     PhieuMuon pm = context.PhieuMuon.Find(id);
                     if (pm != null)
@@ -216,9 +216,18 @@ namespace QuanLyThuVien.Forms
                         pm.ThanhVienID = Convert.ToInt32(cboThanhVien.SelectedValue);
 
                         var old = context.ChiTietPhieuMuon.Where(r => r.PhieuMuonID == id).ToList();
+
+                        // 🌟 MỚI: HOÀN TRẢ SÁCH CŨ VÀO KHO TRƯỚC KHI XÓA
+                        foreach (var oldItem in old)
+                        {
+                            if (oldItem.TrangThaiTra == 0) // Nếu sách cũ đang mượn thì trả lại kho (+1)
+                            {
+                                var sachCu = context.Sach.Find(oldItem.SachID);
+                                if (sachCu != null) sachCu.SoLuong += 1;
+                            }
+                        }
                         context.ChiTietPhieuMuon.RemoveRange(old);
 
-                        // --- [THÊM LOGIC KIỂM TRA TRẠNG THÁI CHA] ---
                         bool conSachChuaTra = false;
 
                         foreach (var item in phieuMuonChiTiet.ToList())
@@ -238,35 +247,36 @@ namespace QuanLyThuVien.Forms
                             if (item.TrangThaiTra == 0)
                             {
                                 conSachChuaTra = true;
+
+                                // 🌟 MỚI: TRỪ SÁCH MỚI TRONG KHO (-1)
+                                var sachMoi = context.Sach.Find(item.SachID);
+                                if (sachMoi != null) sachMoi.SoLuong -= 1;
                             }
                         }
 
-                        // Cập nhật trạng thái bảng Cha
                         if (!conSachChuaTra && phieuMuonChiTiet.Count > 0)
                         {
-                            pm.TrangThai = 1; // 1: Đã hoàn thành
+                            pm.TrangThai = 1;
                         }
                         else
                         {
-                            pm.TrangThai = 0; // 0: Đang mượn
+                            pm.TrangThai = 0;
                         }
 
                         context.PhieuMuon.Update(pm);
-                        // --------------------------------------------
-
                         context.SaveChanges();
                     }
                 }
-                else
+                else // TRƯỜNG HỢP TẠO PHIẾU MỚI TINH
                 {
                     PhieuMuon pm = new PhieuMuon();
                     pm.NhanVienID = Convert.ToInt32(cboNhanVien.SelectedValue);
                     pm.ThanhVienID = Convert.ToInt32(cboThanhVien.SelectedValue);
                     pm.NgayMuon = DateTime.Now;
-                    pm.TrangThai = 0; // Thêm mới thì mặc định bảng cha là 0 (Đang mượn)
+                    pm.TrangThai = 0; // Thêm mới thì mặc định là 0 (Đang mượn)
 
                     context.PhieuMuon.Add(pm);
-                    context.SaveChanges();
+                    context.SaveChanges(); // Lấy ID Phiếu cha
 
                     foreach (var item in phieuMuonChiTiet.ToList())
                     {
@@ -277,10 +287,17 @@ namespace QuanLyThuVien.Forms
                         ct.NgayTra = item.NgayTra;
                         ct.SoLanGiaHan = item.SoLanGiaHan;
                         ct.GhiChu = item.GhiChu;
-                        ct.TrangThaiTra = item.TrangThaiTra; // Sẽ mặc định là 0
+                        ct.TrangThaiTra = item.TrangThaiTra;
                         ct.TienPhat = item.TienPhat;
 
                         context.ChiTietPhieuMuon.Add(ct);
+
+                        // 🌟 MỚI: TRỪ SÁCH TRONG KHO KHI TẠO PHIẾU MỚI (-1)
+                        var sachDb = context.Sach.Find(item.SachID);
+                        if (sachDb != null && sachDb.SoLuong > 0)
+                        {
+                            sachDb.SoLuong -= 1;
+                        }
                     }
                     context.SaveChanges();
                 }
@@ -382,102 +399,91 @@ namespace QuanLyThuVien.Forms
                     decimal phiPhatSinh = 0;
                     decimal giaGoc = chiTiet.DonGia;
 
-                    if (tinhTrang == 2)
-                    {
-                        phiPhatSinh = giaGoc; // 2: Phạt mất sách
-                    }
-                    else if (tinhTrang == 3)
-                    {
-                        phiPhatSinh = giaGoc * 0.5m;  // 3: Phạt hư hỏng
-                    }
+                    if (tinhTrang == 2) phiPhatSinh = giaGoc; // 2: Mất sách
+                    else if (tinhTrang == 3) phiPhatSinh = giaGoc * 0.5m; // 3: Hư hỏng
+
                     if (chiTiet.NgayTra.Value.Date > chiTiet.HanTra.Date)
                     {
                         int soNgayTre = (chiTiet.NgayTra.Value.Date - chiTiet.HanTra.Date).Days;
-                        phiPhatSinh += (soNgayTre * 5000); // 5k 1 ngày trễ
+                        phiPhatSinh += (soNgayTre * 5000);
                     }
 
                     chiTiet.TienPhat = phiPhatSinh;
 
-                    // 3. Refresh lại Grid để cập nhật số liệu
                     try
                     {
-                        using (var db = new QLTVContext()) // Đổi tên Context này cho đúng với đồ án của bạn
+                        // 🛑 SỬA TẠI ĐÂY: Dùng "context" toàn cục, KHÔNG dùng "using (var db...)" nữa
+                        var chiTietDb = context.ChiTietPhieuMuon.FirstOrDefault(x => x.ID == chiTiet.ID);
+
+                        if (chiTietDb != null)
                         {
-                            // 1. Tìm lại đúng cái dòng chi tiết phiếu mượn đó dưới Database
-                            var chiTietDb = db.ChiTietPhieuMuon
-                                              .FirstOrDefault(x => x.ID == chiTiet.ID);
+                            // Gán dữ liệu mới
+                            chiTietDb.NgayTra = chiTiet.NgayTra;
+                            chiTietDb.TrangThaiTra = chiTiet.TrangThaiTra;
+                            chiTietDb.TienPhat = chiTiet.TienPhat;
 
-                            if (chiTietDb != null)
+                            // ======================================================
+                            // 🌟 TỰ ĐỘNG CỘNG SỐ LƯỢNG SÁCH VÀO KHO 🌟
+                            // ======================================================
+                            var sachDb = context.Sach.FirstOrDefault(s => s.ID == chiTiet.SachID);
+                            if (sachDb != null)
                             {
-                                // 2. Gán dữ liệu mới vào
-                                chiTietDb.NgayTra = chiTiet.NgayTra;
-                                chiTietDb.TrangThaiTra = chiTiet.TrangThaiTra;
-                                chiTietDb.TienPhat = chiTiet.TienPhat;
-
-                                // 3. LƯU XUỐNG SQL
-                                db.SaveChanges();
-                                if (chiTietDb != null)
+                                // 1 (Bình thường) hoặc 3 (Hư hỏng) thì sách quay về kho -> Cộng 1
+                                // Mất sách (2) thì bỏ qua
+                                if (tinhTrang == 1 || tinhTrang == 3)
                                 {
-                                    chiTietDb.NgayTra = chiTiet.NgayTra;
-                                    chiTietDb.TrangThaiTra = chiTiet.TrangThaiTra;
-                                    chiTietDb.TienPhat = chiTiet.TienPhat;
-
-                                    // 1. TÌM PHIẾU MƯỢN CHA TRƯỚC (Để dùng cho cả 2 mục đích bên dưới)
-                                    var phieuMuonCha = db.PhieuMuon.FirstOrDefault(p => p.ID == chiTiet.PhieuMuonID);
-
-                                    // 2. LOGIC CỘNG LỖI VI PHẠM
-                                    int soLoiCongThem = 0;
-                                    if (chiTiet.TrangThaiTra == 2 || chiTiet.TrangThaiTra == 3) soLoiCongThem += 1;
-
-                                    if (chiTiet.NgayTra.Value.Date > chiTiet.HanTra.Date)
-                                    {
-                                        bool daTungPhatTre = db.ChiTietPhieuMuon.Any(ct =>
-                                            ct.PhieuMuonID == chiTiet.PhieuMuonID &&
-                                            ct.ID != chiTiet.ID &&
-                                            ct.NgayTra.HasValue &&
-                                            ct.NgayTra.Value.Date > ct.HanTra.Date);
-
-                                        if (!daTungPhatTre) soLoiCongThem += 1;
-                                    }
-
-                                    if (soLoiCongThem > 0 && phieuMuonCha != null)
-                                    {
-                                        var thanhVien = db.ThanhVien.FirstOrDefault(tv => tv.ID == phieuMuonCha.ThanhVienID);
-                                        if (thanhVien != null)
-                                        {
-                                            thanhVien.SoLanViPham += soLoiCongThem;
-                                            thanhVien.NgayViPham = DateTime.Now;
-                                            if (thanhVien.SoLanViPham >= 4) thanhVien.TrangThai = 1; // Khóa thẻ
-                                            db.ThanhVien.Update(thanhVien);
-                                        }
-                                    }
-
-                                    // 3. LOGIC CẬP NHẬT TRẠNG THÁI PHIẾU (MÀU XANH)
-                                    var tatCaChiTiet = db.ChiTietPhieuMuon.Where(ct => ct.PhieuMuonID == chiTiet.PhieuMuonID).ToList();
-                                    bool conSachChuaTra = tatCaChiTiet.Any(ct => ct.TrangThaiTra == 0);
-
-                                    if (!conSachChuaTra && phieuMuonCha != null)
-                                    {
-                                        phieuMuonCha.TrangThai = 1; // Đã hoàn thành
-                                    }
-
-                                    // 4. LƯU TẤT CẢ XUỐNG SQL MỘT LẦN DUY NHẤT
-                                    db.SaveChanges();
-                                    MessageBox.Show("Trả sách thành công!");
+                                    sachDb.SoLuong += 1;
                                 }
                             }
+                            // ======================================================
+
+                            var phieuMuonCha = context.PhieuMuon.FirstOrDefault(p => p.ID == chiTiet.PhieuMuonID);
+                            int soLoiCongThem = 0;
+
+                            if (chiTiet.TrangThaiTra == 2 || chiTiet.TrangThaiTra == 3) soLoiCongThem += 1;
+
+                            if (chiTiet.NgayTra.Value.Date > chiTiet.HanTra.Date)
+                            {
+                                bool daTungPhatTre = context.ChiTietPhieuMuon.Any(ct =>
+                                    ct.PhieuMuonID == chiTiet.PhieuMuonID &&
+                                    ct.ID != chiTiet.ID &&
+                                    ct.NgayTra.HasValue &&
+                                    ct.NgayTra.Value.Date > ct.HanTra.Date);
+
+                                if (!daTungPhatTre) soLoiCongThem += 1;
+                            }
+
+                            if (soLoiCongThem > 0 && phieuMuonCha != null)
+                            {
+                                var thanhVien = context.ThanhVien.FirstOrDefault(tv => tv.ID == phieuMuonCha.ThanhVienID);
+                                if (thanhVien != null)
+                                {
+                                    thanhVien.SoLanViPham += soLoiCongThem;
+                                    thanhVien.NgayViPham = DateTime.Now;
+                                    if (thanhVien.SoLanViPham >= 4) thanhVien.TrangThai = 1;
+                                    context.ThanhVien.Update(thanhVien);
+                                }
+                            }
+
+                            var tatCaChiTiet = context.ChiTietPhieuMuon.Where(ct => ct.PhieuMuonID == chiTiet.PhieuMuonID).ToList();
+                            bool conSachChuaTra = tatCaChiTiet.Any(ct => ct.TrangThaiTra == 0);
+
+                            if (!conSachChuaTra && phieuMuonCha != null)
+                            {
+                                phieuMuonCha.TrangThai = 1;
+                            }
+
+                            // 🛑 LƯU TOÀN BỘ BẰNG CONTEXT CHÍNH
+                            context.SaveChanges();
+                            MessageBox.Show("Trả sách thành công!");
                         }
-
-
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Lỗi lưu dữ liệu: " + ex.Message);
                     }
-                    // =====================================================
-
-                    // Cuối cùng mới làm mới lại Grid
                     phieuMuonChiTiet.ResetBindings();
+                    BatTatChucNang(); // F5 lại các nút bấm
                 }
             }
         }

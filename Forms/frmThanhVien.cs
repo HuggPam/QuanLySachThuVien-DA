@@ -351,6 +351,7 @@ namespace QuanLyThuVien.Forms
 
         private void cboTrangThai_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (!cboTrangThai.Focused) return;
             if (cboTrangThai.SelectedIndex == 0)
             {
                 int soLoi = (int)numViPham.Value;
