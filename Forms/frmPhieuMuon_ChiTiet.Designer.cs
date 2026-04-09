@@ -312,6 +312,7 @@
             btnInPhieuMuon.TabIndex = 18;
             btnInPhieuMuon.Text = "In phiếu mượn";
             btnInPhieuMuon.UseVisualStyleBackColor = true;
+            btnInPhieuMuon.Click += btnInPhieuMuon_Click;
             // 
             // btnThoat
             // 

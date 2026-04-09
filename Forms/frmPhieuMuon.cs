@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuanLyThuVien.Data;
+using QuanLyThuVien.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -130,7 +131,7 @@ namespace QuanLyThuVien.Forms
                 int id = Convert.ToInt32(dgvPhieuMuon.Rows[e.RowIndex].Cells["colID"].Value);
                 using (frmPhieuMuon_ChiTiet chiTiet = new frmPhieuMuon_ChiTiet(id))
                 {
-                    chiTiet.chiXem = true;  
+                    chiTiet.chiXem = true;
                     chiTiet.ShowDialog();
                     frmPhieuMuon_Load(null, null);
                 }
@@ -144,6 +145,22 @@ namespace QuanLyThuVien.Forms
             MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (traloi == DialogResult.OK)
                 Application.Exit();
+        }
+
+        private void btnInPhieuMuon_Click(object sender, EventArgs e)
+        {
+            if (dgvPhieuMuon.CurrentRow != null)
+            {
+                int idPhieu = Convert.ToInt32(dgvPhieuMuon.CurrentRow.Cells["colID"].Value);
+                using (frmInPhieuMuon fIn = new frmInPhieuMuon(idPhieu))
+                {
+                    fIn.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một phiếu mượn trên bảng để in!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

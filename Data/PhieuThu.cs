@@ -31,9 +31,8 @@ namespace QuanLyThuVien.Data
         public DateTime NgayThu { get; set; }
         public int LoaiThu { get; set; }
         public int NhanVienID { get; set; } 
-        public string TenThanhVien { get; set; }
-
         public int ThanhVienID { get; set; }
+        public string TenThanhVien { get; set; }
         public string TenNhanVien { get; set; }
         public string LyDoThu { get; set; }
     }

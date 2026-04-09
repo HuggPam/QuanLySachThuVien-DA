@@ -30,6 +30,12 @@
         {
             groupBox1 = new GroupBox();
             dgvPhieuMuon = new DataGridView();
+            colID = new DataGridViewTextBoxColumn();
+            colNhanVien = new DataGridViewTextBoxColumn();
+            colThanhVien = new DataGridViewTextBoxColumn();
+            colNgayMuon = new DataGridViewTextBoxColumn();
+            colTrangThai = new DataGridViewTextBoxColumn();
+            colChiTiet = new DataGridViewLinkColumn();
             btnInPhieuMuon = new Button();
             btnThoat = new Button();
             btnTimKIem = new Button();
@@ -37,12 +43,6 @@
             btnSua = new Button();
             btnLapPhieuMuon = new Button();
             btnXuat = new Button();
-            colID = new DataGridViewTextBoxColumn();
-            colNhanVien = new DataGridViewTextBoxColumn();
-            colThanhVien = new DataGridViewTextBoxColumn();
-            colNgayMuon = new DataGridViewTextBoxColumn();
-            colTrangThai = new DataGridViewTextBoxColumn();
-            colChiTiet = new DataGridViewLinkColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPhieuMuon).BeginInit();
             SuspendLayout();
@@ -75,6 +75,50 @@
             dgvPhieuMuon.CellContentClick += dgvPhieuMuon_CellContentClick;
             dgvPhieuMuon.CellFormatting += dgvPhieuMuon_CellFormatting;
             // 
+            // colID
+            // 
+            colID.DataPropertyName = "ID";
+            colID.FillWeight = 50F;
+            colID.HeaderText = "ID";
+            colID.MinimumWidth = 6;
+            colID.Name = "colID";
+            // 
+            // colNhanVien
+            // 
+            colNhanVien.DataPropertyName = "TenNhanVien";
+            colNhanVien.HeaderText = "Thủ thư";
+            colNhanVien.MinimumWidth = 6;
+            colNhanVien.Name = "colNhanVien";
+            // 
+            // colThanhVien
+            // 
+            colThanhVien.DataPropertyName = "TenThanhVien";
+            colThanhVien.HeaderText = "Thành viên";
+            colThanhVien.MinimumWidth = 6;
+            colThanhVien.Name = "colThanhVien";
+            // 
+            // colNgayMuon
+            // 
+            colNgayMuon.DataPropertyName = "NgayMuon";
+            colNgayMuon.HeaderText = "Ngày mượn";
+            colNgayMuon.MinimumWidth = 6;
+            colNgayMuon.Name = "colNgayMuon";
+            // 
+            // colTrangThai
+            // 
+            colTrangThai.DataPropertyName = "TrangThai";
+            colTrangThai.HeaderText = "Trạng thái";
+            colTrangThai.MinimumWidth = 6;
+            colTrangThai.Name = "colTrangThai";
+            // 
+            // colChiTiet
+            // 
+            colChiTiet.DataPropertyName = "ChiTiet";
+            colChiTiet.HeaderText = "Chi tiết";
+            colChiTiet.LinkColor = Color.Blue;
+            colChiTiet.MinimumWidth = 6;
+            colChiTiet.Name = "colChiTiet";
+            // 
             // btnInPhieuMuon
             // 
             btnInPhieuMuon.Location = new Point(241, 383);
@@ -83,6 +127,7 @@
             btnInPhieuMuon.TabIndex = 14;
             btnInPhieuMuon.Text = "In phiéu mượn...";
             btnInPhieuMuon.UseVisualStyleBackColor = true;
+            btnInPhieuMuon.Click += btnInPhieuMuon_Click;
             // 
             // btnThoat
             // 
@@ -143,50 +188,6 @@
             btnXuat.TabIndex = 1;
             btnXuat.Text = "Xuất Excel..";
             btnXuat.UseVisualStyleBackColor = true;
-            // 
-            // colID
-            // 
-            colID.DataPropertyName = "ID";
-            colID.FillWeight = 50F;
-            colID.HeaderText = "ID";
-            colID.MinimumWidth = 6;
-            colID.Name = "colID";
-            // 
-            // colNhanVien
-            // 
-            colNhanVien.DataPropertyName = "TenNhanVien";
-            colNhanVien.HeaderText = "Thủ thư";
-            colNhanVien.MinimumWidth = 6;
-            colNhanVien.Name = "colNhanVien";
-            // 
-            // colThanhVien
-            // 
-            colThanhVien.DataPropertyName = "TenThanhVien";
-            colThanhVien.HeaderText = "Thành viên";
-            colThanhVien.MinimumWidth = 6;
-            colThanhVien.Name = "colThanhVien";
-            // 
-            // colNgayMuon
-            // 
-            colNgayMuon.DataPropertyName = "NgayMuon";
-            colNgayMuon.HeaderText = "Ngày mượn";
-            colNgayMuon.MinimumWidth = 6;
-            colNgayMuon.Name = "colNgayMuon";
-            // 
-            // colTrangThai
-            // 
-            colTrangThai.DataPropertyName = "TrangThai";
-            colTrangThai.HeaderText = "Trạng thái";
-            colTrangThai.MinimumWidth = 6;
-            colTrangThai.Name = "colTrangThai";
-            // 
-            // colChiTiet
-            // 
-            colChiTiet.DataPropertyName = "ChiTiet";
-            colChiTiet.HeaderText = "Chi tiết";
-            colChiTiet.LinkColor = Color.Blue;
-            colChiTiet.MinimumWidth = 6;
-            colChiTiet.Name = "colChiTiet";
             // 
             // frmPhieuMuon
             // 

@@ -38,6 +38,9 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>QLTVDataSet.Designer.cs</LastGenOutput>
     </None>
+    <None Update="Reports\rptInPhieuMuon.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

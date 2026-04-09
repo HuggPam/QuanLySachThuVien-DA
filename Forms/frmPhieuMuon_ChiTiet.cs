@@ -520,5 +520,10 @@ namespace QuanLyThuVien.Forms
         {
             KiemTraNutTraSach();
         }
+
+        private void btnInPhieuMuon_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
