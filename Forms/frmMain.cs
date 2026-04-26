@@ -478,38 +478,14 @@ namespace QuanLyThuVien.Forms
 
         private void mnuHuongDanSuDung_Click(object sender, EventArgs e)
         {
-            string duongDan = Path.Combine(Application.StartupPath, "Docs", "HuongDanSuDung.html");
-
-            if (File.Exists(duongDan))
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = duongDan,
-                    UseShellExecute = true
-                });
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy file hướng dẫn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            string url = "https://HuggPam.github.io/QuanLySachThuVien-DA_Buoi10/HuongDanSuDung.html";
+            Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
         }
 
         private void mnuThongTinPhanMem_Click(object sender, EventArgs e)
         {
-            string duongDan = Path.Combine(Application.StartupPath, "Docs", "ThongTinPhanMem.html");
-
-            if (File.Exists(duongDan))
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = duongDan,
-                    UseShellExecute = true
-                });
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy file thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            string url = "https://HuggPam.github.io/QuanLySachThuVien-DA_Buoi10/ThongTinPhanMem.html";
+            Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
         }
     }
 }

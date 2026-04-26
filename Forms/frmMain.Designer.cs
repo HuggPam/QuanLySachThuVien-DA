@@ -63,6 +63,7 @@
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblLienKet = new ToolStripStatusLabel();
             pnlNavbar = new Panel();
+            helpProvider1 = new HelpProvider();
             pnlSidebar.SuspendLayout();
             panel1.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -364,7 +365,7 @@
             // 
             mnuDangNhap.ForeColor = Color.Black;
             mnuDangNhap.Name = "mnuDangNhap";
-            mnuDangNhap.Size = new Size(200, 26);
+            mnuDangNhap.Size = new Size(224, 26);
             mnuDangNhap.Text = "Đăng &nhập…";
             mnuDangNhap.Click += mnuDangNhap_Click;
             // 
@@ -373,7 +374,7 @@
             mnuDangXuat.BackColor = SystemColors.Control;
             mnuDangXuat.ForeColor = Color.Black;
             mnuDangXuat.Name = "mnuDangXuat";
-            mnuDangXuat.Size = new Size(200, 26);
+            mnuDangXuat.Size = new Size(224, 26);
             mnuDangXuat.Text = "Đăng &xuất";
             mnuDangXuat.Click += mnuDangXuat_Click;
             // 
@@ -382,7 +383,7 @@
             mnuDoiMatKhau.BackColor = SystemColors.Control;
             mnuDoiMatKhau.ForeColor = Color.Black;
             mnuDoiMatKhau.Name = "mnuDoiMatKhau";
-            mnuDoiMatKhau.Size = new Size(200, 26);
+            mnuDoiMatKhau.Size = new Size(224, 26);
             mnuDoiMatKhau.Text = "Đổi &mật khẩu…";
             mnuDoiMatKhau.Click += mnuDoiMatKhau_Click;
             // 
@@ -391,14 +392,14 @@
             toolStripSeparator1.BackColor = SystemColors.Control;
             toolStripSeparator1.ForeColor = Color.Black;
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(197, 6);
+            toolStripSeparator1.Size = new Size(221, 6);
             // 
             // mnuDoiMauTheme
             // 
             mnuDoiMauTheme.BackColor = SystemColors.Control;
             mnuDoiMauTheme.ForeColor = Color.Black;
             mnuDoiMauTheme.Name = "mnuDoiMauTheme";
-            mnuDoiMauTheme.Size = new Size(200, 26);
+            mnuDoiMauTheme.Size = new Size(224, 26);
             mnuDoiMauTheme.Text = "Đổi màu Theme";
             mnuDoiMauTheme.Click += càiĐặtToolStripMenuItem_Click;
             // 
@@ -408,7 +409,7 @@
             mnuThoat.ForeColor = Color.Black;
             mnuThoat.Name = "mnuThoat";
             mnuThoat.ShortcutKeys = Keys.Alt | Keys.F4;
-            mnuThoat.Size = new Size(200, 26);
+            mnuThoat.Size = new Size(224, 26);
             mnuThoat.Text = "&Thoát";
             mnuThoat.Click += mnuThoat_Click;
             // 
@@ -529,6 +530,10 @@
             pnlNavbar.Size = new Size(1160, 54);
             pnlNavbar.TabIndex = 1;
             // 
+            // helpProvider1
+            // 
+            helpProvider1.HelpNamespace = "https://huggpam.github.io/QuanLySachThuVien-DA_Buoi10/";
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -596,5 +601,6 @@
         private FontAwesome.Sharp.IconButton btnMuonTra;
         private FontAwesome.Sharp.IconButton btnGiaoDich;
         private ToolStripMenuItem mnuNhatKyHoatDong;
+        private HelpProvider helpProvider1;
     }
 }
