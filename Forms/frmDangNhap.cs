@@ -14,7 +14,6 @@ namespace QuanLyThuVien.Forms
 {
     public partial class frmDangNhap : Form
     {
-        QLTVContext context = new QLTVContext();
         public frmDangNhap()
         {
             InitializeComponent();
@@ -22,20 +21,12 @@ namespace QuanLyThuVien.Forms
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            string taiKhoan = txtTenDangNhap.Text;
-            string matKhau = txtMatKhau.Text;
-
-            var nv = context.NhanVien.FirstOrDefault(x => x.TenDangNhap == taiKhoan && x.MatKhau == matKhau);
-
-            if (nv != null)
+            if (string.IsNullOrWhiteSpace(txtTenDangNhap.Text) || string.IsNullOrWhiteSpace(txtMatKhau.Text))
             {
-                Program.MaNhanVienDangNhap = nv.ID;
-                Program.TenNhanVienDangNhap = nv.TenNhanVien;
-
-                MessageBox.Show("Đăng nhập thành công! Chào " + nv.TenNhanVien);
-
-                this.DialogResult = DialogResult.OK;
+                MessageBox.Show("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+            this.DialogResult = DialogResult.OK;
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -56,5 +47,9 @@ namespace QuanLyThuVien.Forms
 
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

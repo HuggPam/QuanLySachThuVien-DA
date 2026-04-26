@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDangNhap));
             txtTenDangNhap = new TextBox();
             txtMatKhau = new TextBox();
             btnDangNhap = new Button();
@@ -35,49 +36,62 @@
             label2 = new Label();
             label3 = new Label();
             btnThoat = new Button();
+            pictureBox1 = new PictureBox();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // txtTenDangNhap
             // 
-            txtTenDangNhap.Location = new Point(267, 137);
+            txtTenDangNhap.Location = new Point(50, 103);
             txtTenDangNhap.Name = "txtTenDangNhap";
-            txtTenDangNhap.Size = new Size(200, 27);
+            txtTenDangNhap.Size = new Size(259, 27);
             txtTenDangNhap.TabIndex = 0;
             // 
             // txtMatKhau
             // 
-            txtMatKhau.Location = new Point(267, 216);
+            txtMatKhau.Location = new Point(50, 182);
             txtMatKhau.Name = "txtMatKhau";
             txtMatKhau.PasswordChar = '.';
-            txtMatKhau.Size = new Size(200, 27);
+            txtMatKhau.Size = new Size(259, 27);
             txtMatKhau.TabIndex = 1;
             txtMatKhau.KeyDown += txtMatKhau_KeyDown;
             // 
             // btnDangNhap
             // 
-            btnDangNhap.Location = new Point(267, 258);
+            btnDangNhap.BackColor = Color.FromArgb(192, 192, 255);
+            btnDangNhap.FlatStyle = FlatStyle.Flat;
+            btnDangNhap.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDangNhap.Location = new Point(50, 250);
             btnDangNhap.Name = "btnDangNhap";
-            btnDangNhap.Size = new Size(94, 29);
+            btnDangNhap.Size = new Size(128, 31);
             btnDangNhap.TabIndex = 2;
             btnDangNhap.Text = "Đăng nhập";
-            btnDangNhap.UseVisualStyleBackColor = true;
+            btnDangNhap.UseVisualStyleBackColor = false;
             btnDangNhap.Click += btnDangNhap_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(267, 104);
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(128, 128, 255);
+            label1.Location = new Point(50, 80);
             label1.Name = "label1";
-            label1.Size = new Size(110, 20);
+            label1.Size = new Size(116, 20);
             label1.TabIndex = 4;
             label1.Text = "Tên đăng nhập:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(267, 184);
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.FromArgb(128, 128, 255);
+            label2.Location = new Point(50, 159);
             label2.Name = "label2";
-            label2.Size = new Size(73, 20);
+            label2.Size = new Size(79, 20);
             label2.TabIndex = 5;
             label2.Text = "Mật khẩu:";
             // 
@@ -85,7 +99,8 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(267, 43);
+            label3.ForeColor = Color.FromArgb(128, 128, 255);
+            label3.Location = new Point(87, 18);
             label3.Name = "label3";
             label3.Size = new Size(200, 41);
             label3.TabIndex = 6;
@@ -94,26 +109,61 @@
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(373, 258);
+            btnThoat.BackColor = Color.White;
+            btnThoat.FlatStyle = FlatStyle.Flat;
+            btnThoat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnThoat.Location = new Point(215, 251);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(94, 29);
             btnThoat.TabIndex = 7;
             btnThoat.Text = "Hủy bỏ";
-            btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.UseVisualStyleBackColor = false;
             btnThoat.Click += btnThoat_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(367, 153);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 8;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(pictureBox1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(367, 153);
+            panel1.TabIndex = 9;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(btnDangNhap);
+            panel2.Controls.Add(txtTenDangNhap);
+            panel2.Controls.Add(txtMatKhau);
+            panel2.Controls.Add(btnThoat);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 153);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(367, 310);
+            panel2.TabIndex = 10;
             // 
             // frmDangNhap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(505, 328);
-            Controls.Add(btnThoat);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(btnDangNhap);
-            Controls.Add(txtMatKhau);
-            Controls.Add(txtTenDangNhap);
+            BackColor = Color.White;
+            ClientSize = new Size(367, 463);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -121,8 +171,11 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập";
             Load += frmDangNhap_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -133,5 +186,8 @@
         public TextBox txtTenDangNhap;
         public TextBox txtMatKhau;
         private Button btnThoat;
+        private PictureBox pictureBox1;
+        private Panel panel1;
+        private Panel panel2;
     }
 }

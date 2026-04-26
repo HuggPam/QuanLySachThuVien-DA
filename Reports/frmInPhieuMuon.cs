@@ -19,7 +19,7 @@ namespace QuanLyThuVien.Reports
         QLTVDataSet.InPhieuMuonDataTable dataTable = new QLTVDataSet.InPhieuMuonDataTable();
         string reportsFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows", "Reports");
         int _maPhieu;
-        public frmInPhieuMuon(int maPhieu = 32)
+        public frmInPhieuMuon(int maPhieu)
         {
             InitializeComponent();
             _maPhieu = maPhieu;
@@ -40,19 +40,33 @@ namespace QuanLyThuVien.Reports
             {
                 var chiTiet = context.ChiTietPhieuMuon
                     .Where(ct => ct.PhieuMuonID == _maPhieu)
-                    .Select(ct => new DanhSachChiTietPhieuMuon
+                    .Select(ct => new
                     {
                         ID = ct.ID,
                         TenSach = ct.Sach.TenSach,
                         HanTra = ct.HanTra,
                         NgayTra = ct.NgayTra,
-                        DonGia = ct.Sach.DonGia
+                        DonGia = ct.Sach.DonGia,
+                        GhiChu = ct.GhiChu,
+                        TrangThaiTra = ct.TrangThaiTra 
                     }).ToList();
 
                 dataTable.Clear();
 
                 foreach (var item in chiTiet)
-                {    
+                {
+                    string chuoiTrangThai = "";
+                    if (item.TrangThaiTra == 1) chuoiTrangThai = "Đã trả";
+                    else if (item.TrangThaiTra == 2) chuoiTrangThai = "Mất sách";
+                    else if (item.TrangThaiTra == 3) chuoiTrangThai = "Hỏng sách";
+                    else 
+                    {
+                        if (item.NgayTra == null && item.HanTra < DateTime.Now)
+                            chuoiTrangThai = "Trễ hạn";
+                        else
+                            chuoiTrangThai = "Đang mượn";
+                    }
+
                     dataTable.AddInPhieuMuonRow(
                         item.ID,
                         _maPhieu,
@@ -60,10 +74,13 @@ namespace QuanLyThuVien.Reports
                         item.HanTra,
                         item.DonGia,
                         item.GhiChu ?? "",
-                        item.NgayTra ?? DateTime.MinValue, 0, 0 , 0
+                        item.NgayTra ?? DateTime.MinValue,
+                        0, 
+                        chuoiTrangThai,
+                        0 
                     );
                 }
-                   
+
                 ReportDataSource rds = new ReportDataSource("InPhieuMuon", (DataTable)dataTable);
                 reportViewer1.LocalReport.DataSources.Clear();
                 reportViewer1.LocalReport.DataSources.Add(rds);

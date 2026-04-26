@@ -23,7 +23,7 @@ namespace QuanLyThuVien.Forms
         private void TinhTrangTraSach_Load(object sender, EventArgs e)
         {
             lblTenSach.Text = " " + TenSachHienTai;
-            lblTenSach.ForeColor = Color.Blue;
+            lblTenSach.ForeColor = Color.Black;
         }
 
         private void btnXacNhan_Click(object sender, EventArgs e)

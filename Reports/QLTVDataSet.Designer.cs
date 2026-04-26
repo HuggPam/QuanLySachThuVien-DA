@@ -1225,7 +1225,7 @@ namespace QuanLyThuVien.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "18.0.0.0")]
-            public InPhieuMuonRow AddInPhieuMuonRow(int ID, int PhieuMuonID, string TenSach, System.DateTime HanTra, decimal DonGia, string GhiChu, System.DateTime NgayTra, decimal TienPhat, int TrangThaiTra, int SoLanGiaHan) {
+            public InPhieuMuonRow AddInPhieuMuonRow(int ID, int PhieuMuonID, string TenSach, System.DateTime HanTra, decimal DonGia, string GhiChu, System.DateTime NgayTra, decimal TienPhat, string TrangThaiTra, int SoLanGiaHan) {
                 InPhieuMuonRow rowInPhieuMuonRow = ((InPhieuMuonRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -1298,7 +1298,7 @@ namespace QuanLyThuVien.Reports {
                 base.Columns.Add(this.columnNgayTra);
                 this.columnTienPhat = new global::System.Data.DataColumn("TienPhat", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTienPhat);
-                this.columnTrangThaiTra = new global::System.Data.DataColumn("TrangThaiTra", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnTrangThaiTra = new global::System.Data.DataColumn("TrangThaiTra", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTrangThaiTra);
                 this.columnSoLanGiaHan = new global::System.Data.DataColumn("SoLanGiaHan", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoLanGiaHan);
@@ -1987,10 +1987,10 @@ namespace QuanLyThuVien.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "18.0.0.0")]
-            public int TrangThaiTra {
+            public string TrangThaiTra {
                 get {
                     try {
-                        return ((int)(this[this.tableInPhieuMuon.TrangThaiTraColumn]));
+                        return ((string)(this[this.tableInPhieuMuon.TrangThaiTraColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TrangThaiTra\' in table \'InPhieuMuon\' is DBNull.", e);

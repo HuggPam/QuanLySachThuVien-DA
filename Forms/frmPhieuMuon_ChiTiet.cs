@@ -40,7 +40,8 @@ namespace QuanLyThuVien.Forms
         }
         public void LayThanhVienVaoComboBox()
         {
-            cboThanhVien.DataSource = context.ThanhVien.ToList();
+            var tkHoatDong = context.ThanhVien.Where(tv => tv.TrangThai == 0).ToList();
+            cboThanhVien.DataSource = tkHoatDong;
             cboThanhVien.DisplayMember = "TenThanhVien";
             cboThanhVien.ValueMember = "ID";
         }
@@ -58,6 +59,7 @@ namespace QuanLyThuVien.Forms
             if (!chiXem && id != 0)
             {
                 btnTraSach.Visible = true;
+                btnGiaHan.Visible = true;
                 var chiTiet = dgvPhieuMuonChiTiet.CurrentRow?.DataBoundItem as DanhSachChiTietPhieuMuon;
                 btnTraSach.Enabled = (chiTiet != null && chiTiet.TrangThaiTra == 0);
             }
@@ -364,11 +366,6 @@ namespace QuanLyThuVien.Forms
 
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void dgvPhieuMuonChiTiet_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -486,10 +483,22 @@ namespace QuanLyThuVien.Forms
             if (chiTiet != null && !chiXem)
             {
                 btnTraSach.Enabled = (chiTiet.TrangThaiTra == 0);
+                int maxGiaHan = 0;
+                if (cboThanhVien.SelectedValue != null && cboThanhVien.SelectedValue is int)
+                {
+                    int maThanhVien = (int)cboThanhVien.SelectedValue;
+                    var tv = context.ThanhVien.Include(t => t.GoiThanhVien).FirstOrDefault(t => t.ID == maThanhVien);
+                    if (tv != null && tv.GoiThanhVien != null)
+                    {
+                        maxGiaHan = tv.GoiThanhVien.SoLanGiaHanToiDa;
+                    }
+                }
+                btnGiaHan.Enabled = (chiTiet.TrangThaiTra == 0 && chiTiet.SoLanGiaHan < maxGiaHan);
             }
             else
             {
                 btnTraSach.Enabled = false;
+                btnGiaHan.Enabled = false;
             }
         }
 
@@ -514,6 +523,25 @@ namespace QuanLyThuVien.Forms
                 }
                 e.FormattingApplied = true;
             }
+
+            if (dgv.Rows[e.RowIndex].Cells["colTrangThaiTra"].Value != null && dgv.Rows[e.RowIndex].Cells["colHanTra"].Value != null)
+            {
+                int trangThaiTra = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["colTrangThaiTra"].Value);
+                DateTime hanTra = Convert.ToDateTime(dgv.Rows[e.RowIndex].Cells["colHanTra"].Value);
+                if (trangThaiTra == 0 && DateTime.Now.Date > hanTra.Date)
+                {
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral; 
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;   
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = Color.IndianRed;
+                }
+                else
+                {
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    dgv.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                }
+            }
+
         }
 
         private void dgvPhieuMuonChiTiet_SelectionChanged(object sender, EventArgs e)
@@ -524,6 +552,82 @@ namespace QuanLyThuVien.Forms
         private void btnInPhieuMuon_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnHuyBo_Click(object sender, EventArgs e)
+        {
+            frmPhieuMuon_ChiTiet_Load(sender, e);
+        }
+
+        private void btnGiaHan_Click(object sender, EventArgs e)
+        {
+            var chiTiet = dgvPhieuMuonChiTiet.CurrentRow?.DataBoundItem as DanhSachChiTietPhieuMuon;
+
+            if (chiTiet == null)
+            {
+                MessageBox.Show("Vui lòng chọn một cuốn sách để gia hạn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (chiTiet.TrangThaiTra != 0)
+            {
+                MessageBox.Show("Sách này không còn trong trạng thái 'Đang mượn', không thể gia hạn!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int maThanhVien = Convert.ToInt32(cboThanhVien.SelectedValue);
+            var tv = context.ThanhVien
+                            .Include(t => t.GoiThanhVien)
+                            .FirstOrDefault(t => t.ID == maThanhVien);
+
+            if (tv == null || tv.GoiThanhVien == null)
+            {
+                MessageBox.Show("Không thể lấy thông tin gói thành viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int maxGiaHan = tv.GoiThanhVien.SoLanGiaHanToiDa;
+            string tenGoi = tv.GoiThanhVien.TenGoi;
+
+            if (chiTiet.SoLanGiaHan >= maxGiaHan)
+            {
+                MessageBox.Show($"Cuốn sách này đã hết số lần gia hạn cho phép đối với {tenGoi} (Tối đa {maxGiaHan} lần)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show($"Bạn có chắc muốn gia hạn cuốn sách '{chiTiet.TenSach}' thêm 7 ngày không?\n\n- Số lần đã gia hạn: {chiTiet.SoLanGiaHan}/{maxGiaHan} ({tenGoi})", "Xác nhận gia hạn", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.Yes)
+            {
+                try
+                {
+                    var chiTietDb = context.ChiTietPhieuMuon.FirstOrDefault(x => x.ID == chiTiet.ID);
+                    if (chiTietDb != null)
+                    {
+                        chiTietDb.HanTra = chiTietDb.HanTra.AddDays(7);
+                        chiTietDb.SoLanGiaHan += 1;
+
+                        context.SaveChanges();
+
+                        chiTiet.HanTra = chiTietDb.HanTra;
+                        chiTiet.SoLanGiaHan = chiTietDb.SoLanGiaHan;
+                        phieuMuonChiTiet.ResetBindings();
+
+                        MessageBox.Show($"Gia hạn thành công!\n\nHạn trả mới là: {chiTiet.HanTra.ToString("dd/MM/yyyy")}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        KiemTraNutTraSach();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi lưu dữ liệu gia hạn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

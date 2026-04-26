@@ -28,16 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             pnlSidebar = new Panel();
-            btnPhieuThu = new Button();
-            btnMuonTra = new Button();
-            btnNhaXuatBan = new Button();
-            btnTacGia = new Button();
-            btnTheLoai = new Button();
-            btnSach = new Button();
-            btnGoi = new Button();
-            btnThanhVien = new Button();
-            btnNhanVien = new Button();
+            btnGiaoDich = new FontAwesome.Sharp.IconButton();
+            btnMuonTra = new FontAwesome.Sharp.IconButton();
+            btnNhaXuatBan = new FontAwesome.Sharp.IconButton();
+            btnTacGia = new FontAwesome.Sharp.IconButton();
+            btnTheLoai = new FontAwesome.Sharp.IconButton();
+            btnSach = new FontAwesome.Sharp.IconButton();
+            btnGoi = new FontAwesome.Sharp.IconButton();
+            btnThanhVien = new FontAwesome.Sharp.IconButton();
+            btnNhanVien = new FontAwesome.Sharp.IconButton();
+            panel1 = new Panel();
             lblTitle = new Label();
             pnlContent = new Panel();
             menuStrip1 = new MenuStrip();
@@ -46,41 +48,33 @@
             mnuDangXuat = new ToolStripMenuItem();
             mnuDoiMatKhau = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
+            mnuDoiMauTheme = new ToolStripMenuItem();
             mnuThoat = new ToolStripMenuItem();
-            mnuQuanLy = new ToolStripMenuItem();
-            mnuTheLoai = new ToolStripMenuItem();
-            mnuTacGia = new ToolStripMenuItem();
-            mnuNhaXuatBan = new ToolStripMenuItem();
-            mnuSach = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
-            btnGoiThanhVien = new ToolStripMenuItem();
-            mnuThanhVien = new ToolStripMenuItem();
-            mnuNhanVien = new ToolStripMenuItem();
-            toolStripSeparator3 = new ToolStripSeparator();
-            mnuPhieuMuon = new ToolStripMenuItem();
-            mnuPhieuThu = new ToolStripMenuItem();
-            mnuBaoCaoThongKe = new ToolStripMenuItem();
-            mnuThongKeHoatDong = new ToolStripMenuItem();
-            mnuThongKeDoanhThu = new ToolStripMenuItem();
             mnuTroGiup = new ToolStripMenuItem();
             mnuHuongDanSuDung = new ToolStripMenuItem();
             mnuThongTinPhanMem = new ToolStripMenuItem();
+            mnuBaoCaoThongKe = new ToolStripMenuItem();
+            mnuThongKeHoatDong = new ToolStripMenuItem();
+            mnuThongKeDoanhThu = new ToolStripMenuItem();
+            mnuNhatKyHoatDong = new ToolStripMenuItem();
             pnlFooter = new Panel();
             statusStrip1 = new StatusStrip();
             lblTrangThai = new ToolStripStatusLabel();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             lblLienKet = new ToolStripStatusLabel();
+            pnlNavbar = new Panel();
             pnlSidebar.SuspendLayout();
-            pnlContent.SuspendLayout();
+            panel1.SuspendLayout();
             menuStrip1.SuspendLayout();
             pnlFooter.SuspendLayout();
             statusStrip1.SuspendLayout();
+            pnlNavbar.SuspendLayout();
             SuspendLayout();
             // 
             // pnlSidebar
             // 
-            pnlSidebar.BackColor = Color.FromArgb(30, 30, 45);
-            pnlSidebar.Controls.Add(btnPhieuThu);
+            pnlSidebar.BackColor = Color.FromArgb(128, 128, 255);
+            pnlSidebar.Controls.Add(btnGiaoDich);
             pnlSidebar.Controls.Add(btnMuonTra);
             pnlSidebar.Controls.Add(btnNhaXuatBan);
             pnlSidebar.Controls.Add(btnTacGia);
@@ -89,43 +83,57 @@
             pnlSidebar.Controls.Add(btnGoi);
             pnlSidebar.Controls.Add(btnThanhVien);
             pnlSidebar.Controls.Add(btnNhanVien);
-            pnlSidebar.Controls.Add(lblTitle);
+            pnlSidebar.Controls.Add(panel1);
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(200, 574);
+            pnlSidebar.Size = new Size(281, 762);
             pnlSidebar.TabIndex = 0;
             pnlSidebar.Paint += pnlSidebar_Paint;
             // 
-            // btnPhieuThu
+            // btnGiaoDich
             // 
-            btnPhieuThu.Dock = DockStyle.Top;
-            btnPhieuThu.FlatAppearance.BorderSize = 0;
-            btnPhieuThu.FlatStyle = FlatStyle.Flat;
-            btnPhieuThu.Font = new Font("Times New Roman", 10F);
-            btnPhieuThu.ForeColor = Color.FromArgb(73, 75, 116);
-            btnPhieuThu.Location = new Point(0, 407);
-            btnPhieuThu.Name = "btnPhieuThu";
-            btnPhieuThu.Size = new Size(200, 48);
-            btnPhieuThu.TabIndex = 8;
-            btnPhieuThu.Text = "Phiếu thu";
-            btnPhieuThu.TextAlign = ContentAlignment.MiddleLeft;
-            btnPhieuThu.UseVisualStyleBackColor = true;
-            btnPhieuThu.Click += button2_Click;
+            btnGiaoDich.Dock = DockStyle.Top;
+            btnGiaoDich.FlatAppearance.BorderSize = 0;
+            btnGiaoDich.FlatStyle = FlatStyle.Flat;
+            btnGiaoDich.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGiaoDich.ForeColor = Color.White;
+            btnGiaoDich.IconChar = FontAwesome.Sharp.IconChar.MoneyCheckDollar;
+            btnGiaoDich.IconColor = Color.White;
+            btnGiaoDich.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGiaoDich.IconSize = 26;
+            btnGiaoDich.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGiaoDich.Location = new Point(0, 606);
+            btnGiaoDich.Name = "btnGiaoDich";
+            btnGiaoDich.Padding = new Padding(30, 0, 0, 0);
+            btnGiaoDich.Size = new Size(281, 69);
+            btnGiaoDich.TabIndex = 19;
+            btnGiaoDich.Text = "GIAO DỊCH";
+            btnGiaoDich.TextAlign = ContentAlignment.MiddleLeft;
+            btnGiaoDich.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGiaoDich.UseVisualStyleBackColor = true;
+            btnGiaoDich.Click += btnGiaoDich_Click;
             // 
             // btnMuonTra
             // 
             btnMuonTra.Dock = DockStyle.Top;
             btnMuonTra.FlatAppearance.BorderSize = 0;
             btnMuonTra.FlatStyle = FlatStyle.Flat;
-            btnMuonTra.Font = new Font("Times New Roman", 10F);
-            btnMuonTra.ForeColor = Color.FromArgb(73, 75, 116);
-            btnMuonTra.Location = new Point(0, 359);
+            btnMuonTra.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnMuonTra.ForeColor = Color.White;
+            btnMuonTra.IconChar = FontAwesome.Sharp.IconChar.PuzzlePiece;
+            btnMuonTra.IconColor = Color.White;
+            btnMuonTra.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnMuonTra.IconSize = 26;
+            btnMuonTra.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMuonTra.Location = new Point(0, 537);
             btnMuonTra.Name = "btnMuonTra";
-            btnMuonTra.Size = new Size(200, 48);
-            btnMuonTra.TabIndex = 4;
-            btnMuonTra.Text = "Mượn Trả sách";
+            btnMuonTra.Padding = new Padding(30, 0, 0, 0);
+            btnMuonTra.Size = new Size(281, 69);
+            btnMuonTra.TabIndex = 18;
+            btnMuonTra.Text = "MƯỢN TRẢ SÁCH";
             btnMuonTra.TextAlign = ContentAlignment.MiddleLeft;
+            btnMuonTra.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnMuonTra.UseVisualStyleBackColor = true;
             btnMuonTra.Click += btnMuonTra_Click;
             // 
@@ -134,62 +142,90 @@
             btnNhaXuatBan.Dock = DockStyle.Top;
             btnNhaXuatBan.FlatAppearance.BorderSize = 0;
             btnNhaXuatBan.FlatStyle = FlatStyle.Flat;
-            btnNhaXuatBan.Font = new Font("Times New Roman", 10F);
-            btnNhaXuatBan.ForeColor = Color.FromArgb(73, 75, 116);
-            btnNhaXuatBan.Location = new Point(0, 311);
+            btnNhaXuatBan.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNhaXuatBan.ForeColor = Color.White;
+            btnNhaXuatBan.IconChar = FontAwesome.Sharp.IconChar.Repeat;
+            btnNhaXuatBan.IconColor = Color.White;
+            btnNhaXuatBan.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnNhaXuatBan.IconSize = 26;
+            btnNhaXuatBan.ImageAlign = ContentAlignment.MiddleLeft;
+            btnNhaXuatBan.Location = new Point(0, 468);
             btnNhaXuatBan.Name = "btnNhaXuatBan";
-            btnNhaXuatBan.Size = new Size(200, 48);
-            btnNhaXuatBan.TabIndex = 6;
-            btnNhaXuatBan.Text = "Nhà xuất bản";
+            btnNhaXuatBan.Padding = new Padding(30, 0, 0, 0);
+            btnNhaXuatBan.Size = new Size(281, 69);
+            btnNhaXuatBan.TabIndex = 17;
+            btnNhaXuatBan.Text = "NHÀ XUẤT BẢN";
             btnNhaXuatBan.TextAlign = ContentAlignment.MiddleLeft;
+            btnNhaXuatBan.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnNhaXuatBan.UseVisualStyleBackColor = true;
-            btnNhaXuatBan.Click += button1_Click;
+            btnNhaXuatBan.Click += btnNhaXuatBan_Click;
             // 
             // btnTacGia
             // 
             btnTacGia.Dock = DockStyle.Top;
             btnTacGia.FlatAppearance.BorderSize = 0;
             btnTacGia.FlatStyle = FlatStyle.Flat;
-            btnTacGia.Font = new Font("Times New Roman", 10F);
-            btnTacGia.ForeColor = Color.FromArgb(73, 75, 116);
-            btnTacGia.Location = new Point(0, 263);
+            btnTacGia.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnTacGia.ForeColor = Color.White;
+            btnTacGia.IconChar = FontAwesome.Sharp.IconChar.Pencil;
+            btnTacGia.IconColor = Color.White;
+            btnTacGia.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnTacGia.IconSize = 26;
+            btnTacGia.ImageAlign = ContentAlignment.MiddleLeft;
+            btnTacGia.Location = new Point(0, 399);
             btnTacGia.Name = "btnTacGia";
-            btnTacGia.Size = new Size(200, 48);
-            btnTacGia.TabIndex = 9;
-            btnTacGia.Text = "Tác giả";
+            btnTacGia.Padding = new Padding(30, 0, 0, 0);
+            btnTacGia.Size = new Size(281, 69);
+            btnTacGia.TabIndex = 16;
+            btnTacGia.Text = "TÁC GIẢ";
             btnTacGia.TextAlign = ContentAlignment.MiddleLeft;
+            btnTacGia.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTacGia.UseVisualStyleBackColor = true;
-            btnTacGia.Click += button3_Click;
+            btnTacGia.Click += btnTacGia_Click;
             // 
             // btnTheLoai
             // 
             btnTheLoai.Dock = DockStyle.Top;
             btnTheLoai.FlatAppearance.BorderSize = 0;
             btnTheLoai.FlatStyle = FlatStyle.Flat;
-            btnTheLoai.Font = new Font("Times New Roman", 10F);
-            btnTheLoai.ForeColor = Color.FromArgb(73, 75, 116);
-            btnTheLoai.Location = new Point(0, 215);
+            btnTheLoai.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnTheLoai.ForeColor = Color.White;
+            btnTheLoai.IconChar = FontAwesome.Sharp.IconChar.Buffer;
+            btnTheLoai.IconColor = Color.White;
+            btnTheLoai.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnTheLoai.IconSize = 26;
+            btnTheLoai.ImageAlign = ContentAlignment.MiddleLeft;
+            btnTheLoai.Location = new Point(0, 330);
             btnTheLoai.Name = "btnTheLoai";
-            btnTheLoai.Size = new Size(200, 48);
-            btnTheLoai.TabIndex = 10;
-            btnTheLoai.Text = "Thể loại";
+            btnTheLoai.Padding = new Padding(30, 0, 0, 0);
+            btnTheLoai.Size = new Size(281, 69);
+            btnTheLoai.TabIndex = 15;
+            btnTheLoai.Text = "THỂ LOẠI";
             btnTheLoai.TextAlign = ContentAlignment.MiddleLeft;
+            btnTheLoai.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTheLoai.UseVisualStyleBackColor = true;
-            btnTheLoai.Click += btnTheLoai_Click;
+            btnTheLoai.Click += btnTheLoai_Click_1;
             // 
             // btnSach
             // 
             btnSach.Dock = DockStyle.Top;
             btnSach.FlatAppearance.BorderSize = 0;
             btnSach.FlatStyle = FlatStyle.Flat;
-            btnSach.Font = new Font("Times New Roman", 10F);
-            btnSach.ForeColor = Color.FromArgb(73, 75, 116);
-            btnSach.Location = new Point(0, 167);
+            btnSach.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnSach.ForeColor = Color.White;
+            btnSach.IconChar = FontAwesome.Sharp.IconChar.Book;
+            btnSach.IconColor = Color.White;
+            btnSach.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnSach.IconSize = 26;
+            btnSach.ImageAlign = ContentAlignment.MiddleLeft;
+            btnSach.Location = new Point(0, 261);
             btnSach.Name = "btnSach";
-            btnSach.Size = new Size(200, 48);
-            btnSach.TabIndex = 1;
-            btnSach.Text = "Thư viện";
+            btnSach.Padding = new Padding(30, 0, 0, 0);
+            btnSach.Size = new Size(281, 69);
+            btnSach.TabIndex = 14;
+            btnSach.Text = "THƯ VIỆN";
             btnSach.TextAlign = ContentAlignment.MiddleLeft;
+            btnSach.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSach.UseVisualStyleBackColor = true;
             btnSach.Click += btnSach_Click;
             // 
@@ -198,14 +234,21 @@
             btnGoi.Dock = DockStyle.Top;
             btnGoi.FlatAppearance.BorderSize = 0;
             btnGoi.FlatStyle = FlatStyle.Flat;
-            btnGoi.Font = new Font("Times New Roman", 10F);
-            btnGoi.ForeColor = Color.FromArgb(73, 75, 116);
-            btnGoi.Location = new Point(0, 119);
+            btnGoi.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGoi.ForeColor = Color.White;
+            btnGoi.IconChar = FontAwesome.Sharp.IconChar.Sketch;
+            btnGoi.IconColor = Color.White;
+            btnGoi.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGoi.IconSize = 28;
+            btnGoi.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGoi.Location = new Point(0, 192);
             btnGoi.Name = "btnGoi";
-            btnGoi.Size = new Size(200, 48);
-            btnGoi.TabIndex = 3;
-            btnGoi.Text = "Gói thành viên";
+            btnGoi.Padding = new Padding(30, 0, 0, 0);
+            btnGoi.Size = new Size(281, 69);
+            btnGoi.TabIndex = 13;
+            btnGoi.Text = "GÓI THÀNH VIÊN";
             btnGoi.TextAlign = ContentAlignment.MiddleLeft;
+            btnGoi.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnGoi.UseVisualStyleBackColor = true;
             btnGoi.Click += btnGoi_Click;
             // 
@@ -214,272 +257,244 @@
             btnThanhVien.Dock = DockStyle.Top;
             btnThanhVien.FlatAppearance.BorderSize = 0;
             btnThanhVien.FlatStyle = FlatStyle.Flat;
-            btnThanhVien.Font = new Font("Times New Roman", 10F);
-            btnThanhVien.ForeColor = Color.FromArgb(73, 75, 116);
-            btnThanhVien.Location = new Point(0, 71);
+            btnThanhVien.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnThanhVien.ForeColor = Color.White;
+            btnThanhVien.IconChar = FontAwesome.Sharp.IconChar.UserLarge;
+            btnThanhVien.IconColor = Color.White;
+            btnThanhVien.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnThanhVien.IconSize = 26;
+            btnThanhVien.ImageAlign = ContentAlignment.MiddleLeft;
+            btnThanhVien.Location = new Point(0, 123);
             btnThanhVien.Name = "btnThanhVien";
-            btnThanhVien.Size = new Size(200, 48);
-            btnThanhVien.TabIndex = 0;
-            btnThanhVien.Text = "Thành viên";
+            btnThanhVien.Padding = new Padding(30, 0, 0, 0);
+            btnThanhVien.Size = new Size(281, 69);
+            btnThanhVien.TabIndex = 11;
+            btnThanhVien.Text = "THÀNH VIÊN";
             btnThanhVien.TextAlign = ContentAlignment.MiddleLeft;
+            btnThanhVien.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnThanhVien.UseVisualStyleBackColor = true;
-            btnThanhVien.Click += btnThanhVien_Click;
+            btnThanhVien.Click += btnThanhVien_Click_1;
             // 
             // btnNhanVien
             // 
             btnNhanVien.Dock = DockStyle.Top;
             btnNhanVien.FlatAppearance.BorderSize = 0;
             btnNhanVien.FlatStyle = FlatStyle.Flat;
-            btnNhanVien.Font = new Font("Times New Roman", 10F);
-            btnNhanVien.ForeColor = Color.FromArgb(73, 75, 116);
-            btnNhanVien.Location = new Point(0, 23);
+            btnNhanVien.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNhanVien.ForeColor = Color.White;
+            btnNhanVien.IconChar = FontAwesome.Sharp.IconChar.DiceD6;
+            btnNhanVien.IconColor = Color.White;
+            btnNhanVien.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnNhanVien.IconSize = 26;
+            btnNhanVien.ImageAlign = ContentAlignment.MiddleLeft;
+            btnNhanVien.Location = new Point(0, 54);
             btnNhanVien.Name = "btnNhanVien";
-            btnNhanVien.Size = new Size(200, 48);
-            btnNhanVien.TabIndex = 7;
-            btnNhanVien.Text = "Nhân viên";
+            btnNhanVien.Padding = new Padding(30, 0, 0, 0);
+            btnNhanVien.Size = new Size(281, 69);
+            btnNhanVien.TabIndex = 0;
+            btnNhanVien.Text = "NHÂN VIÊN";
             btnNhanVien.TextAlign = ContentAlignment.MiddleLeft;
+            btnNhanVien.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnNhanVien.UseVisualStyleBackColor = true;
-            btnNhanVien.Click += btnNhanVien_Click;
+            btnNhanVien.Click += btnNhanVien_Click_1;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(lblTitle);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(281, 54);
+            panel1.TabIndex = 1;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Segoe UI Black", 10F);
-            lblTitle.ForeColor = Color.FromArgb(162, 163, 183);
+            lblTitle.Dock = DockStyle.Fill;
+            lblTitle.Font = new Font("Segoe UI Black", 13F);
+            lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(0, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(178, 23);
-            lblTitle.TabIndex = 5;
+            lblTitle.Padding = new Padding(25, 10, 0, 0);
+            lblTitle.Size = new Size(253, 40);
+            lblTitle.TabIndex = 14;
             lblTitle.Text = "QUẢN LÝ THƯ VIỆN";
-            lblTitle.Click += lblTitle_Click;
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            lblTitle.Click += lblTitle_Click_1;
             // 
             // pnlContent
             // 
-            pnlContent.BackColor = SystemColors.Control;
-            pnlContent.Controls.Add(menuStrip1);
+            pnlContent.BackColor = Color.White;
             pnlContent.Dock = DockStyle.Fill;
-            pnlContent.Font = new Font("Times New Roman", 9F);
-            pnlContent.Location = new Point(200, 0);
+            pnlContent.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            pnlContent.ForeColor = Color.White;
+            pnlContent.Location = new Point(281, 54);
             pnlContent.Name = "pnlContent";
-            pnlContent.Size = new Size(1182, 574);
+            pnlContent.Size = new Size(1160, 679);
             pnlContent.TabIndex = 0;
             pnlContent.Paint += pnlContent_Paint;
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.FromArgb(30, 30, 45);
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.Dock = DockStyle.Fill;
             menuStrip1.Font = new Font("Times New Roman", 9F);
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuHeThong, mnuQuanLy, mnuBaoCaoThongKe, mnuTroGiup });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuHeThong, mnuTroGiup, mnuBaoCaoThongKe });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1182, 28);
+            menuStrip1.Size = new Size(1160, 54);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
             // mnuHeThong
             // 
-            mnuHeThong.DropDownItems.AddRange(new ToolStripItem[] { mnuDangNhap, mnuDangXuat, mnuDoiMatKhau, toolStripSeparator1, mnuThoat });
-            mnuHeThong.Font = new Font("Times New Roman", 10F);
-            mnuHeThong.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuHeThong.Alignment = ToolStripItemAlignment.Right;
+            mnuHeThong.DropDownItems.AddRange(new ToolStripItem[] { mnuDangNhap, mnuDangXuat, mnuDoiMatKhau, toolStripSeparator1, mnuDoiMauTheme, mnuThoat });
+            mnuHeThong.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            mnuHeThong.ForeColor = Color.Black;
+            mnuHeThong.Image = (Image)resources.GetObject("mnuHeThong.Image");
             mnuHeThong.Name = "mnuHeThong";
+            mnuHeThong.Padding = new Padding(20);
             mnuHeThong.ShortcutKeys = Keys.Alt | Keys.F4;
-            mnuHeThong.Size = new Size(85, 24);
-            mnuHeThong.Text = "&Hệ thống";
+            mnuHeThong.Size = new Size(64, 50);
             // 
             // mnuDangNhap
             // 
-            mnuDangNhap.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuDangNhap.ForeColor = Color.Black;
             mnuDangNhap.Name = "mnuDangNhap";
-            mnuDangNhap.Size = new Size(199, 26);
+            mnuDangNhap.Size = new Size(200, 26);
             mnuDangNhap.Text = "Đăng &nhập…";
             mnuDangNhap.Click += mnuDangNhap_Click;
             // 
             // mnuDangXuat
             // 
-            mnuDangXuat.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuDangXuat.BackColor = SystemColors.Control;
+            mnuDangXuat.ForeColor = Color.Black;
             mnuDangXuat.Name = "mnuDangXuat";
-            mnuDangXuat.Size = new Size(199, 26);
+            mnuDangXuat.Size = new Size(200, 26);
             mnuDangXuat.Text = "Đăng &xuất";
             mnuDangXuat.Click += mnuDangXuat_Click;
             // 
             // mnuDoiMatKhau
             // 
-            mnuDoiMatKhau.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuDoiMatKhau.BackColor = SystemColors.Control;
+            mnuDoiMatKhau.ForeColor = Color.Black;
             mnuDoiMatKhau.Name = "mnuDoiMatKhau";
-            mnuDoiMatKhau.Size = new Size(199, 26);
+            mnuDoiMatKhau.Size = new Size(200, 26);
             mnuDoiMatKhau.Text = "Đổi &mật khẩu…";
+            mnuDoiMatKhau.Click += mnuDoiMatKhau_Click;
             // 
             // toolStripSeparator1
             // 
+            toolStripSeparator1.BackColor = SystemColors.Control;
+            toolStripSeparator1.ForeColor = Color.Black;
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(196, 6);
+            toolStripSeparator1.Size = new Size(197, 6);
+            // 
+            // mnuDoiMauTheme
+            // 
+            mnuDoiMauTheme.BackColor = SystemColors.Control;
+            mnuDoiMauTheme.ForeColor = Color.Black;
+            mnuDoiMauTheme.Name = "mnuDoiMauTheme";
+            mnuDoiMauTheme.Size = new Size(200, 26);
+            mnuDoiMauTheme.Text = "Đổi màu Theme";
+            mnuDoiMauTheme.Click += càiĐặtToolStripMenuItem_Click;
             // 
             // mnuThoat
             // 
-            mnuThoat.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuThoat.BackColor = SystemColors.Control;
+            mnuThoat.ForeColor = Color.Black;
             mnuThoat.Name = "mnuThoat";
             mnuThoat.ShortcutKeys = Keys.Alt | Keys.F4;
-            mnuThoat.Size = new Size(199, 26);
+            mnuThoat.Size = new Size(200, 26);
             mnuThoat.Text = "&Thoát";
+            mnuThoat.Click += mnuThoat_Click;
             // 
-            // mnuQuanLy
+            // mnuTroGiup
             // 
-            mnuQuanLy.DropDownItems.AddRange(new ToolStripItem[] { mnuTheLoai, mnuTacGia, mnuNhaXuatBan, mnuSach, toolStripSeparator2, btnGoiThanhVien, mnuThanhVien, mnuNhanVien, toolStripSeparator3, mnuPhieuMuon, mnuPhieuThu });
-            mnuQuanLy.Font = new Font("Times New Roman", 10F);
-            mnuQuanLy.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuQuanLy.Name = "mnuQuanLy";
-            mnuQuanLy.Size = new Size(75, 24);
-            mnuQuanLy.Text = "&Quản lý";
+            mnuTroGiup.Alignment = ToolStripItemAlignment.Right;
+            mnuTroGiup.BackColor = Color.Transparent;
+            mnuTroGiup.DropDownItems.AddRange(new ToolStripItem[] { mnuHuongDanSuDung, mnuThongTinPhanMem });
+            mnuTroGiup.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            mnuTroGiup.ForeColor = Color.Black;
+            mnuTroGiup.Image = (Image)resources.GetObject("mnuTroGiup.Image");
+            mnuTroGiup.Name = "mnuTroGiup";
+            mnuTroGiup.Padding = new Padding(20);
+            mnuTroGiup.Size = new Size(64, 50);
             // 
-            // mnuTheLoai
+            // mnuHuongDanSuDung
             // 
-            mnuTheLoai.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuTheLoai.Name = "mnuTheLoai";
-            mnuTheLoai.Size = new Size(202, 26);
-            mnuTheLoai.Text = "Thể &loại...";
-            mnuTheLoai.Click += thểToolStripMenuItem_Click;
+            mnuHuongDanSuDung.ForeColor = Color.Black;
+            mnuHuongDanSuDung.Name = "mnuHuongDanSuDung";
+            mnuHuongDanSuDung.ShortcutKeys = Keys.Control | Keys.F1;
+            mnuHuongDanSuDung.Size = new Size(285, 26);
+            mnuHuongDanSuDung.Text = "&Hướng dẫn sử dụng";
+            mnuHuongDanSuDung.Click += mnuHuongDanSuDung_Click;
             // 
-            // mnuTacGia
+            // mnuThongTinPhanMem
             // 
-            mnuTacGia.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuTacGia.Name = "mnuTacGia";
-            mnuTacGia.Size = new Size(202, 26);
-            mnuTacGia.Text = "Tá&c giả...";
-            mnuTacGia.Click += tácGiảToolStripMenuItem_Click;
-            // 
-            // mnuNhaXuatBan
-            // 
-            mnuNhaXuatBan.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuNhaXuatBan.Name = "mnuNhaXuatBan";
-            mnuNhaXuatBan.Size = new Size(202, 26);
-            mnuNhaXuatBan.Text = "Nhà &xuất bản...";
-            mnuNhaXuatBan.Click += nhàXuấtToolStripMenuItem_Click;
-            // 
-            // mnuSach
-            // 
-            mnuSach.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuSach.Name = "mnuSach";
-            mnuSach.Size = new Size(202, 26);
-            mnuSach.Text = "&Sách...";
-            mnuSach.Click += mnuSach_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(199, 6);
-            // 
-            // btnGoiThanhVien
-            // 
-            btnGoiThanhVien.ForeColor = Color.FromArgb(162, 163, 183);
-            btnGoiThanhVien.Name = "btnGoiThanhVien";
-            btnGoiThanhVien.Size = new Size(202, 26);
-            btnGoiThanhVien.Text = "&Gói thành viên...";
-            btnGoiThanhVien.Click += btnGoiThanhVien_Click;
-            // 
-            // mnuThanhVien
-            // 
-            mnuThanhVien.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuThanhVien.Name = "mnuThanhVien";
-            mnuThanhVien.Size = new Size(202, 26);
-            mnuThanhVien.Text = "&Thành viên...";
-            mnuThanhVien.Click += mnuThanhVien_Click;
-            // 
-            // mnuNhanVien
-            // 
-            mnuNhanVien.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuNhanVien.Name = "mnuNhanVien";
-            mnuNhanVien.Size = new Size(202, 26);
-            mnuNhanVien.Text = "&Nhân viên...";
-            mnuNhanVien.Click += mnuNhanVien_Click;
-            // 
-            // toolStripSeparator3
-            // 
-            toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(199, 6);
-            // 
-            // mnuPhieuMuon
-            // 
-            mnuPhieuMuon.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuPhieuMuon.Name = "mnuPhieuMuon";
-            mnuPhieuMuon.Size = new Size(202, 26);
-            mnuPhieuMuon.Text = "Phiếu &mượn...";
-            mnuPhieuMuon.Click += mnuPhieuMuon_Click;
-            // 
-            // mnuPhieuThu
-            // 
-            mnuPhieuThu.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuPhieuThu.Name = "mnuPhieuThu";
-            mnuPhieuThu.Size = new Size(202, 26);
-            mnuPhieuThu.Text = "Phiếu &thu...";
-            mnuPhieuThu.Click += mnuPhieuThu_Click;
+            mnuThongTinPhanMem.ForeColor = Color.Black;
+            mnuThongTinPhanMem.Name = "mnuThongTinPhanMem";
+            mnuThongTinPhanMem.Size = new Size(285, 26);
+            mnuThongTinPhanMem.Text = "&Thông tin phần mềm...";
+            mnuThongTinPhanMem.Click += mnuThongTinPhanMem_Click;
             // 
             // mnuBaoCaoThongKe
             // 
-            mnuBaoCaoThongKe.DropDownItems.AddRange(new ToolStripItem[] { mnuThongKeHoatDong, mnuThongKeDoanhThu });
-            mnuBaoCaoThongKe.Font = new Font("Times New Roman", 10F);
-            mnuBaoCaoThongKe.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuBaoCaoThongKe.Alignment = ToolStripItemAlignment.Right;
+            mnuBaoCaoThongKe.DropDownItems.AddRange(new ToolStripItem[] { mnuThongKeHoatDong, mnuThongKeDoanhThu, mnuNhatKyHoatDong });
+            mnuBaoCaoThongKe.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            mnuBaoCaoThongKe.ForeColor = Color.Black;
+            mnuBaoCaoThongKe.Image = (Image)resources.GetObject("mnuBaoCaoThongKe.Image");
             mnuBaoCaoThongKe.Name = "mnuBaoCaoThongKe";
-            mnuBaoCaoThongKe.Size = new Size(157, 24);
-            mnuBaoCaoThongKe.Text = "&Báo cáo – Thống kê";
+            mnuBaoCaoThongKe.Padding = new Padding(20);
+            mnuBaoCaoThongKe.Size = new Size(64, 50);
             // 
             // mnuThongKeHoatDong
             // 
-            mnuThongKeHoatDong.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuThongKeHoatDong.ForeColor = Color.Black;
             mnuThongKeHoatDong.Name = "mnuThongKeHoatDong";
-            mnuThongKeHoatDong.Size = new Size(237, 26);
+            mnuThongKeHoatDong.Size = new Size(243, 26);
             mnuThongKeHoatDong.Text = "Thống kê &hoạt động...";
             mnuThongKeHoatDong.Click += mnuThongKeHoatDong_Click;
             // 
             // mnuThongKeDoanhThu
             // 
-            mnuThongKeDoanhThu.ForeColor = Color.FromArgb(162, 163, 183);
+            mnuThongKeDoanhThu.ForeColor = Color.Black;
             mnuThongKeDoanhThu.Name = "mnuThongKeDoanhThu";
-            mnuThongKeDoanhThu.Size = new Size(237, 26);
+            mnuThongKeDoanhThu.Size = new Size(243, 26);
             mnuThongKeDoanhThu.Text = "Thống kê &doanh thu...";
             mnuThongKeDoanhThu.Click += mnuThongKeDoanhThu_Click;
             // 
-            // mnuTroGiup
+            // mnuNhatKyHoatDong
             // 
-            mnuTroGiup.DropDownItems.AddRange(new ToolStripItem[] { mnuHuongDanSuDung, mnuThongTinPhanMem });
-            mnuTroGiup.Font = new Font("Times New Roman", 10F);
-            mnuTroGiup.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuTroGiup.Name = "mnuTroGiup";
-            mnuTroGiup.Size = new Size(79, 24);
-            mnuTroGiup.Text = "&Trợ giúp";
-            // 
-            // mnuHuongDanSuDung
-            // 
-            mnuHuongDanSuDung.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuHuongDanSuDung.Name = "mnuHuongDanSuDung";
-            mnuHuongDanSuDung.ShortcutKeys = Keys.Control | Keys.F1;
-            mnuHuongDanSuDung.Size = new Size(285, 26);
-            mnuHuongDanSuDung.Text = "&Hướng dẫn sử dụng";
-            // 
-            // mnuThongTinPhanMem
-            // 
-            mnuThongTinPhanMem.ForeColor = Color.FromArgb(162, 163, 183);
-            mnuThongTinPhanMem.Name = "mnuThongTinPhanMem";
-            mnuThongTinPhanMem.Size = new Size(285, 26);
-            mnuThongTinPhanMem.Text = "&Thông tin phần mềm...";
+            mnuNhatKyHoatDong.Name = "mnuNhatKyHoatDong";
+            mnuNhatKyHoatDong.Size = new Size(243, 26);
+            mnuNhatKyHoatDong.Text = "&Nhật ký hoạt động...";
+            mnuNhatKyHoatDong.Click += mnuNhatKyHoatDong_Click;
             // 
             // pnlFooter
             // 
+            pnlFooter.BackColor = Color.White;
             pnlFooter.Controls.Add(statusStrip1);
             pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 574);
+            pnlFooter.Location = new Point(281, 733);
             pnlFooter.Name = "pnlFooter";
-            pnlFooter.Size = new Size(1382, 29);
+            pnlFooter.Size = new Size(1160, 29);
             pnlFooter.TabIndex = 1;
             // 
             // statusStrip1
             // 
+            statusStrip1.BackColor = Color.Transparent;
             statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { lblTrangThai, toolStripStatusLabel1, lblLienKet });
             statusStrip1.Location = new Point(0, 3);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1382, 26);
+            statusStrip1.RenderMode = ToolStripRenderMode.ManagerRenderMode;
+            statusStrip1.Size = new Size(1160, 26);
+            statusStrip1.SizingGrip = false;
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             statusStrip1.ItemClicked += statusStrip1_ItemClicked;
@@ -493,7 +508,7 @@
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1165, 20);
+            toolStripStatusLabel1.Size = new Size(943, 20);
             toolStripStatusLabel1.Spring = true;
             // 
             // lblLienKet
@@ -504,46 +519,51 @@
             lblLienKet.Text = "© 2024 FIT";
             lblLienKet.Click += lblLienKet_Click;
             // 
+            // pnlNavbar
+            // 
+            pnlNavbar.BackColor = Color.FromArgb(249, 99, 50);
+            pnlNavbar.Controls.Add(menuStrip1);
+            pnlNavbar.Dock = DockStyle.Top;
+            pnlNavbar.Location = new Point(281, 0);
+            pnlNavbar.Name = "pnlNavbar";
+            pnlNavbar.Size = new Size(1160, 54);
+            pnlNavbar.TabIndex = 1;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1382, 603);
+            ClientSize = new Size(1441, 762);
             Controls.Add(pnlContent);
-            Controls.Add(pnlSidebar);
             Controls.Add(pnlFooter);
+            Controls.Add(pnlNavbar);
+            Controls.Add(pnlSidebar);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             MinimumSize = new Size(1400, 650);
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lý thư viện";
-            WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Maximized;
+            FormClosing += frmMain_FormClosing;
             Load += frmMain_Load;
             pnlSidebar.ResumeLayout(false);
-            pnlSidebar.PerformLayout();
-            pnlContent.ResumeLayout(false);
-            pnlContent.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             pnlFooter.ResumeLayout(false);
             pnlFooter.PerformLayout();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            pnlNavbar.ResumeLayout(false);
+            pnlNavbar.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
         private Panel pnlSidebar;
         private Panel pnlContent;
-        private Button btnThanhVien;
-        private Button btnMuonTra;
-        private Button btnGoi;
-        private Button btnSach;
-        private Label lblTitle;
-        private Button btnNhanVien;
-        private Button btnNhaXuatBan;
-        private Button btnTacGia;
-        private Button btnPhieuThu;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem mnuHeThong;
         private ToolStripMenuItem mnuDangNhap;
@@ -551,21 +571,8 @@
         private ToolStripMenuItem mnuDoiMatKhau;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem mnuThoat;
-        private ToolStripMenuItem mnuQuanLy;
         private ToolStripMenuItem mnuBaoCaoThongKe;
         private ToolStripMenuItem mnuTroGiup;
-        private Button btnTheLoai;
-        private ToolStripMenuItem mnuTheLoai;
-        private ToolStripMenuItem mnuTacGia;
-        private ToolStripMenuItem mnuNhaXuatBan;
-        private ToolStripMenuItem mnuSach;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem btnGoiThanhVien;
-        private ToolStripMenuItem mnuThanhVien;
-        private ToolStripMenuItem mnuNhanVien;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem mnuPhieuMuon;
-        private ToolStripMenuItem mnuPhieuThu;
         private ToolStripMenuItem mnuThongKeHoatDong;
         private ToolStripMenuItem mnuThongKeDoanhThu;
         private ToolStripMenuItem mnuHuongDanSuDung;
@@ -575,5 +582,19 @@
         private ToolStripStatusLabel lblTrangThai;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripStatusLabel lblLienKet;
+        private Panel panel1;
+        private Panel pnlNavbar;
+        private FontAwesome.Sharp.IconButton btnNhanVien;
+        private FontAwesome.Sharp.IconButton btnThanhVien;
+        private FontAwesome.Sharp.IconButton btnGoi;
+        private ToolStripMenuItem mnuDoiMauTheme;
+        private Label lblTitle;
+        private FontAwesome.Sharp.IconButton btnSach;
+        private FontAwesome.Sharp.IconButton btnTheLoai;
+        private FontAwesome.Sharp.IconButton btnTacGia;
+        private FontAwesome.Sharp.IconButton btnNhaXuatBan;
+        private FontAwesome.Sharp.IconButton btnMuonTra;
+        private FontAwesome.Sharp.IconButton btnGiaoDich;
+        private ToolStripMenuItem mnuNhatKyHoatDong;
     }
 }

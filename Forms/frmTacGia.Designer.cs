@@ -34,7 +34,6 @@
             label2 = new Label();
             txtTenTacGia = new TextBox();
             btnHuy = new Button();
-            btnThoat = new Button();
             btnLuu = new Button();
             btnXoa = new Button();
             btnSua = new Button();
@@ -51,8 +50,9 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
-            label1.Location = new Point(27, 33);
+            label1.Location = new Point(30, 33);
             label1.Name = "label1";
             label1.Size = new Size(84, 20);
             label1.TabIndex = 0;
@@ -64,15 +64,15 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtTenTacGia);
             groupBox1.Controls.Add(btnHuy);
-            groupBox1.Controls.Add(btnThoat);
             groupBox1.Controls.Add(btnLuu);
             groupBox1.Controls.Add(btnXoa);
             groupBox1.Controls.Add(btnSua);
             groupBox1.Controls.Add(btnThem);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(11, 2);
+            groupBox1.Dock = DockStyle.Top;
+            groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(776, 214);
+            groupBox1.Size = new Size(799, 214);
             groupBox1.TabIndex = 10;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin tác giả";
@@ -80,7 +80,8 @@
             // txtGhiChu
             // 
             txtGhiChu.AcceptsReturn = true;
-            txtGhiChu.Location = new Point(117, 72);
+            txtGhiChu.Anchor = AnchorStyles.Top;
+            txtGhiChu.Location = new Point(120, 72);
             txtGhiChu.Multiline = true;
             txtGhiChu.Name = "txtGhiChu";
             txtGhiChu.ScrollBars = ScrollBars.Vertical;
@@ -90,8 +91,9 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Location = new Point(27, 75);
+            label2.Location = new Point(30, 75);
             label2.Name = "label2";
             label2.Size = new Size(61, 20);
             label2.TabIndex = 11;
@@ -99,14 +101,16 @@
             // 
             // txtTenTacGia
             // 
-            txtTenTacGia.Location = new Point(117, 30);
+            txtTenTacGia.Anchor = AnchorStyles.Top;
+            txtTenTacGia.Location = new Point(120, 30);
             txtTenTacGia.Name = "txtTenTacGia";
             txtTenTacGia.Size = new Size(616, 27);
             txtTenTacGia.TabIndex = 10;
             // 
             // btnHuy
             // 
-            btnHuy.Location = new Point(497, 172);
+            btnHuy.Anchor = AnchorStyles.Top;
+            btnHuy.Location = new Point(572, 169);
             btnHuy.Name = "btnHuy";
             btnHuy.Size = new Size(94, 29);
             btnHuy.TabIndex = 8;
@@ -114,19 +118,10 @@
             btnHuy.UseVisualStyleBackColor = true;
             btnHuy.Click += btnHuy_Click;
             // 
-            // btnThoat
-            // 
-            btnThoat.Location = new Point(603, 172);
-            btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(94, 29);
-            btnThoat.TabIndex = 7;
-            btnThoat.Text = "Thoát";
-            btnThoat.UseVisualStyleBackColor = true;
-            btnThoat.Click += btnThoat_Click;
-            // 
             // btnLuu
             // 
-            btnLuu.Location = new Point(391, 172);
+            btnLuu.Anchor = AnchorStyles.Top;
+            btnLuu.Location = new Point(466, 169);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 29);
             btnLuu.TabIndex = 6;
@@ -136,7 +131,8 @@
             // 
             // btnXoa
             // 
-            btnXoa.Location = new Point(285, 172);
+            btnXoa.Anchor = AnchorStyles.Top;
+            btnXoa.Location = new Point(360, 169);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 29);
             btnXoa.TabIndex = 5;
@@ -146,7 +142,8 @@
             // 
             // btnSua
             // 
-            btnSua.Location = new Point(179, 172);
+            btnSua.Anchor = AnchorStyles.Top;
+            btnSua.Location = new Point(254, 169);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(94, 29);
             btnSua.TabIndex = 4;
@@ -156,7 +153,8 @@
             // 
             // btnThem
             // 
-            btnThem.Location = new Point(73, 172);
+            btnThem.Anchor = AnchorStyles.Top;
+            btnThem.Location = new Point(148, 169);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(94, 29);
             btnThem.TabIndex = 3;
@@ -179,13 +177,14 @@
             dgvTacGia.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTacGia.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTacGia.Columns.AddRange(new DataGridViewColumn[] { colID, colTenTacGia, colGhiChu });
-            dgvTacGia.Location = new Point(11, 248);
+            dgvTacGia.Dock = DockStyle.Fill;
+            dgvTacGia.Location = new Point(0, 214);
             dgvTacGia.MultiSelect = false;
             dgvTacGia.Name = "dgvTacGia";
             dgvTacGia.RowHeadersVisible = false;
             dgvTacGia.RowHeadersWidth = 51;
             dgvTacGia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTacGia.Size = new Size(776, 218);
+            dgvTacGia.Size = new Size(799, 264);
             dgvTacGia.TabIndex = 11;
             // 
             // colID
@@ -211,9 +210,10 @@
             // 
             // groupBox2
             // 
-            groupBox2.Location = new Point(11, 222);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(0, 214);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(776, 244);
+            groupBox2.Size = new Size(799, 264);
             groupBox2.TabIndex = 12;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách tác giả";
@@ -222,10 +222,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             ClientSize = new Size(799, 478);
             Controls.Add(dgvTacGia);
-            Controls.Add(groupBox1);
             Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
             Name = "frmTacGia";
             Text = "Tác giả";
             Load += frmTacGia_Load;
@@ -241,7 +242,6 @@
         private GroupBox groupBox1;
         private TextBox txtTenTacGia;
         private Button btnHuy;
-        private Button btnThoat;
         private Button btnLuu;
         private Button btnXoa;
         private Button btnSua;

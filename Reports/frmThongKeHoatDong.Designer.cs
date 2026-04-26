@@ -39,6 +39,8 @@
             dtpDenNgay = new DateTimePicker();
             label3 = new Label();
             btnHienTatCa = new Button();
+            panel1 = new Panel();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // reportViewer1
@@ -52,14 +54,16 @@
             // 
             // cboThanhVien
             // 
+            cboThanhVien.Anchor = AnchorStyles.Top;
             cboThanhVien.FormattingEnabled = true;
-            cboThanhVien.Location = new Point(138, 12);
+            cboThanhVien.Location = new Point(148, 13);
             cboThanhVien.Name = "cboThanhVien";
             cboThanhVien.Size = new Size(183, 28);
             cboThanhVien.TabIndex = 0;
             // 
             // cboTrangThai
             // 
+            cboTrangThai.Anchor = AnchorStyles.Top;
             cboTrangThai.FormattingEnabled = true;
             cboTrangThai.Location = new Point(447, 10);
             cboTrangThai.Name = "cboTrangThai";
@@ -68,18 +72,20 @@
             // 
             // dtpTuNgay
             // 
+            dtpTuNgay.Anchor = AnchorStyles.Top;
             dtpTuNgay.CustomFormat = "dd/MM/yyyy";
             dtpTuNgay.Format = DateTimePickerFormat.Custom;
-            dtpTuNgay.Location = new Point(138, 50);
+            dtpTuNgay.Location = new Point(148, 50);
             dtpTuNgay.Name = "dtpTuNgay";
             dtpTuNgay.Size = new Size(183, 27);
             dtpTuNgay.TabIndex = 2;
             // 
             // btnLocKetQua
             // 
+            btnLocKetQua.Anchor = AnchorStyles.Top;
             btnLocKetQua.Location = new Point(663, 11);
             btnLocKetQua.Name = "btnLocKetQua";
-            btnLocKetQua.Size = new Size(94, 29);
+            btnLocKetQua.Size = new Size(129, 29);
             btnLocKetQua.TabIndex = 6;
             btnLocKetQua.Text = "Lọc kết quả";
             btnLocKetQua.UseVisualStyleBackColor = true;
@@ -87,8 +93,9 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
-            label1.Location = new Point(51, 55);
+            label1.Location = new Point(52, 53);
             label1.Name = "label1";
             label1.Size = new Size(65, 20);
             label1.TabIndex = 7;
@@ -96,8 +103,9 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Location = new Point(51, 18);
+            label2.Location = new Point(49, 16);
             label2.Name = "label2";
             label2.Size = new Size(83, 20);
             label2.TabIndex = 8;
@@ -105,8 +113,9 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
-            label4.Location = new Point(366, 55);
+            label4.Location = new Point(366, 53);
             label4.Name = "label4";
             label4.Size = new Size(75, 20);
             label4.TabIndex = 11;
@@ -114,6 +123,7 @@
             // 
             // dtpDenNgay
             // 
+            dtpDenNgay.Anchor = AnchorStyles.Top;
             dtpDenNgay.CustomFormat = "dd/MM/yyyy";
             dtpDenNgay.Format = DateTimePickerFormat.Custom;
             dtpDenNgay.Location = new Point(447, 50);
@@ -123,8 +133,9 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
-            label3.Location = new Point(363, 11);
+            label3.Location = new Point(363, 14);
             label3.Name = "label3";
             label3.Size = new Size(78, 20);
             label3.TabIndex = 9;
@@ -132,34 +143,46 @@
             // 
             // btnHienTatCa
             // 
+            btnHienTatCa.Anchor = AnchorStyles.Top;
             btnHienTatCa.Location = new Point(663, 55);
             btnHienTatCa.Name = "btnHienTatCa";
-            btnHienTatCa.Size = new Size(94, 29);
+            btnHienTatCa.Size = new Size(129, 29);
             btnHienTatCa.TabIndex = 12;
             btnHienTatCa.Text = "Hiện tất cả";
             btnHienTatCa.UseVisualStyleBackColor = true;
             btnHienTatCa.Click += btnHienTatCa_Click;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(dtpTuNgay);
+            panel1.Controls.Add(btnHienTatCa);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(dtpDenNgay);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnLocKetQua);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(cboTrangThai);
+            panel1.Controls.Add(cboThanhVien);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(880, 98);
+            panel1.TabIndex = 13;
+            // 
             // frmThongKeHoatDong
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(label3);
-            Controls.Add(label4);
-            Controls.Add(btnHienTatCa);
-            Controls.Add(dtpDenNgay);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(btnLocKetQua);
-            Controls.Add(dtpTuNgay);
-            Controls.Add(cboTrangThai);
-            Controls.Add(cboThanhVien);
+            BackColor = Color.White;
+            ClientSize = new Size(880, 476);
+            Controls.Add(panel1);
             Name = "frmThongKeHoatDong";
             Text = "Thống kê hoạt động";
             Load += frmThongKeHoatDong_Load;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -174,5 +197,6 @@
         private DateTimePicker dtpDenNgay;
         private Label label3;
         private Button btnHienTatCa;
+        private Panel panel1;
     }
 }

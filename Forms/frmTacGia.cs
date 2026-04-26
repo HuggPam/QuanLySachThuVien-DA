@@ -33,15 +33,6 @@ namespace QuanLyThuVien.Forms
             btnXoa.Enabled = !giaTri;
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            DialogResult traloi;
-            traloi = MessageBox.Show("Bạn có muốn thoát chương trình không?", "Thông báo",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (traloi == DialogResult.OK)
-                Application.Exit();
-        }
-
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;

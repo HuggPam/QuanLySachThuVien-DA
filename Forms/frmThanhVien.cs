@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 using QuanLyThuVien.Data;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace QuanLyThuVien.Forms
         {
             context = new QLTVContext();
             TuDongGiamLoi();
+            TuDongMoKhoa();
             BatTatChucNang(false);
             cboTrangThai.Enabled = false;
             LayGoiThanhVienVaoComboBox();
@@ -85,7 +87,6 @@ namespace QuanLyThuVien.Forms
             btnSua.Enabled = !giaTri;
             btnXoa.Enabled = !giaTri;
             btnTimKiem.Enabled = !giaTri;
-            btnNhap.Enabled = !giaTri;
             btnXuat.Enabled = !giaTri;
         }
 
@@ -255,15 +256,6 @@ namespace QuanLyThuVien.Forms
             frmThanhVien_Load(sender, e);
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            DialogResult traloi;
-            traloi = MessageBox.Show("Bạn có muốn thoát chương trình không?", "Thông báo",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (traloi == DialogResult.OK)
-                Application.Exit();
-        }
-
         private void dgvThanhVien_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -356,7 +348,6 @@ namespace QuanLyThuVien.Forms
                 if (soLoi >= 4)
                 {
                     numViPham.Value = 3;
-                    MessageBox.Show("Thành viên đã được mở khóa!", "Thông báo");
                 }
             }
         }
@@ -379,7 +370,7 @@ namespace QuanLyThuVien.Forms
         private void numViPham_ValueChanged(object sender, EventArgs e)
         {
             if (!numViPham.Focused) return;
-            if (numViPham.Value > 3)
+            if (numViPham.Value >= 4)
             {
                 if (cboTrangThai.SelectedIndex != 1)
                 {
@@ -406,6 +397,168 @@ namespace QuanLyThuVien.Forms
                     }
                 }
                 db.SaveChanges();
+            }
+        }
+
+        private void TuDongMoKhoa()
+        {
+            using (var db = new QLTVContext())
+            {
+                var dsBiKhoa = db.ThanhVien.Where(t => t.TrangThai == 1 && t.NgayViPham != null).ToList();
+                bool coThayDoi = false;
+                foreach (var tv in dsBiKhoa)
+                {
+                    int soNgayDaKhoa = (DateTime.Now.Date - tv.NgayViPham.Value.Date).Days;
+
+                    if (soNgayDaKhoa >= 7)
+                    {
+                        tv.TrangThai = 0;
+                        tv.SoLanViPham = 3;
+                        tv.NgayViPham = DateTime.Now;
+                        coThayDoi = true;
+                    }
+                }
+                if (coThayDoi)
+                {
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất dữ liệu Thành viên ra tập tin Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+            saveFileDialog.FileName = "DanhSach_ThanhVien_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+
+                    table.Columns.AddRange(new DataColumn[] {
+                new DataColumn("ID", typeof(int)),
+                new DataColumn("Tên thành viên", typeof(string)),
+                new DataColumn("Ngày sinh", typeof(string)),
+                new DataColumn("Địa chỉ", typeof(string)),
+                new DataColumn("Điện thoại", typeof(string)),
+                new DataColumn("Ngày đăng ký", typeof(string)),
+                new DataColumn("Ngày hết hạn", typeof(string)),
+                new DataColumn("Gói thành viên", typeof(string)),
+                new DataColumn("Số lần vi phạm", typeof(int)),
+                new DataColumn("Trạng thái", typeof(string))
+            });
+
+                    using (var db = new QLTVContext())
+                    {
+                        var dsThanhVien = db.ThanhVien.Include(t => t.GoiThanhVien).ToList();
+
+                        if (dsThanhVien != null && dsThanhVien.Count > 0)
+                        {
+                            foreach (var tv in dsThanhVien)
+                            {
+                                string tenTrangThai = "";
+                                switch (tv.TrangThai)
+                                {
+                                    case 0: tenTrangThai = "Hoạt động"; break;
+                                    case 1: tenTrangThai = "Bị khóa"; break;
+                                    case 2: tenTrangThai = "Hết hạn"; break;
+                                    case 3: tenTrangThai = "Ngưng sử dụng"; break;
+                                }
+
+                                table.Rows.Add(
+                                    tv.ID,
+                                    tv.TenThanhVien,
+                                    tv.NgaySinh.ToString("dd/MM/yyyy"),
+                                    tv.DiaChi,
+                                    tv.DienThoai,
+                                    tv.NgayDangKy.ToString("dd/MM/yyyy"),
+                                    tv.NgayHetHan.ToString("dd/MM/yyyy"),
+                                    tv.GoiThanhVien != null ? tv.GoiThanhVien.TenGoi : "",
+                                    tv.SoLanViPham,
+                                    tenTrangThai
+                                );
+                            }
+                        }
+                        using (XLWorkbook wb = new XLWorkbook())
+                        {
+                            var sheet = wb.Worksheets.Add(table, "ThanhVien");
+                            var headerRow = sheet.Row(1);
+                            headerRow.Style.Font.Bold = true;
+                            headerRow.Style.Fill.BackgroundColor = XLColor.LightGreen;
+                            sheet.Columns().AdjustToContents();
+                            wb.SaveAs(saveFileDialog.FileName);
+                            MessageBox.Show("Đã xuất dữ liệu Thành viên ra tập tin Excel thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = ex.Message;
+                    if (ex.InnerException != null) errorMsg += "\nChi tiết: " + ex.InnerException.Message;
+                    MessageBox.Show("Lỗi khi xuất file Excel:\n" + errorMsg, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string tuKhoa = txtTimKiem.Text.Trim().ToLower();
+            using (var db = new QLTVContext())
+            {
+                var query = db.ThanhVien.Include(t => t.GoiThanhVien).AsQueryable();
+                if (!string.IsNullOrEmpty(tuKhoa))
+                {
+                    query = query.Where(t => t.TenThanhVien.ToLower().Contains(tuKhoa) ||
+                                             t.GoiThanhVien.TenGoi.ToLower().Contains(tuKhoa));
+                }
+                var ketQuaTimKiem = query.Select(t => new DanhSachThanhVien
+                {
+                    ID = t.ID,
+                    TenThanhVien = t.TenThanhVien,
+                    NgaySinh = t.NgaySinh,
+                    DiaChi = t.DiaChi,
+                    DienThoai = t.DienThoai,
+                    NgayDangKy = t.NgayDangKy,
+                    NgayHetHan = t.NgayHetHan,
+                    GoiThanhVienID = t.GoiThanhVienID,
+                    TenGoi = t.GoiThanhVien != null ? t.GoiThanhVien.TenGoi : "",
+                    SoLanViPham = t.SoLanViPham,
+                    TrangThai = t.TrangThai
+                }).ToList();
+                BindingSource bsTimKiem = new BindingSource();
+                bsTimKiem.DataSource = ketQuaTimKiem;
+                dgvThanhVien.DataSource = bsTimKiem;
+
+                txtTenThanhVien.DataBindings.Clear();
+                txtTenThanhVien.DataBindings.Add("Text", bsTimKiem, "TenThanhVien", false, DataSourceUpdateMode.Never);
+                txtDiaChi.DataBindings.Clear();
+                txtDiaChi.DataBindings.Add("Text", bsTimKiem, "DiaChi", false, DataSourceUpdateMode.Never);
+                txtDienThoai.DataBindings.Clear();
+                txtDienThoai.DataBindings.Add("Text", bsTimKiem, "DienThoai", false, DataSourceUpdateMode.Never);
+                dtpNgaySinh.DataBindings.Clear();
+                dtpNgaySinh.DataBindings.Add("Value", bsTimKiem, "NgaySinh", false, DataSourceUpdateMode.Never);
+                cboGoiThanhVien.DataBindings.Clear();
+                cboGoiThanhVien.DataBindings.Add("SelectedValue", bsTimKiem, "GoiThanhVienID", false, DataSourceUpdateMode.Never);
+                dtpNgayDangKy.DataBindings.Clear();
+                dtpNgayDangKy.DataBindings.Add("Value", bsTimKiem, "NgayDangKy", false, DataSourceUpdateMode.Never);
+                dtpNgayHetHan.DataBindings.Clear();
+                dtpNgayHetHan.DataBindings.Add("Value", bsTimKiem, "NgayHetHan", false, DataSourceUpdateMode.Never);
+                numViPham.DataBindings.Clear();
+                numViPham.DataBindings.Add("Value", bsTimKiem, "SoLanViPham", false, DataSourceUpdateMode.Never);
+                cboTrangThai.DataBindings.Clear();
+                cboTrangThai.DataBindings.Add("SelectedIndex", bsTimKiem, "TrangThai", false, DataSourceUpdateMode.Never);
+
+                if (ketQuaTimKiem.Count == 0 && !string.IsNullOrEmpty(tuKhoa))
+                {
+                    MessageBox.Show("Không tìm thấy thành viên hoặc gói thành viên nào khớp với từ khóa!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }

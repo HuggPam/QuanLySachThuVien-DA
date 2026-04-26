@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             numGiaHan = new NumericUpDown();
             numHieuLuc = new NumericUpDown();
@@ -44,7 +44,6 @@
             label2 = new Label();
             txtTenGoi = new TextBox();
             btnHuy = new Button();
-            btnThoat = new Button();
             btnLuu = new Button();
             btnXoa = new Button();
             btnSua = new Button();
@@ -52,7 +51,6 @@
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             groupBox2 = new GroupBox();
             dgvGoiThanhVien = new DataGridView();
-            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             colID = new DataGridViewTextBoxColumn();
             colTenGoi = new DataGridViewTextBoxColumn();
             colSoSach = new DataGridViewTextBoxColumn();
@@ -60,6 +58,7 @@
             colGiaHan = new DataGridViewTextBoxColumn();
             colHieuLuc = new DataGridViewTextBoxColumn();
             colGiaTien = new DataGridViewTextBoxColumn();
+            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numGiaHan).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numHieuLuc).BeginInit();
@@ -86,20 +85,21 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtTenGoi);
             groupBox1.Controls.Add(btnHuy);
-            groupBox1.Controls.Add(btnThoat);
             groupBox1.Controls.Add(btnLuu);
             groupBox1.Controls.Add(btnXoa);
             groupBox1.Controls.Add(btnSua);
             groupBox1.Controls.Add(btnThem);
-            groupBox1.Location = new Point(12, 0);
+            groupBox1.Dock = DockStyle.Top;
+            groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(757, 198);
+            groupBox1.Size = new Size(785, 192);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin gói thành viên";
             // 
             // numGiaHan
             // 
+            numGiaHan.Anchor = AnchorStyles.Top;
             numGiaHan.Location = new Point(146, 96);
             numGiaHan.Name = "numGiaHan";
             numGiaHan.Size = new Size(202, 27);
@@ -108,6 +108,7 @@
             // 
             // numHieuLuc
             // 
+            numHieuLuc.Anchor = AnchorStyles.Top;
             numHieuLuc.Location = new Point(146, 63);
             numHieuLuc.Name = "numHieuLuc";
             numHieuLuc.Size = new Size(202, 27);
@@ -116,6 +117,7 @@
             // 
             // numGiaTien
             // 
+            numGiaTien.Anchor = AnchorStyles.Top;
             numGiaTien.Location = new Point(522, 99);
             numGiaTien.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
             numGiaTien.Name = "numGiaTien";
@@ -125,6 +127,7 @@
             // 
             // numHanMuon
             // 
+            numHanMuon.Anchor = AnchorStyles.Top;
             numHanMuon.Location = new Point(522, 66);
             numHanMuon.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numHanMuon.Name = "numHanMuon";
@@ -134,6 +137,7 @@
             // 
             // numSoSach
             // 
+            numSoSach.Anchor = AnchorStyles.Top;
             numSoSach.Location = new Point(522, 32);
             numSoSach.Name = "numSoSach";
             numSoSach.Size = new Size(150, 27);
@@ -142,6 +146,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
             label8.Location = new Point(426, 34);
             label8.Name = "label8";
@@ -151,6 +156,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top;
             label7.AutoSize = true;
             label7.Location = new Point(426, 34);
             label7.Name = "label7";
@@ -159,6 +165,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Top;
             label6.AutoSize = true;
             label6.Location = new Point(426, 104);
             label6.Name = "label6";
@@ -168,6 +175,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Location = new Point(426, 68);
             label5.Name = "label5";
@@ -177,6 +185,7 @@
             // 
             // lbl1
             // 
+            lbl1.Anchor = AnchorStyles.Top;
             lbl1.AutoSize = true;
             lbl1.Location = new Point(73, 101);
             lbl1.Name = "lbl1";
@@ -186,6 +195,7 @@
             // 
             // lbl
             // 
+            lbl.Anchor = AnchorStyles.Top;
             lbl.AutoSize = true;
             lbl.Location = new Point(73, 65);
             lbl.Name = "lbl";
@@ -195,6 +205,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
             label2.Location = new Point(73, 30);
             label2.Name = "label2";
@@ -204,6 +215,7 @@
             // 
             // txtTenGoi
             // 
+            txtTenGoi.Anchor = AnchorStyles.Top;
             txtTenGoi.Location = new Point(146, 27);
             txtTenGoi.MaxLength = 100;
             txtTenGoi.Name = "txtTenGoi";
@@ -212,7 +224,8 @@
             // 
             // btnHuy
             // 
-            btnHuy.Location = new Point(492, 144);
+            btnHuy.Anchor = AnchorStyles.Top;
+            btnHuy.Location = new Point(539, 142);
             btnHuy.Name = "btnHuy";
             btnHuy.Size = new Size(94, 29);
             btnHuy.TabIndex = 38;
@@ -220,19 +233,10 @@
             btnHuy.UseVisualStyleBackColor = true;
             btnHuy.Click += btnHuy_Click;
             // 
-            // btnThoat
-            // 
-            btnThoat.Location = new Point(600, 144);
-            btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(94, 29);
-            btnThoat.TabIndex = 37;
-            btnThoat.Text = "Thoát";
-            btnThoat.UseVisualStyleBackColor = true;
-            btnThoat.Click += btnThoat_Click;
-            // 
             // btnLuu
             // 
-            btnLuu.Location = new Point(384, 144);
+            btnLuu.Anchor = AnchorStyles.Top;
+            btnLuu.Location = new Point(431, 142);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 29);
             btnLuu.TabIndex = 36;
@@ -242,7 +246,8 @@
             // 
             // btnXoa
             // 
-            btnXoa.Location = new Point(276, 144);
+            btnXoa.Anchor = AnchorStyles.Top;
+            btnXoa.Location = new Point(323, 142);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 29);
             btnXoa.TabIndex = 35;
@@ -252,7 +257,8 @@
             // 
             // btnSua
             // 
-            btnSua.Location = new Point(168, 144);
+            btnSua.Anchor = AnchorStyles.Top;
+            btnSua.Location = new Point(215, 142);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(94, 29);
             btnSua.TabIndex = 34;
@@ -262,7 +268,8 @@
             // 
             // btnThem
             // 
-            btnThem.Location = new Point(60, 144);
+            btnThem.Anchor = AnchorStyles.Top;
+            btnThem.Location = new Point(107, 142);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(94, 29);
             btnThem.TabIndex = 33;
@@ -273,9 +280,10 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(dgvGoiThanhVien);
-            groupBox2.Location = new Point(-2, 204);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(0, 192);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(789, 248);
+            groupBox2.Size = new Size(785, 258);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách gói thành viên";
@@ -287,18 +295,14 @@
             dgvGoiThanhVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvGoiThanhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGoiThanhVien.Columns.AddRange(new DataGridViewColumn[] { colID, colTenGoi, colSoSach, colHanMuon, colGiaHan, colHieuLuc, colGiaTien });
-            dgvGoiThanhVien.Location = new Point(0, 26);
+            dgvGoiThanhVien.Dock = DockStyle.Fill;
+            dgvGoiThanhVien.Location = new Point(3, 23);
             dgvGoiThanhVien.Name = "dgvGoiThanhVien";
             dgvGoiThanhVien.RowHeadersVisible = false;
             dgvGoiThanhVien.RowHeadersWidth = 51;
             dgvGoiThanhVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvGoiThanhVien.Size = new Size(789, 222);
+            dgvGoiThanhVien.Size = new Size(779, 232);
             dgvGoiThanhVien.TabIndex = 2;
-            // 
-            // sqlCommand1
-            // 
-            sqlCommand1.CommandTimeout = 30;
-            sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
             // colID
             // 
@@ -346,16 +350,23 @@
             // colGiaTien
             // 
             colGiaTien.DataPropertyName = "GiaTien";
-            dataGridViewCellStyle1.Format = "N0";
-            colGiaTien.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "#,##0 VNĐ";
+            dataGridViewCellStyle2.NullValue = null;
+            colGiaTien.DefaultCellStyle = dataGridViewCellStyle2;
             colGiaTien.HeaderText = "Giá tiền";
             colGiaTien.MinimumWidth = 6;
             colGiaTien.Name = "colGiaTien";
+            // 
+            // sqlCommand1
+            // 
+            sqlCommand1.CommandTimeout = 30;
+            sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
             // frmGoiThanhVien
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             ClientSize = new Size(785, 450);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -391,7 +402,6 @@
         private Label label2;
         private TextBox txtTenGoi;
         private Button btnHuy;
-        private Button btnThoat;
         private Button btnLuu;
         private Button btnXoa;
         private Button btnSua;

@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 using QuanLyThuVien.Data;
+using QuanLyThuVien.Reports;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +19,7 @@ namespace QuanLyThuVien.Forms
         QLTVContext context = new QLTVContext();
         bool xuLyThem = false;
         int id;
+        bool dangDoDuLieu = false;
         public frmPhieuThu()
         {
             InitializeComponent();
@@ -106,15 +109,6 @@ namespace QuanLyThuVien.Forms
         private void btnHuy_Click(object sender, EventArgs e)
         {
             frmPhieuThu_Load(sender, e);
-        }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            DialogResult traloi;
-            traloi = MessageBox.Show("Bạn có muốn thoát chương trình không?", "Thông báo",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (traloi == DialogResult.OK)
-                Application.Exit();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -225,6 +219,7 @@ namespace QuanLyThuVien.Forms
 
         private void cboLoaiThu_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (dangDoDuLieu) return;
             if (cboThanhVien.SelectedValue == null) return;
 
             int maTV;
@@ -321,6 +316,171 @@ namespace QuanLyThuVien.Forms
         private void txtNhanVien_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvPhieuThu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && !xuLyThem)
+            {
+                dangDoDuLieu = true;
+
+                id = Convert.ToInt32(dgvPhieuThu.Rows[e.RowIndex].Cells[0].Value);
+
+                PhieuThu pt = context.PhieuThu.Find(id);
+                if (pt != null)
+                {
+                    cboThanhVien.SelectedValue = pt.ThanhVienID;
+                    cboLoaiThu.SelectedIndex = pt.LoaiThu;
+                    numSoTienThu.Value = pt.SoTienThu;
+                    dtpNgayThu.Value = pt.NgayThu;
+                    txtLyDo.Text = pt.LyDoThu;
+                }
+
+                dangDoDuLieu = false;
+            }
+        }
+
+        private void btnInPhieuThu_Click(object sender, EventArgs e)
+        {
+            if (dgvPhieuThu.CurrentRow != null)
+            {
+                int idPhieu = Convert.ToInt32(dgvPhieuThu.CurrentRow.Cells["colID"].Value);
+                using (frmInPhieuThu fIn = new frmInPhieuThu(idPhieu))
+                {
+                    fIn.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một phiếu mượn trên bảng để in!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách Phiếu thu ra tập tin Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+            saveFileDialog.FileName = "DanhSach_PhieuThu_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.AddRange(new DataColumn[] {
+                new DataColumn("Mã Phiếu", typeof(int)),
+                new DataColumn("Nhân viên lập", typeof(string)),
+                new DataColumn("Thành viên nộp", typeof(string)),
+                new DataColumn("Ngày thu", typeof(string)),
+                new DataColumn("Loại thu", typeof(string)),
+                new DataColumn("Số tiền thu", typeof(decimal)),
+                new DataColumn("Lý do thu", typeof(string))
+            });
+
+                    using (var db = new QLTVContext())
+                    {
+                        var dsPhieuThu = db.PhieuThu
+                                           .Include(p => p.NhanVien)
+                                           .Include(p => p.ThanhVien)
+                                           .OrderByDescending(p => p.NgayThu)
+                                           .ToList();
+
+                        if (dsPhieuThu != null && dsPhieuThu.Count > 0)
+                        {
+                            foreach (var pt in dsPhieuThu)
+                            {
+                                string tenLoaiThu = "";
+                                switch (pt.LoaiThu)
+                                {
+                                    case 0: tenLoaiThu = "Thu tiền phạt"; break;
+                                    case 1: tenLoaiThu = "Lệ phí thẻ"; break;
+                                    case 2: tenLoaiThu = "Bồi thường hỏng sách"; break;
+                                    case 3: tenLoaiThu = "Bồi thường mất sách"; break;
+                                }
+
+                                table.Rows.Add(
+                                    pt.ID,
+                                    pt.NhanVien != null ? pt.NhanVien.TenNhanVien : "Không rõ",
+                                    pt.ThanhVien != null ? pt.ThanhVien.TenThanhVien : "Không rõ",
+                                    pt.NgayThu.ToString("dd/MM/yyyy HH:mm"),
+                                    tenLoaiThu,
+                                    pt.SoTienThu,
+                                    pt.LyDoThu
+                                );
+                            }
+                        }
+                        using (XLWorkbook wb = new XLWorkbook())
+                        {
+                            var sheet = wb.Worksheets.Add(table, "PhieuThu");
+                            var headerRow = sheet.Row(1);
+                            headerRow.Style.Font.Bold = true;
+                            headerRow.Style.Fill.BackgroundColor = XLColor.LightSalmon;
+                            sheet.Column(6).Style.NumberFormat.Format = "#,##0";
+                            sheet.Columns().AdjustToContents();
+                            wb.SaveAs(saveFileDialog.FileName);
+                            MessageBox.Show("Đã xuất danh sách Phiếu thu ra tập tin Excel thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = ex.Message;
+                    if (ex.InnerException != null) errorMsg += "\nChi tiết: " + ex.InnerException.Message;
+                    MessageBox.Show("Lỗi khi xuất file Excel:\n" + errorMsg, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string tuKhoa = txtTimKiem.Text.Trim().ToLower();
+            List<int> loaiThuHopLe = new List<int>();
+
+            if ("thu tiền phạt".Contains(tuKhoa)) loaiThuHopLe.Add(0);
+            if ("lệ phí gia hạn thẻ".Contains(tuKhoa) || "lệ phí thẻ".Contains(tuKhoa)) loaiThuHopLe.Add(1);
+            if ("bồi thường hỏng sách".Contains(tuKhoa) || "hỏng".Contains(tuKhoa)) loaiThuHopLe.Add(2);
+            if ("bồi thường mất sách".Contains(tuKhoa) || "mất".Contains(tuKhoa)) loaiThuHopLe.Add(3);
+
+            using (var db = new QLTVContext())
+            {
+                var query = db.PhieuThu
+                              .Include(p => p.NhanVien)
+                              .Include(p => p.ThanhVien)
+                              .AsQueryable();
+
+                if (!string.IsNullOrEmpty(tuKhoa))
+                {
+                    query = query.Where(p =>
+                        (p.NhanVien != null && p.NhanVien.TenNhanVien.ToLower().Contains(tuKhoa)) ||
+                        (p.ThanhVien != null && p.ThanhVien.TenThanhVien.ToLower().Contains(tuKhoa)) ||
+                        loaiThuHopLe.Contains(p.LoaiThu)
+                    );
+                }
+
+                var ketQuaTimKiem = query.Select(p => new DanhSachPhieuThu
+                {
+                    ID = p.ID,
+                    TenNhanVien = p.NhanVien.TenNhanVien,
+                    TenThanhVien = p.ThanhVien.TenThanhVien,
+                    NgayThu = p.NgayThu,
+                    LoaiThu = p.LoaiThu,
+                    SoTienThu = p.SoTienThu,
+                    LyDoThu = p.LyDoThu
+                }).OrderByDescending(x => x.NgayThu).ToList();
+
+                dgvPhieuThu.DataSource = ketQuaTimKiem;
+
+                if (ketQuaTimKiem.Count == 0 && !string.IsNullOrEmpty(tuKhoa))
+                {
+                    MessageBox.Show("Không tìm thấy phiếu thu nào khớp với từ khóa!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

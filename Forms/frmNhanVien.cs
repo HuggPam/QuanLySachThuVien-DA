@@ -42,14 +42,24 @@ namespace QuanLyThuVien.Forms
             btnSua.Enabled = !giaTri;
             btnXoa.Enabled = !giaTri;
             btnTimKiem.Enabled = !giaTri;
-            btnNhap.Enabled = !giaTri;
-            btnXuat.Enabled = !giaTri;
         }
 
+        private void LayQuyenHanVaoComboBox()
+        {
+            var dsQuyenHan = new[] {
+                new { Ten = "Quản lý", GiaTri = true },
+                new { Ten = "Thủ thư", GiaTri = false }
+            }.ToList();
+
+            cboQuyenHan.DataSource = dsQuyenHan;
+            cboQuyenHan.DisplayMember = "Ten";
+            cboQuyenHan.ValueMember = "GiaTri";
+        }
 
         private void frmNhanVien_Load(object sender, EventArgs e)
         {
             BatTatChucNang(false);
+            LayQuyenHanVaoComboBox();
             dgvNhanVien.AutoGenerateColumns = false;
             List<NhanVien> danhSachNhanVien = new List<NhanVien>();
             danhSachNhanVien = context.NhanVien.ToList();
@@ -95,7 +105,7 @@ namespace QuanLyThuVien.Forms
                 txtTenDangNhap.Focus();
                 return;
             }
-            
+
             string tenDN = txtTenDangNhap.Text.Trim();
             bool trungTen = xuLyThem
                 ? context.NhanVien.Any(nv => nv.TenDangNhap == tenDN)
@@ -176,13 +186,66 @@ namespace QuanLyThuVien.Forms
             frmNhanVien_Load(sender, e);
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
+
+        private void dgvNhanVien_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            DialogResult traloi;
-            traloi = MessageBox.Show("Bạn có muốn thoát chương trình không?", "Thông báo",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (traloi == DialogResult.OK)
-                Application.Exit();
+            DataGridView dgv = sender as DataGridView;
+            if (dgv.Columns[e.ColumnIndex].Name == "colQuyenHan" && e.Value != null)
+            {
+                if (e.Value is bool)
+                {
+                    bool laAdmin = (bool)e.Value;
+
+                    if (laAdmin == true)
+                    {
+                        e.Value = "Admin";
+                    }
+                    else
+                    {
+                        e.Value = "Thủ thư";
+                    }
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string tuKhoa = txtTimKiem.Text.Trim().ToLower();
+
+            using (var db = new QLTVContext())
+            {
+                var query = db.NhanVien.AsQueryable();
+                if (!string.IsNullOrEmpty(tuKhoa))
+                {
+                    query = query.Where(nv => nv.TenNhanVien.ToLower().Contains(tuKhoa));
+                }
+
+                var ketQuaTimKiem = query.ToList();
+                BindingSource bsTimKiem = new BindingSource();
+                bsTimKiem.DataSource = ketQuaTimKiem;
+                txtTenNhanVien.DataBindings.Clear();
+                txtTenNhanVien.DataBindings.Add("Text", bsTimKiem, "TenNhanVien", false, DataSourceUpdateMode.Never);
+                txtDienThoai.DataBindings.Clear();
+                txtDienThoai.DataBindings.Add("Text", bsTimKiem, "DienThoai", false, DataSourceUpdateMode.Never);
+                txtDiaChi.DataBindings.Clear();
+                txtDiaChi.DataBindings.Add("Text", bsTimKiem, "DiaChi", false, DataSourceUpdateMode.Never);
+                txtTenDangNhap.DataBindings.Clear();
+                txtTenDangNhap.DataBindings.Add("Text", bsTimKiem, "TenDangNhap", false, DataSourceUpdateMode.Never);
+                cboQuyenHan.DataBindings.Clear();
+                cboQuyenHan.DataBindings.Add("SelectedIndex", bsTimKiem, "QuyenHan", false, DataSourceUpdateMode.Never);
+                dgvNhanVien.DataSource = bsTimKiem;
+
+                if (ketQuaTimKiem.Count == 0 && !string.IsNullOrEmpty(tuKhoa))
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên nào khớp với tên này!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

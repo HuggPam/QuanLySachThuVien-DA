@@ -21,7 +21,7 @@ namespace QuanLyThuVien.Reports
         {
             InitializeComponent();
             reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.Padding = new Padding(0, 60, 0, 0);
+            reportViewer1.Padding = new Padding(0, 80, 0, 0);
             reportViewer1.Dock = DockStyle.Fill;
             this.Controls.Add(reportViewer1);
         }

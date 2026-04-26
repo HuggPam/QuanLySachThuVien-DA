@@ -43,6 +43,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             ClientSize = new Size(800, 450);
             Name = "frmInPhieuMuon";
             Text = "In phiếu mượn";

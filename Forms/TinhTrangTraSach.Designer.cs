@@ -58,7 +58,7 @@
             // radHuHong
             // 
             radHuHong.AutoSize = true;
-            radHuHong.Location = new Point(107, 107);
+            radHuHong.Location = new Point(107, 153);
             radHuHong.Name = "radHuHong";
             radHuHong.Size = new Size(88, 24);
             radHuHong.TabIndex = 2;
@@ -69,7 +69,7 @@
             // radMatSach
             // 
             radMatSach.AutoSize = true;
-            radMatSach.Location = new Point(107, 151);
+            radMatSach.Location = new Point(107, 108);
             radMatSach.Name = "radMatSach";
             radMatSach.Size = new Size(88, 24);
             radMatSach.TabIndex = 3;
@@ -91,7 +91,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(325, 311);
+            BackColor = Color.White;
+            ClientSize = new Size(315, 311);
             Controls.Add(btnXacNhan);
             Controls.Add(radMatSach);
             Controls.Add(radHuHong);

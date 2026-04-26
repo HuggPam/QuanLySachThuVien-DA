@@ -63,9 +63,6 @@ namespace QuanLyThuVien.Forms
             btnThem.Enabled = !giaTri;
             btnSua.Enabled = !giaTri;
             btnXoa.Enabled = !giaTri;
-            btnTimKiem.Enabled = !giaTri;
-            btnNhap.Enabled = !giaTri;
-            btnXuat.Enabled = !giaTri;
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -142,15 +139,6 @@ namespace QuanLyThuVien.Forms
         {
             frmNhaXuatBan_Load(sender, e);
 
-        }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            DialogResult traloi;
-            traloi = MessageBox.Show("Bạn có muốn thoát chương trình không?", "Thông báo",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (traloi == DialogResult.OK)
-                Application.Exit();
         }
 
         private void label3_Click(object sender, EventArgs e)

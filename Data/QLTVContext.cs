@@ -20,7 +20,7 @@ namespace QuanLyThuVien.Data
         public DbSet<PhieuMuon> PhieuMuon { get; set; }
         public DbSet<ChiTietPhieuMuon> ChiTietPhieuMuon { get; set; }
         public DbSet<PhieuThu> PhieuThu { get; set; }
-
+        public DbSet<NhatKyHoatDong> NhatKyHoatDong { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
