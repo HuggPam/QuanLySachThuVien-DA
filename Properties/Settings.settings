@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MauTheme" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">249, 99, 50</Value>
+      <Value Profile="(Default)">128, 128, 255</Value>
     </Setting>
   </Settings>
 </SettingsFile>

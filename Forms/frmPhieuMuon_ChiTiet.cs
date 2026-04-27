@@ -26,9 +26,19 @@ namespace QuanLyThuVien.Forms
 
         public void LaySachVaoComboBox()
         {
-            cboSach.DataSource = context.Sach.Where(s => s.SoLuong > 0).ToList();
+            var listSach = context.Sach.Where(s => s.SoLuong > 0).ToList();
+            cboSach.DataSource = listSach;
             cboSach.DisplayMember = "TenSach";
             cboSach.ValueMember = "ID";
+            cboSach.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cboSach.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            AutoCompleteStringCollection dataSach = new AutoCompleteStringCollection();
+            foreach (var s in listSach)
+            {
+                dataSach.Add(s.TenSach);
+            }
+            cboSach.AutoCompleteCustomSource = dataSach;
         }
         public void LayNhanVienVaoComboBox()
         {
@@ -44,6 +54,15 @@ namespace QuanLyThuVien.Forms
             cboThanhVien.DataSource = tkHoatDong;
             cboThanhVien.DisplayMember = "TenThanhVien";
             cboThanhVien.ValueMember = "ID";
+            cboThanhVien.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cboThanhVien.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            AutoCompleteStringCollection dataThanhVien = new AutoCompleteStringCollection();
+            foreach (var tv in tkHoatDong)
+            {
+                dataThanhVien.Add(tv.TenThanhVien);
+            }
+            cboThanhVien.AutoCompleteCustomSource = dataThanhVien;
         }
 
         public void BatTatChucNang()
@@ -52,6 +71,9 @@ namespace QuanLyThuVien.Forms
             btnLuuPhieuMuon.Enabled = coSachTrongDanhSach && !chiXem;
             btnXoa.Enabled = coSachTrongDanhSach && !chiXem;
             btnXacNhan.Enabled = coSachTrongDanhSach && !chiXem;
+            btnXacNhan.Enabled = (!chiXem && id == 0);
+            cboSach.Enabled = (!chiXem && id == 0);
+            cboThanhVien.Enabled = (!chiXem && id == 0);
             if (!coSachTrongDanhSach)
             {
                 cboSach.SelectedIndex = -1;
@@ -138,6 +160,14 @@ namespace QuanLyThuVien.Forms
 
             if (tv != null)
             {
+                bool dangCoSachQuaHan = tv.PhieuMuon
+                    .SelectMany(pm => pm.ChiTietPhieuMuon)
+                    .Any(ct => ct.TrangThaiTra == 0 && ct.HanTra.Date < DateTime.Now.Date);
+                if (dangCoSachQuaHan)
+                {
+                    MessageBox.Show("Thành viên này đang có sách mượn QUÁ HẠN chưa trả!\nVui lòng trả sách cũ để được mượn tiếp.", "Từ chối cho mượn", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return; //không cho mượn thêm
+                }
                 int hanMuc = tv.GoiThanhVien.SoSachDuocMuon;
                 int dangMuon = tv.PhieuMuon
                     .SelectMany(pm => pm.ChiTietPhieuMuon)
@@ -331,7 +361,7 @@ namespace QuanLyThuVien.Forms
                 var tv = context.ThanhVien
                     .Include(t => t.GoiThanhVien)
                     .Include(t => t.PhieuMuon)
-                        .ThenInclude(pm => pm.ChiTietPhieuMuon)
+                    .ThenInclude(pm => pm.ChiTietPhieuMuon)
                     .FirstOrDefault(t => t.ID == maThanhVien);
 
                 if (tv != null)
@@ -358,8 +388,8 @@ namespace QuanLyThuVien.Forms
                         lblThongBao.Text = $"Đã mượn {dangMuon}/{hanMuc} cuốn";
                         lblThongBao.ForeColor = Color.Green;
 
-                        cboSach.Enabled = !chiXem;
-                        btnXacNhan.Enabled = !chiXem;
+                        cboSach.Enabled = (!chiXem && id == 0);
+                        btnXacNhan.Enabled = (!chiXem && id == 0);
                     }
                 }
             }
@@ -483,17 +513,24 @@ namespace QuanLyThuVien.Forms
             if (chiTiet != null && !chiXem)
             {
                 btnTraSach.Enabled = (chiTiet.TrangThaiTra == 0);
-                int maxGiaHan = 0;
-                if (cboThanhVien.SelectedValue != null && cboThanhVien.SelectedValue is int)
+                if (chiTiet.TrangThaiTra == 0 && chiTiet.HanTra.Date >= DateTime.Now.Date)
                 {
-                    int maThanhVien = (int)cboThanhVien.SelectedValue;
-                    var tv = context.ThanhVien.Include(t => t.GoiThanhVien).FirstOrDefault(t => t.ID == maThanhVien);
-                    if (tv != null && tv.GoiThanhVien != null)
+                    int maxGiaHan = 0;
+                    if (cboThanhVien.SelectedValue != null && cboThanhVien.SelectedValue is int)
                     {
-                        maxGiaHan = tv.GoiThanhVien.SoLanGiaHanToiDa;
+                        int maThanhVien = (int)cboThanhVien.SelectedValue;
+                        var tv = context.ThanhVien.Include(t => t.GoiThanhVien).FirstOrDefault(t => t.ID == maThanhVien);
+                        if (tv != null && tv.GoiThanhVien != null)
+                        {
+                            maxGiaHan = tv.GoiThanhVien.SoLanGiaHanToiDa;
+                        }
                     }
+                    btnGiaHan.Enabled = (chiTiet.SoLanGiaHan < maxGiaHan);
                 }
-                btnGiaHan.Enabled = (chiTiet.TrangThaiTra == 0 && chiTiet.SoLanGiaHan < maxGiaHan);
+                else
+                {
+                    btnGiaHan.Enabled = false;
+                }
             }
             else
             {
@@ -517,7 +554,7 @@ namespace QuanLyThuVien.Forms
                 switch (strValue)
                 {
                     case "0": e.Value = "Đang mượn"; break;
-                    case "1": e.Value = "Trả bình thường"; break;
+                    case "1": e.Value = "Bình thường"; break;
                     case "2": e.Value = "Làm mất"; break;
                     case "3": e.Value = "Hư hỏng"; break;
                 }
@@ -571,12 +608,6 @@ namespace QuanLyThuVien.Forms
             if (chiTiet == null)
             {
                 MessageBox.Show("Vui lòng chọn một cuốn sách để gia hạn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (chiTiet.TrangThaiTra != 0)
-            {
-                MessageBox.Show("Sách này không còn trong trạng thái 'Đang mượn', không thể gia hạn!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
